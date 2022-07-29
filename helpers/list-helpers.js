@@ -92,5 +92,28 @@ updatePassword:(listId,listDetails)=>{
             resolve(response)
         })
     })
+},
+
+updateLeave:(listId,listDetails)=>{
+    return new Promise(async(resolve,reject)=>{
+        
+        
+        db.get().collection(collections.LEAVE_COLLECTION)
+        .updateOne({_id:ObjectId(listId)},{
+            $set:{
+                
+                status:listDetails.status
+                
+            
+
+            }
+        })
+        .then(async(response)=>{
+            let body=await db.get().collection(collections.LEAVE_COLLECTION)
+            .findOne({id:listId})
+            response.body=body
+            resolve(response)
+        })
+    })
 }
 }

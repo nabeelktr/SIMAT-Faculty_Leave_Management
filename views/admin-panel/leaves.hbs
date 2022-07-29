@@ -120,47 +120,64 @@
     </aside>
     <main class="mn-inner">
         <div class="row">
-            <div class="col s12">
+            
                 <!-- <div class="page-title"><h4>Faculty Leave Management System</h4></div> -->
 
-                <div class="col s12 m6 l8 offset-l2 offset-m3">
-                    <div class="card white darken-1" style="width: 89%;" >
+                
+                    <div class="card white darken-1"  >
 
                         <div class="card-content ">
                             <span class="card-title" style="font-size:20px;"></span></span>
 
                             <div class="row">
-                                <table class="table" style="">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Id</th>
-                                            <th scope="col">Name</th>
-                                            <th scope="col">Dob</th>
-                                            <th scope="col">Phone</th>
-                                            <th scope="col">Department</th>
-                                            <th scope="col"></th>
-                                            <th scope="col"></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                         <style>tr:nth-child(even) {background-color: #f2f2f2;}</style>
-                                        {{#each lists}}
-                                       
-                                        
-                                        <tr>
-                                            <th scope="row">{{this.id}}</th>
-                                            <td>{{this.name}}</td>
-                                            <td>{{this.dob}}</td>
-                                            <td>{{this.phone}}</td>
-                                            <td>{{this.department}}</td>
-                                            <td><a href="/admin/edit-list/{{this._id}}" class="btn btn-primary" style="font-size: 9px; padding: 0 1rem;">Edit </a></td>
-                                            <td><a href="/admin/delete-list/{{this._id}}", class="btn btn-danger" style="font-size: 9px; padding: 0 1rem; " onclick="return confirm('Are you sure want to delete: {{this.id}}')">Delete </a></td>
-                                            
+                                <table class="table ">
+                        <thead>
+                            <tr>
+                                <th scope="col">Faculty code</th>
+                                <th scope="col">Leave type</th>
+                                <th scope="col">From </th>
+                                <th scope="col">To </th>
+                                <th scope="col">Number of days</th>
+                                <th scope="col">Discription</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Action</th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <style>
+                                tr:nth-child(even) {
+                                    background-color: #f2f2f2;
+                                }
+                            </style>
+                            {{#each leaves}}
+                            <tr>
+                                <th >{{this.id}}</th>
+                                <td>{{this.leavetype}}</td>
+                                <td>{{this.fromdate}}</td>
+                                <td>{{this.todate}}</td>
+                                <td>{{this.nofdays}}</td>
+                                <td>{{this.description}}</td>
+                                {{#if this.status }}
+                                <td >{{this.status}}</td>
+                                
+                                
+                                
 
-                                        </tr>
-                                        {{/each}}
-                                    </tbody>
-                                </table>
+                                {{else}}
+                                <td style="color: #0228ff;">Pending</td>
+                                <td>
+                                    <a href="/admin/accept-action/{{this._id}}" class="btn btn-primary" style="font-size: 9px; padding: 0 1rem;" >Accept </a>
+                                    <a href="/admin/reject-action/{{this._id}}" class="btn btn-primary" style="font-size: 9px; padding: 0 1rem; margin-top: 2px;">Reject </a>
+                                </td>
+                                {{/if}}
+                                
+                                
+                            </tr>
+                            {{/each}}
+                           
+                        </tbody>
+                    </table>
 
 
                             </div>

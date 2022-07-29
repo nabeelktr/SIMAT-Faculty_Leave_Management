@@ -1,3 +1,10 @@
+
+
+
+
+
+
+
 <div class="loader-bg"></div>
 <div class="loader">
     <div class="preloader-wrapper big active">
@@ -123,46 +130,47 @@
                 <div class="page-title" style="    font-weight: bold;">Change Password</div>
             </div>
             <div class="col s12 m12 l6">
-                <div class="card" style="width: 50%;">
+                <div class="card" style="width: 70%;">
                     <div class="card-content">
+                         <table class="table ">
+                        <thead>
+                            <tr>
+                                <th scope="col">Faculty code</th>
+                                <th scope="col">Leave type</th>
+                                <th scope="col">From </th>
+                                <th scope="col">To </th>
+                                <th scope="col">Number of days</th>
+                                <th scope="col">Discription</th>
+                                <th scope="col">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <style>
+                                tr:nth-child(even) {
+                                    background-color: #f2f2f2;
+                                }
+                            </style>
+                            {{#each leaves}}
+                            <tr>
+                                <th >{{this.id}}</th>
+                                <td>{{this.leavetype}}</td>
+                                <td>{{this.fromdate}}</td>
+                                <td>{{this.todate}}</td>
+                                <td>{{this.nofdays}}</td>
+                                <td>{{this.description}}</td>
+                                {{#if this.status}}
+                                <td>{{this.status}}</td>
+                                {{else}}
+                                <td style="color: #0228ff;">Pending</td>
+                                {{/if}}
+                            </tr>
+                            {{/each}}
+                           
+                        </tbody>
+                    </table>
 
 
-                        <form action="/users/updatePassword/{{user._id}}" method="post">
-
-
-                            <div class="class=col s12">
-                                <div class="input-field col s12">
-                                    <input id="password" type="password" class="validate" autocomplete="off"
-                                        name="password" required>
-                                    <label for="password">Current Password</label>
-                                </div>
-
-                                <div class="input-field col s12">
-                                    <input id="password" type="password" name="newPassword" class="validate"
-                                        autocomplete="off" required>
-                                    <label for="newPassword">New Password</label>
-                                </div>
-
-                                <div class="input-field col s12">
-                                    <input id="password" type="password" name="confirmPassword" class="validate"
-                                        autocomplete="off" required>
-                                    <label for="confirmPassword">Confirm Password</label>
-                                </div>
-
-
-                                <div class="input-field col s12">
-                                    <button type="submit" name="change"
-                                        class="waves-effect waves-light btn indigo m-b-xs"
-                                        onclick="return valid();">Change</button>
-
-                                </div>
-
-
-
-
-                            </div>
-
-                        </form>
+                        
 
                     </div>
                 </div>

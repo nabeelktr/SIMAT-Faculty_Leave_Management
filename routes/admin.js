@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
-var listHelper = require('../helpers/list-helpers')
+var listHelper = require('../helpers/list-helpers');
+const userHelpers = require('../helpers/user-helpers');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -40,7 +41,32 @@ router.get('/edit-list/:id',async (req,res)=>{
   })
 
 
+  router.get('/leaves',async (req,res)=>{
+    let list=await userHelpers.getLeaves().then((leaves)=>{
+      res.render('./admin-panel/leaves',{leaves})
+    })
+    
+    
+      
+    })
+  
+    router.get('/accept-action/:id', (req, res) => {
 
+        let status={status:'Approved'}
+      listHelper.updateLeave(req.params.id,status).then((response)=>{
+        res.redirect('/leaves')
+      })
+    
+  })
+
+  router.get('/reject-action/:id', (req, res) => {
+
+    let status={status:'Rejected'}
+  listHelper.updateLeave(req.params.id,status).then((response)=>{
+    res.redirect('/leaves')
+  })
+
+})
 
 
 // post

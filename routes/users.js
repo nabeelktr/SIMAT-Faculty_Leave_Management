@@ -3,8 +3,10 @@ const userHelpers = require('../helpers/user-helpers');
 var router = express.Router();
 var listHelper = require('../helpers/list-helpers');
 const listHelpers = require('../helpers/list-helpers');
+
 const { passwordCheck } = require('../helpers/user-helpers');
-const bcrypt=require('bcrypt')
+const bcrypt=require('bcrypt');
+const { ObjectId } = require('mongodb')
 /* GET users listing. */
 router.get('/facultyLogin', function (req, res, next) {
   if (req.session.loggedIn) {
@@ -57,6 +59,24 @@ router.get('/update-profile/:id', (req, res) => {
 
   })
 })
+
+
+router.get('/leaveHistory/:id', async (req, res) => {
+
+
+  let user = req.session.user
+  
+  let leaves=await userHelpers.getAllLeave(req.params.id)
+  console.log(leaves);
+    res.render('./faculty/leaveHistory', {leaves,user})
+  })
+    
+  
+    
+  
+
+  
+
 
 // post
 
@@ -133,5 +153,17 @@ router.post('/updatePassword/:id',(req,res)=>{
     
   })
 })
+
+
+router.post('/applyLeave/:id', (req, res) => {
+  
+  console.log(req.body);
+  userHelpers.addLeave(req.body).then((response)=>{
+    
+    res.redirect('/users/applyLeave')
+  })
+  
+})
+
 
 module.exports = router;

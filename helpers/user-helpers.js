@@ -2,6 +2,7 @@ var db=require('../config/connection')
 var collections=require('../config/collections')
 const bcrypt=require('bcrypt')
 const { LIST_COLLECTION } = require('../config/collections')
+const { LEAVE_COLLECTION } = require('../config/collections')
 const { ObjectId } = require('mongodb')
 
 module.exports={
@@ -63,5 +64,38 @@ module.exports={
             
         })
     
+    },
+    addLeave:(Leaves)=>{
+          
+        return new Promise(async(resolve,reject)=>{
+          
+            
+            
+        db.get().collection('Leaves').insertOne(Leaves).then((data) => {
+            
+
+            
+            resolve(data)
+            
+        })
+        
+        })
+    },
+    getAllLeave:(user)=>{
+        return new Promise((resolve,reject)=>{
+            
+           db.get().collection(collections.LEAVE_COLLECTION).find({id:user}).toArray().then((leaves)=>{
+            
+            resolve(leaves)
+        })
+    })
+    
+    },
+
+    getLeaves:()=>{
+        return new Promise(async(resolve,reject)=>{
+            let leaves=await db.get().collection(collections.LEAVE_COLLECTION).find().toArray()
+            resolve(leaves)
+        })
     }
 }
