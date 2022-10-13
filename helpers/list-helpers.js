@@ -56,6 +56,7 @@ module.exports={
                     address:listDetails.address,
                     city:listDetails.city,
                     country:listDetails.country,
+                    hod:listDetails.hod,
                     
                 
 

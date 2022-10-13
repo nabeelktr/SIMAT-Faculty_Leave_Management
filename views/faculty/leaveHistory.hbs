@@ -100,6 +100,10 @@
                     <div class="collapsible-body">
                         <ul>
                             <li><a href="/users/applyLeave">Apply Leave</a></li>
+                             {{#if user.hood}}
+                           
+                           <li><a href="/users/leaves">Leave Request</a></li>
+                           {{/if}}
                             <li><a href="/users/leaveHistory/{{user.id}}">Leave History</a></li>
                         </ul>
                     </div>
@@ -127,7 +131,7 @@
         <main class="mn-inner">
             <div class="row">
 
-                <div class="page-title" style="    font-weight: bold;">Change Password</div>
+                <div class="page-title" style="    font-weight: bold;">Leave History</div>
             </div>
             <div class="col s12 m12 l6">
                 <div class="card" style="width: 70%;">

@@ -78,6 +78,10 @@ router.post('/login', (req, res) => {
   listHelper.getAllList().then((lists)=> {
     res.render('../views/admin-panel/admin',{lists})
     })
+    else if(user.name==='hod'&& user.password==='cse')
+    listHelper.getAllList().then((lists)=> {
+      res.render('../views/admin-panel/admin',{lists})
+      })
     else {
       res.redirect('/adminLogin')
     }

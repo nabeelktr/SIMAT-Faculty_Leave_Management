@@ -1,3 +1,4 @@
+ 
 <div class="loader-bg"></div>
 <div class="loader">
     <div class="preloader-wrapper big active">
@@ -93,9 +94,9 @@
                     <div class="collapsible-body">
                         <ul>
                             <li><a href="/users/applyLeave">Apply Leave</a></li>
-                             {{#if user.hood}}
+                           {{#if user.hood}}
                            
-                           <li><a href="/users/leaves">Leave Request</a></li>
+                           <li><a href="">Leave Request</a></li>
                            {{/if}}
                             <li><a href="/users/leaveHistory/{{user.id}}">Leave History</a></li>
                         </ul>
@@ -105,8 +106,7 @@
 
 
                 <li class="no-padding">
-                    <a class="waves-effect waves-grey" href="/users/signOut"><i
-                            class="material-icons">exit_to_app</i>Sign
+                    <a class="waves-effect waves-grey" href="/users/signOut"><i class="material-icons">exit_to_app</i>Sign
                         Out</a>
                 </li>
 
@@ -120,61 +120,78 @@
     </aside>
 
 
-    
+    <body>
         <main class="mn-inner">
-            <div class="row">
+        <div class="row">
+            
+                <!-- <div class="page-title"><h4>Faculty Leave Management System</h4></div> -->
 
-                <div class="page-title" style="    font-weight: bold;">Change Password</div>
-            </div>
-            <div class="col s12 m12 l6">
-                <div class="card" style="width: 50%;">
-                    <div class="card-content">
+                
+                    <div class="card white darken-1"  >
 
+                        <div class="card-content ">
+                            <span class="card-title" style="font-size:20px;"></span></span>
 
-                        <form action="/users/updatePassword/{{user._id}}" method="post">
+                            <div class="row">
+                                <table class="table ">
+                        <thead>
+                            <tr>
+                                <th scope="col">Faculty code</th>
+                                <th scope="col">Leave type</th>
+                                <th scope="col">From </th>
+                                <th scope="col">To </th>
+                                <th scope="col">Number of days</th>
+                                <th scope="col">Discription</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Action</th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <style>
+                                tr:nth-child(even) {
+                                    background-color: #f2f2f2;
+                                }
+                            </style>
+                            {{#each leaves}}
+                            <tr>
+                                <th >{{this.id}}</th>
+                                <td>{{this.leavetype}}</td>
+                                <td>{{this.fromdate}}</td>
+                                <td>{{this.todate}}</td>
+                                <td>{{this.nofdays}}</td>
+                                <td>{{this.description}}</td>
+                                {{#if this.status }}
+                                <td >{{this.status}}</td>
+                                
+                                
+                                
 
-
-                            <div class="class=col s12">
-                                <div class="input-field col s12">
-                                    <input id="password" type="password" class="validate" autocomplete="off"
-                                        name="password" required>
-                                    <label for="password">Current Password</label>
-                                </div>
-
-                                <div class="input-field col s12">
-                                    <input id="password" type="password" name="newPassword" class="validate"
-                                        autocomplete="off" required>
-                                    <label for="newPassword">New Password</label>
-                                </div>
-
-                                <div class="input-field col s12">
-                                    <input id="password" type="password" name="confirmPassword" class="validate"
-                                        autocomplete="off" required>
-                                    <label for="confirmPassword">Confirm Password</label>
-                                </div>
-
-
-                                <div class="input-field col s12">
-                                    <button type="submit" name="change"
-                                        class="waves-effect waves-light btn indigo m-b-xs"
-                                        onclick="return valid();">Change</button>
-
-                                </div>
-
-
+                                {{else}}
+                                <td style="color: #0228ff;">Pending</td>
+                                <td>
+                                    <a href="/users/accept-action/{{this._id}}" class="btn btn-primary" style="font-size: 9px; padding: 0 1rem;" >Accept </a>
+                                    <a href="/users/reject-action/{{this._id}}" class="btn btn-primary" style="font-size: 9px; padding: 0 1rem; margin-top: 2px;">Reject </a>
+                                </td>
+                                {{/if}}
+                                
+                                
+                            </tr>
+                            {{/each}}
+                           
+                        </tbody>
+                    </table>
 
 
                             </div>
 
-                        </form>
 
+
+                        </div>
                     </div>
                 </div>
-
-
-
             </div>
-
+        </div>
 </div>
 </main>
 

@@ -94,6 +94,10 @@
                     <div class="collapsible-body">
                         <ul>
                             <li><a href="/users/applyLeave">Apply Leave</a></li>
+                           {{#if user.hood}}
+                           
+                           <li><a href="/users/leaves">Leave Request</a></li>
+                           {{/if}}
                             <li><a href="/users/leaveHistory/{{user.id}}">Leave History</a></li>
                         </ul>
                     </div>
@@ -225,6 +229,7 @@
                                                             autocomplete="off" required>
                                                     </div>
 
+                                                    <input type="hidden"  name="hod" value="{{user.hod}}">
 
 
 

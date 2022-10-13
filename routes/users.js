@@ -19,8 +19,11 @@ router.get('/facultyLogin', function (req, res, next) {
 });
 
 router.get('/myProfile', function (req, res) {
-
   let user = req.session.user
+  if(user.hod != "none" ){
+    user.hood = true }
+
+  
   res.render('./faculty/myProfile', { user })
 })
 
@@ -37,6 +40,9 @@ router.get('/signOut', (req, res) => {
 router.get('/changePassword', (req, res) => {
   
   let user = req.session.user
+  if(user.hod != "none" ){
+    user.hood = true }
+
   
   res.render('./faculty/changePassword', { user })
 })
@@ -44,6 +50,9 @@ router.get('/changePassword', (req, res) => {
 router.get('/applyLeave', (req, res) => {
   
   let user = req.session.user
+  if(user.hod != "none" ){
+    user.hood = true }
+
   
   res.render('./faculty/applyLeave', { user })
 })
@@ -54,7 +63,9 @@ router.get('/update-profile/:id', (req, res) => {
 
 
   listHelper.getListDetails(req.params.id).then((user) => {
-    
+    if(user.hod != "none" ){
+      user.hood = true }
+  
     res.render('./faculty/myProfile', { user })
 
   })
@@ -65,6 +76,9 @@ router.get('/leaveHistory/:id', async (req, res) => {
 
 
   let user = req.session.user
+  if(user.hod != "none" ){
+    user.hood = true }
+
   
   let leaves=await userHelpers.getAllLeave(req.params.id)
   console.log(leaves);
@@ -113,6 +127,9 @@ router.post('/update-profile/:id', (req, res) => {
   listHelper.updateList(req.params.id, req.body).then((users) => {
     
     let user = users.body
+    if(user.hod != "none" ){
+      user.hood = true }
+  
     res.render('./faculty/myProfile', { user })
 
   })
@@ -164,6 +181,39 @@ router.post('/applyLeave/:id', (req, res) => {
   })
   
 })
+//leave 
 
+
+router.get('/leaves',async (req,res)=>{
+  
+  
+  let list=await userHelpers.getLeaves().then((leaves)=>{
+    let user = req.session.user
+    
+  
+    res.render('./faculty/leaves',{leaves,user})
+  })
+  
+  
+    
+  })
+
+  router.get('/accept-action/:id', (req, res) => {
+
+      let status={status:'Approved'}
+    listHelper.updateLeave(req.params.id,status).then((response)=>{
+      res.redirect('/users/leaves')
+    })
+  
+})
+
+router.get('/reject-action/:id', (req, res) => {
+
+  let status={status:'Rejected'}
+listHelper.updateLeave(req.params.id,status).then((response)=>{
+  res.redirect('/users/leaves')
+})
+
+})
 
 module.exports = router;
