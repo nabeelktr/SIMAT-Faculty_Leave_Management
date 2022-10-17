@@ -5,6 +5,7 @@ const { LIST_COLLECTION } = require('../config/collections')
 const { LEAVE_COLLECTION } = require('../config/collections')
 const {HOD} = require('../config/collections')
 const {PRINCIPAL} = require('../config/collections')
+const {HR} = require('../config/collections')
 const { ObjectId } = require('mongodb')
 const async = require('hbs/lib/async')
 
@@ -245,15 +246,75 @@ addPrinci:(princi)=>{
     })
 },
 
-getPrinci:(user)=>{
-    return new Promise((resolve,reject)=>{
-        
-       db.get().collection(collections.PRINCIPAL).findOne().then((princi)=>{
-        
+getPrinci:()=>{
+    return new Promise(async(resolve,reject)=>{
+        let princi1=await db.get().collection(collections.PRINCIPAL).findOne().then((princi)=>{
         resolve(princi)
     })
 })
+},
 
+
+
+
+//HR
+
+addHr:(hr)=>{
+          
+    return new Promise(async(resolve,reject)=>{
+      
+        
+        hr.password=await bcrypt.hash(hr.password,10)
+    db.get().collection('hr').insertOne(hr).then((data) => {
+        
+        resolve(data)
+         })
+    
+    })
+},
+
+
+getHr:()=>{
+    return new Promise(async(resolve,reject)=>{
+        let hr1=await db.get().collection(collections.HR).findOne().then((hr)=>{
+        resolve(hr)
+        
+    })
+    })
+},
+
+
+HrDoLogin:(userData)=>{
+    return new Promise(async(resolve,reject)=>{
+        
+        let response={}
+        
+        let user=await db.get().collection(collections.HR).findOne({id:userData.id})
+        if (user){
+          bcrypt.compare(userData.password,user.password).then((status)=>{
+                if(status){
+                    
+                    response.status= true
+                    response.user= user
+                    
+                    
+                    
+                    resolve(response)
+                    
+                    
+
+                }else{
+                    
+                    resolve({status:false})
+                    
+                }
+            })
+        }else{
+        
+        resolve({status:false})
+        }
+
+    })
 },
 
 }

@@ -166,4 +166,53 @@ updateLeavePrinci11:(listId,listDetails)=>{
     })
 },
 
+
+
+updateLeaveHr:(listId,listDetails)=>{
+    return new Promise(async(resolve,reject)=>{
+        
+        
+        db.get().collection(collections.LEAVE_COLLECTION)
+        .updateOne({_id:ObjectId(listId)},{
+
+            
+
+            $set:{
+                
+                status4:listDetails.status4
+                
+            }
+        })
+        .then(async(response)=>{
+            let body=await db.get().collection(collections.LEAVE_COLLECTION)
+            .findOne({id:listId})
+            response.body=body
+            resolve(response)
+        })
+    })
+},
+updateLeaveHr11:(listId,listDetails)=>{
+    return new Promise(async(resolve,reject)=>{
+        
+        
+        db.get().collection(collections.LEAVE_COLLECTION)
+        .updateOne({_id:ObjectId(listId)},{
+
+            
+
+            $set:{
+                
+                status5:listDetails.status5
+                
+            }
+        })
+        .then(async(response)=>{
+            let body=await db.get().collection(collections.LEAVE_COLLECTION)
+            .findOne({id:listId})
+            response.body=body
+            resolve(response)
+        })
+    })
+},
+
 }
