@@ -158,14 +158,19 @@
                             <tr>
                                 <th >{{this.id}}</th>
                                 <td>{{this.leavetype}}</td>
-                                <td>{{this.fromdate}}</td>
-                                <td>{{this.todate}}</td>
+                                <td style="    font-size: 11px;  ">{{this.fromdate}}</td>
+                                <td style="    font-size: 11px;  ">{{this.todate}}</td>
                                 <td>{{this.nofdays}}</td>
-                                <td>{{this.description}}</td>
-                                {{#if this.status}}
-                                <td>{{this.status}}</td>
+                                <td style="    font-size: 11px;  ">{{this.description}}</td>
+                                {{#if this.status }}
+                                <td style="    font-size: 11px; color:blue; ">{{this.status}}<br>{{this.status2}}<p style="color: red;">{{this.status3}}</p></td>
+                                
+                                {{else if this.status1}}
+                                <td style="    font-size: 11px; color:red ">{{this.status1}}</td>
+                                
+
                                 {{else}}
-                                <td style="color: #0228ff;">Pending</td>
+                                <td style="color: orange;">Pending</td>
                                 {{/if}}
                             </tr>
                             {{/each}}

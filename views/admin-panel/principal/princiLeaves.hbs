@@ -93,12 +93,12 @@
                             class="nav-drop-icon material-icons">keyboard_arrow_right</i></a>
                     <div class="collapsible-body">
                         <ul>
-                            <li><a href="/users/applyLeave">Apply Leave</a></li>
-                           {{#if user.hood}}
+                            <!-- <li><a href="/users/applyLeave">Apply Leave</a></li> -->
+                          
                            
                            <li><a href="">Leave Request</a></li>
-                           {{/if}}
-                            <li><a href="/users/leaveHistory/{{user.id}}">Leave History</a></li>
+                          
+                          <!--  <li><a href="/users/leaveHistory/{{user.id}}">Leave History</a></li> -->
                         </ul>
                     </div>
                 </li>
@@ -106,7 +106,7 @@
 
 
                 <li class="no-padding">
-                    <a class="waves-effect waves-grey" href="/users/signOut"><i class="material-icons">exit_to_app</i>Sign
+                    <a class="waves-effect waves-grey" href="/admin/signOut"><i class="material-icons">exit_to_app</i>Sign
                         Out</a>
                 </li>
 
@@ -138,6 +138,9 @@
                             <tr>
                                 <th scope="col">Faculty code</th>
                                 <th scope="col">Leave type</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Department</th>
+                                
                                 <th scope="col">From </th>
                                 <th scope="col">To </th>
                                 <th scope="col">Number of days</th>
@@ -153,30 +156,39 @@
                                     background-color: #f2f2f2;
                                 }
                             </style>
+                            
+
                             {{#each leaves}}
+                            {{#if this.status}}
                             <tr>
                                 <th >{{this.id}}</th>
                                 <td>{{this.leavetype}}</td>
-                                <td>{{this.fromdate}}</td>
-                                <td>{{this.todate}}</td>
+                                <td>{{this.name}}</td>
+                                <td>{{this.department}}</td>
+                                
+                                <td style="    font-size: 11px;  ">{{this.fromdate}}</td>
+                                <td style="    font-size: 11px;  ">{{this.todate}}</td>
                                 <td>{{this.nofdays}}</td>
-                                <td>{{this.description}}</td>
-                                {{#if this.status }}
-                                <td >{{this.status}}</td>
-                                
-                                
-                                
+                                <td style="    font-size: 11px;  ">{{this.description}}</td>
 
-                                {{else}}
-                                <td style="color: #0228ff;">Pending</td>
+                                 
+                                {{#if this.status2 }}
+                                <td style="    font-size: 11px; color:blue; ">{{this.status}}<br>{{this.status2}}</td>
+                                {{else if this.status3}}
+                                <td style="    font-size: 11px; color: blue; ">{{this.status}}<br><p style="color:rgb(255, 0, 0);">{{this.status3}}</p></td>
+                               {{else }}
+                               <td style="    font-size: 11px; color:blue; ">{{this.status}}</td>
+                               
                                 <td>
-                                    <a href="/users/accept-action/{{this._id}}" class="btn btn-primary" style="font-size: 9px; padding: 0 1rem;" >Accept </a>
-                                    <a href="/users/reject-action/{{this._id}}" class="btn btn-primary" style="font-size: 9px; padding: 0 1rem; margin-top: 2px;">Reject </a>
+                                    <a href="/admin/accept-princiLeave/{{this._id}}" class="btn btn-primary" style="font-size: 9px; padding: 0 1rem;" >Accept </a>
+                                    <a href="/admin/reject-princiLeave/{{this._id}}" class="btn btn-primary" style="font-size: 9px; padding: 0 1rem; margin-top: 2px;">Reject </a>
                                 </td>
                                 {{/if}}
+
                                 
                                 
                             </tr>
+                            {{/if}}
                             {{/each}}
                            
                         </tbody>

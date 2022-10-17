@@ -102,16 +102,16 @@
                               <div class="card white darken-1">
 
                                   <div class="card-content ">
-                                      <span class="card-title" style="font-size:20px;">Faculty Login</span>
+                                      <span class="card-title" style="font-size:20px;">HOD</span>
                                          
                                        <div class="row">
-                                           <form action="/users/login" class="col s12"  method="post">
+                                           <form action="/admin/hodLogin" class="col s12"  method="post">
                                             {{#if loginErr}}
                                                 <p class="error" >{{loginErr}}</p>
                                             {{/if}}    
                                                <div class="input-field col s12">
                                                    <input id="id" type="text" name="id" class="validate" autocomplete="off" required >
-                                                   <label for="id">Faculty Code</label>
+                                                   <label for="id">Id</label>
                                                </div>
                                                <div class="input-field col s12">
                                                    <input id="password" type="password" class="validate" name="password" autocomplete="off" required>

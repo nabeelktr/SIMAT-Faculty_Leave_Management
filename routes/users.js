@@ -20,8 +20,7 @@ router.get('/facultyLogin', function (req, res, next) {
 
 router.get('/myProfile', function (req, res) {
   let user = req.session.user
-  if(user.hod != "none" ){
-    user.hood = true }
+
 
   
   res.render('./faculty/myProfile', { user })
@@ -40,8 +39,7 @@ router.get('/signOut', (req, res) => {
 router.get('/changePassword', (req, res) => {
   
   let user = req.session.user
-  if(user.hod != "none" ){
-    user.hood = true }
+  
 
   
   res.render('./faculty/changePassword', { user })
@@ -50,9 +48,7 @@ router.get('/changePassword', (req, res) => {
 router.get('/applyLeave', (req, res) => {
   
   let user = req.session.user
-  if(user.hod != "none" ){
-    user.hood = true }
-
+  
   
   res.render('./faculty/applyLeave', { user })
 })
@@ -63,8 +59,7 @@ router.get('/update-profile/:id', (req, res) => {
 
 
   listHelper.getListDetails(req.params.id).then((user) => {
-    if(user.hod != "none" ){
-      user.hood = true }
+    
   
     res.render('./faculty/myProfile', { user })
 
@@ -76,8 +71,7 @@ router.get('/leaveHistory/:id', async (req, res) => {
 
 
   let user = req.session.user
-  if(user.hod != "none" ){
-    user.hood = true }
+ 
 
   
   let leaves=await userHelpers.getAllLeave(req.params.id)
@@ -121,14 +115,15 @@ router.post('/login', (req, res) => {
 
 
 
+
+
 router.post('/update-profile/:id', (req, res) => {
 
 
   listHelper.updateList(req.params.id, req.body).then((users) => {
     
     let user = users.body
-    if(user.hod != "none" ){
-      user.hood = true }
+   
   
     res.render('./faculty/myProfile', { user })
 
@@ -140,7 +135,7 @@ router.post('/update-profile/:id', (req, res) => {
 
 router.post('/updatePassword/:id',(req,res)=>{
 
-  console.log('first');
+  
   
   let pass=req.body
   userHelpers.passwordCheck(req.params.id,req.body).then((response)=>{
@@ -150,7 +145,7 @@ router.post('/updatePassword/:id',(req,res)=>{
       req.session.loggedIn = true
       
       if(pass.newPassword === pass.confirmPassword){
-        console.log('pass checked');
+        
         
           
           listHelper.updatePassword(req.params.id,req.body).then((response)=>{
@@ -184,36 +179,20 @@ router.post('/applyLeave/:id', (req, res) => {
 //leave 
 
 
-router.get('/leaves',async (req,res)=>{
+router.get('/leaves/:department',async (req,res)=>{
   
   
-  let list=await userHelpers.getLeaves().then((leaves)=>{
+  let list=await userHelpers.getLeaves(req.params.department).then((leaves)=>{
     let user = req.session.user
     
   
-    res.render('./faculty/leaves',{leaves,user})
+    res.render('../views/faculty/leaves',{leaves,user})
   })
   
   
     
   })
 
-  router.get('/accept-action/:id', (req, res) => {
-
-      let status={status:'Approved'}
-    listHelper.updateLeave(req.params.id,status).then((response)=>{
-      res.redirect('/users/leaves')
-    })
   
-})
-
-router.get('/reject-action/:id', (req, res) => {
-
-  let status={status:'Rejected'}
-listHelper.updateLeave(req.params.id,status).then((response)=>{
-  res.redirect('/users/leaves')
-})
-
-})
 
 module.exports = router;

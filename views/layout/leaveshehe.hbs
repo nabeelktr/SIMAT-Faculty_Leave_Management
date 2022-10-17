@@ -98,7 +98,7 @@
                            
                            <li><a href="">Leave Request</a></li>
                           
-                          <!--  <li><a href="/users/leaveHistory/{{user.id}}">Leave History</a></li> -->
+                            <li><a href="/users/leaveHistory/{{user.id}}">Leave History</a></li>
                         </ul>
                     </div>
                 </li>
@@ -106,7 +106,7 @@
 
 
                 <li class="no-padding">
-                    <a class="waves-effect waves-grey" href="/admin/signOut"><i class="material-icons">exit_to_app</i>Sign
+                    <a class="waves-effect waves-grey" href="/users/signOut"><i class="material-icons">exit_to_app</i>Sign
                         Out</a>
                 </li>
 
@@ -163,12 +163,12 @@
                                 <td>{{this.name}}</td>
                                 <td>{{this.department}}</td>
                                 
-                                <td style="    font-size: 11px;  ">{{this.fromdate}}</td>
-                                <td style="    font-size: 11px;  ">{{this.todate}}</td>
+                                <td>{{this.fromdate}}</td>
+                                <td>{{this.todate}}</td>
                                 <td>{{this.nofdays}}</td>
-                                <td style="    font-size: 11px;  ">{{this.description}}</td>
+                                <td>{{this.description}}</td>
                                 {{#if this.status }}
-                                <td style="    font-size: 11px; color:blue; ">{{this.status}}<br>{{this.status2}}<p style="color: red;">{{this.status3}}</p></td>
+                                <td style="    font-size: 11px; color:blue; ">{{this.status}}</td>
                                 
                                 {{else if this.status1}}
                                 <td style="    font-size: 11px; color:red ">{{this.status1}}</td>
@@ -177,8 +177,8 @@
                                 {{else}}
                                 <td style="color: orange;">Pending</td>
                                 <td>
-                                    <a href="/admin/accept-leave/{{this._id}}" class="btn btn-primary" style="font-size: 9px; padding: 0 1rem;" >Accept </a>
-                                    <a href="/admin/reject-leave/{{this._id}}" class="btn btn-primary" style="font-size: 9px; padding: 0 1rem; margin-top: 2px;">Reject </a>
+                                    <a href="/admin/accept-action/{{this._id}}" class="btn btn-primary" style="font-size: 9px; padding: 0 1rem;" >Accept </a>
+                                    <a href="/admin/reject-action/{{this._id}}" class="btn btn-primary" style="font-size: 9px; padding: 0 1rem; margin-top: 2px;">Reject </a>
                                 </td>
                                 {{/if}}
                                 

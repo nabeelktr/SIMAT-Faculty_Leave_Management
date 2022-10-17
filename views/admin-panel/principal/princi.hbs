@@ -98,25 +98,10 @@
                             <li class="no-padding"><a class="waves-effect waves-grey" href="/admin/hod"><i
                             class="material-icons">account_box</i>Hod</a></li>
 
-                            <li class="no-padding"><a class="waves-effect waves-grey" href="/admin/princi"><i
-                            class="material-icons">account_box</i>Principal</a></li>
-
                             <li class="no-padding"><a class="waves-effect waves-grey" href="/admin/adminLogin"><i
                             class="material-icons">account_box</i>Logout</a></li>
 
-                <!--<li class="no-padding"><a class="waves-effect waves-grey" href="/admin/profile"><i
-                            class="material-icons">account_box</i>View profile</a></li>
-
-
-
-                <!-- <li class="no-padding"><a class="waves-effect waves-grey" href="../admin/index.php"><i class="material-icons">account_box</i>Admin Login</a></li>
-
-                      <li class="no-padding"><a class="waves-effect waves-grey" href="../hod/index.php"><i class="material-icons">account_box</i>HOD Login</a></li>
-
-                      <li class="no-padding"><a class="waves-effect waves-grey" href="../principal/index.php"><i class="material-icons">account_box</i>Principal Login</a></li>
-
-                      <li class="no-padding"><a class="waves-effect waves-grey" href="../HR/index.php"><i class="material-icons">account_box</i>HR Login</a></li>
-                      <li class="no-padding"><a class="waves-effect waves-grey" href="../off_staff/index.php"><i class="material-icons">account_box</i>Office Staff login</a></li> -->
+                
 
             </ul>
             <div class="footer">
@@ -144,14 +129,15 @@
                                             <th scope="col">Name</th>
                                             <th scope="col">Dob</th>
                                             <th scope="col">Phone</th>
-                                            <th scope="col">Department</th>
+                                            
                                             <th scope="col"></th>
                                             <th scope="col"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        {{#if princi}}
                                          <style>tr:nth-child(even) {background-color: #f2f2f2;}</style>
-                                        {{#each lists}}
+                                        {{#each princi}}
                                        
                                         
                                         <tr>
@@ -159,25 +145,35 @@
                                             <td>{{this.name}}</td>
                                             <td>{{this.dob}}</td>
                                             <td>{{this.phone}}</td>
-                                            <td>{{this.department}}</td>
-                                            <td><a href="/admin/edit-list/{{this._id}}" class="btn btn-primary" style="font-size: 9px; padding: 0 1rem;">Edit </a></td>
-                                            <td><a href="/admin/delete-list/{{this._id}}", class="btn btn-danger" style="font-size: 9px; padding: 0 1rem; " onclick="return confirm('Are you sure want to delete: {{this.id}}')">Delete </a></td>
+                                            
+                                            <td><a href="/admin/edit-princi/{{this._id}}" class="btn btn-primary" style="font-size: 9px; padding: 0 1rem;">Edit </a></td>
+                                            <td><a href="/admin/delete-princi/{{this._id}}", class="btn btn-danger" style="font-size: 9px; padding: 0 1rem; " onclick="return confirm('Are you sure want to delete: {{this.id}}')">Delete </a></td>
                                             
 
                                         </tr>
+                                        
+                                            
+                                       
                                         {{/each}}
+                                        
+                                        
+                                                         
                                     </tbody>
+
                                 </table>
 
 
                             </div>
-
-
-
+                            
                         </div>
+                        {{else}}
+                            <a href="/admin/addPrinci" class="btn btn-primary" style="font-size: 9px; padding: 0 1rem;">Add  </a>
+                            {{/if}}
+                        
                     </div>
                 </div>
             </div>
+            
         </div>
 </div>
 </main>

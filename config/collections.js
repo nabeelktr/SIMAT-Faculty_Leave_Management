@@ -1,4 +1,6 @@
 module.exports={
     LIST_COLLECTION:'list',
-    LEAVE_COLLECTION:'Leaves'
+    LEAVE_COLLECTION:'Leaves',
+    HOD:'hod',
+    PRINCIPAL:'principal'
 }

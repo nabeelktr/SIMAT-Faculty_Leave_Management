@@ -98,25 +98,10 @@
                             <li class="no-padding"><a class="waves-effect waves-grey" href="/admin/hod"><i
                             class="material-icons">account_box</i>Hod</a></li>
 
-                            <li class="no-padding"><a class="waves-effect waves-grey" href="/admin/princi"><i
-                            class="material-icons">account_box</i>Principal</a></li>
-
                             <li class="no-padding"><a class="waves-effect waves-grey" href="/admin/adminLogin"><i
                             class="material-icons">account_box</i>Logout</a></li>
 
-                <!--<li class="no-padding"><a class="waves-effect waves-grey" href="/admin/profile"><i
-                            class="material-icons">account_box</i>View profile</a></li>
-
-
-
-                <!-- <li class="no-padding"><a class="waves-effect waves-grey" href="../admin/index.php"><i class="material-icons">account_box</i>Admin Login</a></li>
-
-                      <li class="no-padding"><a class="waves-effect waves-grey" href="../hod/index.php"><i class="material-icons">account_box</i>HOD Login</a></li>
-
-                      <li class="no-padding"><a class="waves-effect waves-grey" href="../principal/index.php"><i class="material-icons">account_box</i>Principal Login</a></li>
-
-                      <li class="no-padding"><a class="waves-effect waves-grey" href="../HR/index.php"><i class="material-icons">account_box</i>HR Login</a></li>
-                      <li class="no-padding"><a class="waves-effect waves-grey" href="../off_staff/index.php"><i class="material-icons">account_box</i>Office Staff login</a></li> -->
+                
 
             </ul>
             <div class="footer">
@@ -151,7 +136,7 @@
                                     </thead>
                                     <tbody>
                                          <style>tr:nth-child(even) {background-color: #f2f2f2;}</style>
-                                        {{#each lists}}
+                                        {{#each hod}}
                                        
                                         
                                         <tr>
@@ -160,19 +145,26 @@
                                             <td>{{this.dob}}</td>
                                             <td>{{this.phone}}</td>
                                             <td>{{this.department}}</td>
-                                            <td><a href="/admin/edit-list/{{this._id}}" class="btn btn-primary" style="font-size: 9px; padding: 0 1rem;">Edit </a></td>
-                                            <td><a href="/admin/delete-list/{{this._id}}", class="btn btn-danger" style="font-size: 9px; padding: 0 1rem; " onclick="return confirm('Are you sure want to delete: {{this.id}}')">Delete </a></td>
+                                            <td><a href="/admin/edit-hod/{{this._id}}" class="btn btn-primary" style="font-size: 9px; padding: 0 1rem;">Edit </a></td>
+                                            <td><a href="/admin/delete-hod/{{this._id}}", class="btn btn-danger" style="font-size: 9px; padding: 0 1rem; " onclick="return confirm('Are you sure want to delete: {{this.id}}')">Delete </a></td>
                                             
 
                                         </tr>
+                                        
+                                            
+                                       
                                         {{/each}}
+                                        
+                                        
+                                                         
                                     </tbody>
+
                                 </table>
 
 
                             </div>
 
-
+                            <a href="/admin/addHod" class="btn btn-primary" style="font-size: 9px; padding: 0 1rem;">Add  </a>
 
                         </div>
                     </div>
