@@ -1,5 +1,5 @@
 {{> loader}}
-{{> header}}
+{{> admin-header}}
 
 {{> admin-nav}}
 <main class="mn-inner">
@@ -41,7 +41,15 @@
 
                                     <div class=" col s6">
                                         <label for="">Department</label>
-                                        <input type="text" name="department" class="form-control">
+                                                <select name="department" autocomplete="off">
+                                                            
+                                                            <option value="cse">CSE</option>
+                                                            <option value="me">ME</option>
+                                                            <option value="ece">ECE</option>
+                                                            <option value="eee">EEE</option>
+                                                            <option value="ce">CE</option>
+                                                            
+                                                        </select>
 
                                         <label for="">Email</label>
                                         <input type="email" name="email" class="form-control">

@@ -1,5 +1,5 @@
 {{> loader}}
-{{> header}}
+{{> admin-header}}
 {{> admin-nav}}
 
 <main class="mn-inner ">
@@ -14,7 +14,7 @@
 
 
                     <table class="display responsive-table ">
-                        <thead>
+                        <thead style="color: rgb(110, 110, 110);">
                             <tr>
                                 <th scope="col">Id</th>
                                 <th scope="col">Name</th>
@@ -25,7 +25,7 @@
                                 <th scope="col" style="width: 50px;"></th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody style="font-weight:500 ;   color: rgb(110, 110, 110);">
                             <style>
                                 tr:nth-child(even) {
                                     background-color: #f2f2f2;
@@ -39,11 +39,16 @@
                                 <td>{{this.name}}</td>
                                 <td>{{this.dob}}</td>
                                 <td>{{this.phone}}</td>
-                                <td>{{this.department}}</td>
-                                <td ><a href="/admin/edit-list/{{this._id}}" class="btn btn-primary"
-                                        style="font-size: 9px; padding: 0 1rem;">Edit </a></td>
-                                <td ><a href="/admin/delete-list/{{this._id}}" , class="btn btn-danger"
-                                        style="font-size: 9px; padding: 0 1rem; "
+                                <td style="text-transform: uppercase;">{{this.department}}</td>
+
+                               
+
+
+                                    
+                                <td><a href="/admin/edit-list/{{this._id}}" class="btn btn-primary"
+                                        style="font-size: 9px; padding: 0 1rem; width: 60px;">Edit </a></td>
+                                <td><a href="/admin/delete-list/{{this._id}}" , class="btn btn-danger"
+                                        style="font-size: 9px; padding: 0 1rem; width: 60px; "
                                         onclick="return confirm('Are you sure want to delete: {{this.id}}')">Delete
                                     </a></td>
 

@@ -39,10 +39,10 @@
                                 <td>{{this.nofdays}}</td>
                                 <td style="    font-size: 11px;  ">{{this.description}}</td>
                                 {{#if this.status }}
-                                <td style="    font-size: 11px; color:blue; "><p style="color: red;">{{this.status1}}</p>{{this.status}}<br><p style="color: red;">{{this.status3}}</p>{{this.status2}}<br><p style="color: red;">{{this.status5}}</p>{{this.status4}}</td>
+                                <td style="    font-size: 11px; color:blue; ">{{this.status}}<br><p style="color: red;">{{this.status3}}</p>{{this.status2}}<br><p style="color: red;">{{this.status5}}</p>{{this.status4}}</td>
                                 
-                                
-                                
+                                {{else if this.status1}}
+                                <td style="    font-size: 11px; color:blue; "><p style="color: red;">{{this.status1}}</p></td>
 
                                 {{else}}
                                 <td style="color: orange;">Pending</td>
