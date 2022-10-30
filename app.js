@@ -38,7 +38,7 @@ db.connect((err)=>{
 
 app.use('/', adminRouter);
 app.use('/users', usersRouter);
-app.use('/admin',adminRouter);
+ app.use('/admin',adminRouter); 
 
 
 

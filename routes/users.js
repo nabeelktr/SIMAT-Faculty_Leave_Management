@@ -8,6 +8,13 @@ const { passwordCheck } = require('../helpers/user-helpers');
 const bcrypt=require('bcrypt');
 const { ObjectId } = require('mongodb')
 /* GET users listing. */
+router.get('/signOut', (req, res) => {
+  req.session.destroy()
+  res.redirect('/users/facultyLogin')
+})
+
+
+
 router.get('/facultyLogin', function (req, res, next) {
   if (req.session.loggedIn) {
     res.redirect('/users/myProfile')
@@ -18,22 +25,23 @@ router.get('/facultyLogin', function (req, res, next) {
   }
 });
 
+
+
 router.get('/myProfile', function (req, res) {
   let user = req.session.user
 
-
+if(user){
   
   res.render('./faculty/myProfile', { user })
+
+}else{res.redirect('/users/signOut') }
+
 })
 
 
 
 
 
-router.get('/signOut', (req, res) => {
-  req.session.destroy()
-  res.redirect('/users/facultyLogin')
-})
 
 
 router.get('/changePassword', (req, res) => {
@@ -41,16 +49,21 @@ router.get('/changePassword', (req, res) => {
   let user = req.session.user
   
 
-  
+  if(user){
   res.render('./faculty/changePassword', { user })
+  }else{res.redirect('/users/signOut') }
 })
+
+
+
 
 router.get('/applyLeave', (req, res) => {
   
   let user = req.session.user
   
-  
+  if(user){
   res.render('./faculty/applyLeave', { user })
+  }else{res.redirect('/users/signOut') }
 })
 
 
@@ -72,15 +85,15 @@ router.get('/leaveHistory/:id', async (req, res) => {
 
   let user = req.session.user
  
-
+if(user){
   
   let leaves=await userHelpers.getAllLeave(req.params.id)
-  console.log(leaves);
+  
     res.render('./faculty/leaveHistory', {leaves,user})
+}else{res.redirect('/users/signOut') }
   })
     
-  
-    
+
   
 
   

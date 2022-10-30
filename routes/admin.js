@@ -1,8 +1,11 @@
 var express = require('express');
+var hbs =require('hbs')
+hbs.registerPartials(__dirname + './views/partials')
 const { Db } = require('mongodb');
 var router = express.Router();
 var listHelper = require('../helpers/list-helpers');
 const userHelpers = require('../helpers/user-helpers');
+
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -10,7 +13,7 @@ router.get('/', function (req, res, next) {
 });
 
 router.get('/adminLogin', (req, res) => {
-  res.render('../views/admin-panel/adminlogin')
+  res.render('../views/admin-panel/adminlogin',{admin:'admin'})
 })
 
 
@@ -88,12 +91,11 @@ router.post('/login', (req, res) => {
     listHelper.getAllList().then((lists) => {
       res.render('../views/admin-panel/admin', { lists })
     })
-  else if (user.name === 'hod' && user.password === 'cse')
-    listHelper.getAllList().then((lists) => {
-      res.render('../views/admin-panel/admin', { lists })
-    })
+ 
   else {
+    
     res.redirect('/adminLogin')
+
   }
 })
 
@@ -235,7 +237,7 @@ router.get('/leaves1', async (req, res) => {
 
 router.get('/accept-leave/:id', (req, res) => {
 
-  let status = { status: 'Hod Approved ' }
+  let status = { status: 'HOD Approved ' }
 
   listHelper.updateLeave(req.params.id, status).then((response) => {
     res.redirect('/leaves1')
@@ -245,7 +247,7 @@ router.get('/accept-leave/:id', (req, res) => {
 
 router.get('/reject-leave/:id', (req, res) => {
 
-  let status1 = { status1: 'Hod Rejected ' }
+  let status1 = { status1: 'Rejected by HOD ' }
   listHelper.updateLeave(req.params.id, status1).then((response) => {
     res.redirect('/leaves1')
   })
@@ -294,8 +296,9 @@ router.get('/addPrinci', (req, res) => {
   res.render('../views/admin-panel/principal/addPrinci')
 })
 
-router.get('/princi', async (req, res) => {
-  let list = await userHelpers.getPrinci().then((princi) => {
+router.get('/princi',  (req, res) => {
+   userHelpers.getPrinci().then((princi) => {
+    console.log(princi)
     res.render('../views/admin-panel/principal/princi', { princi })
   })
 })
@@ -362,7 +365,7 @@ router.get('/accept-princiLeave/:id', (req, res) => {
 
 router.get('/reject-princiLeave/:id', (req, res) => {
 
-  let status3 = { status3: 'Principal Rejected ' }
+  let status3 = { status3: ' Rejected by Principal ' }
   listHelper.updateLeavePrinci11(req.params.id, status3).then((response) => {
     res.redirect('/princiLeaves2')
   })
@@ -461,7 +464,7 @@ router.get('/accept-hrLeave/:id', (req, res) => {
 
 router.get('/reject-hrLeave/:id', (req, res) => {
 
-  let status5 = { status5: 'HR Rejected ' }
+  let status5 = { status5: ' Rejected by HR' }
   listHelper.updateLeaveHr11(req.params.id, status5).then((response) => {
     res.redirect('/hrLeaves2')
   })
