@@ -51,8 +51,8 @@
                                                     class='input-group date' autocomplete="off" required>
 
                                             </div>
-                                            <p>Note : If your leave dates contains two different months, kindly apply
-                                                the leaves seperately for each month.</p>
+                                        {{!--    <p>Note : If your leave dates contains two different months, kindly apply
+                                                the leaves seperately for each month.</p> --}}
 
                                             <div class="input-field col m6 s12">
                                                 <input style="display: none;" id="sree3" name="nofdays" min="1"
@@ -94,6 +94,8 @@
 
 
                                             </script>
+
+                                           
                                             <label ></label>
                                                     <input style="display: none;" value="{{user.id}}" name="id" type="text">
 
@@ -113,7 +115,40 @@
                     <button type="submit" onclick="myFunction22()" class="waves-effect waves-light btn indigo m-b-xs">Apply
                     Leave</button>
 
+ <script>
+function  myFunction22() {
+    if(document.getElementById("selectval").value=="Casual Leave"){
+        var date=new Date;
 
+        let x = document.forms["addemp"]["fromdate"].value;
+        var date2=new Date(x)
+        var date2=date2.getDate()
+        var date=date.getDate()
+        if ((date2)<date) {
+            alert("Sorry, you cannot apply leaves for past dates.");
+            return false;
+        }
+        else{
+            var date=new Date;
+
+        let x = document.forms["addemp"]["fromdate"].value;
+        var date2=new Date(x)
+        var date2=date2.getDate()
+        var date=date.getDate()
+        if ((date2)>=date) {
+            alert("Sorry, you cannot apply leaves for Upcoming Days dates.");
+            return false;
+        }
+
+        }
+        
+
+    }
+
+
+
+
+</script>
 
  
                     </form>
