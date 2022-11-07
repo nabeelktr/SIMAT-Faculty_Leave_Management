@@ -7,8 +7,10 @@
 
         <main class="mn-inner">
 
-            <div class="row">
-                <div class="page-title" style="    font-weight: bold; margin-left: 20%;">Faculty Info</div>
+            <div class="row" style="margin-left: 20%;">
+                <div class="col s12">
+                 <div class="page-title" style="   font-weight: bold;">Faculty Info</div>
+                </div>
             </div>
             <div class="col s12 m12 l12 offset-l2 offset-m3">
                 <div class="card" style="margin-left: 20%;">
@@ -63,7 +65,7 @@
                                                 <div class="col m6">
 
                                                     <div class="input-field col m6 s12">
-                                                        <label for="gender">Gender</label> <br>
+                                                        <label for="">Gender</label> <br>
                                                         <select name="gender" autocomplete="off">
                                                             <option value="{{user.gender}}">{{user.gender}}</option>
                                                             <option value="Male">Male</option>
@@ -82,16 +84,8 @@
 
                                                     <div class="input-field col m6 s12">
                                                         <label for="department">Department</label> <br>
-                                                        <select name="department" autocomplete="off">
-                                                            <option value="{{user.department}}">{{user.department}}</option>
-
-                                                            <option value="EEE">EEE</option>
-                                                            <option value="CSE">CSE</option>
-                                                            <option value="ME">ME</option>
-                                                            <option value="CE">CE</option>
-                                                            
-
-                                                        </select>
+                                                        <input  name="department" style="text-transform: uppercase;"  value="{{user.department}}"
+                                                            type="text" autocomplete="off" readonly required>
                                                     </div>
 
                                                     <div class="input-field col m6 s12">

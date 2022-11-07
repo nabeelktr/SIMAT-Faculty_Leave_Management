@@ -11,7 +11,7 @@ var session=require('express-session')
 var session1=require('express-session')
 
 var hbs = require('express-handlebars');
-
+var hhbs = hbs.create({});
 var app = express();
 
 // view engine setup
@@ -56,6 +56,39 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+});
+
+// handlebar comment
+
+hhbs.handlebars.registerHelper('compare', function(lvalue, rvalue, options) {
+
+  if (arguments.length < 3)
+    throw new Error("Handlerbars Helper 'compare' needs 2 parameters");
+
+  operator = options.hash.operator || "==";
+  
+  var operators = {
+    '==':		function(l,r) { return l == r; },
+    '===':	function(l,r) { return l === r; },
+    '!=':		function(l,r) { return l != r; },
+    '<':		function(l,r) { return l < r; },
+    '>':		function(l,r) { return l > r; },
+    '<=':		function(l,r) { return l <= r; },
+    '>=':		function(l,r) { return l >= r; },
+    'typeof':	function(l,r) { return typeof l == r; }
+  }
+
+  if (!operators[operator])
+    throw new Error("Handlerbars Helper 'compare' doesn't know the operator "+operator);
+
+  var result = operators[operator](lvalue,rvalue);
+
+  if( result ) {
+    return options.fn(this);
+  } else {
+    return options.inverse(this);
+  }
+  
 });
 
 module.exports = app;

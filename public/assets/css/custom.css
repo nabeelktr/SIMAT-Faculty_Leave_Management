@@ -11,9 +11,24 @@
 }
 
 
+.i {
+    color: #aaaaaa;
+    align-items: center;
+    font-size: 28px;
+    font-weight: bold;
+    display: inline-block;
+    transition: 200ms;
+    
+  }
 
-
-
-
+   .i:hover,
+   .i:focus {
+      transform: translateY(-5px);
+      color: rgb(97, 97, 97);;
+      text-decoration: none;
+      cursor: pointer;
+      
+  }
 
     
+  

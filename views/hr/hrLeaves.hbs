@@ -85,8 +85,42 @@
                                     }
                                 </style>
 
+                            {{#each leaves}}
+                            {{#compare princiStatus true}}
+                            <tr>
+                                <th>{{this.id}}</th>
+                                <td>{{this.leavetype}}</td>
+                                <td>{{this.name}}</td>
+                                <td style="text-transform: uppercase;">{{this.department}}</td>
 
-                                {{#each leaves}}
+                                <td style="    font-size: 11px;  ">{{this.fromdate}}</td>
+                                <td style="    font-size: 11px;  ">{{this.todate}}</td>
+                                <td>{{this.nofdays}}</td>
+                                <td style="    font-size: 11px;  ">{{this.description}}</td>
+
+
+                                {{#compare hrStatus true}}
+                                <td style="    font-size: 11px; color:blue; ">HOD approved<br>Principal approved<br>HR approved </td>
+                                
+                                
+                             {{else compare hrStatus false}}
+                                <td style="    font-size: 11px; color:rgb(255, 0, 0); "><span style="color: blue;">HOD approved<br>Principal approved</span><br>Rejectyed by HR </td>
+                                {{/compare}}
+                           
+                            {{#compare hrStatus undefined}}
+                              <td style="    font-size: 11px; color:blue; ">HOD approved<br>Principal approved</td>
+                                <td>
+                                        <a href="/admin/accept-hrLeave/{{this._id}}" class="btn btn-primary"
+                                            style="font-size: 9px; padding: 0 1rem;">Accept </a>
+                                        <a href="/admin/reject-hrLeave/{{this._id}}" class="btn btn-primary"
+                                            style="font-size: 9px; padding: 0 1rem; margin-top: 2px;">Reject </a>
+                                    </td>
+                                {{/compare}}
+                            {{/compare}}
+                            {{/each}}
+                              
+                              
+                              {{!--  {{#each leaves}}
                                 {{#if this.status2}}
                                 <tr>
                                     <th>{{this.id}}</th>
@@ -126,7 +160,7 @@
 
                                 </tr>
                                 {{/if}}
-                                {{/each}}
+                                {{/each}}  --}}
 
                             </tbody>
                         </table>

@@ -71,7 +71,7 @@ module.exports={
     },
     addLeave:(Leaves)=>{
           
-        return new Promise(async(resolve,reject)=>{
+        return new Promise((resolve,reject)=>{
             
             
             
@@ -88,7 +88,7 @@ module.exports={
     
     
 
-    getAllLeave:(user)=>{
+    getUserLeave:(user)=>{
         return new Promise((resolve,reject)=>{
             
            db.get().collection(collections.LEAVE_COLLECTION).find({id:user}).toArray().then((leaves)=>{
@@ -112,7 +112,13 @@ module.exports={
     getFullLeave:()=>{
         return new Promise((resolve,reject)=>{
             
-              db.get().collection(collections.LEAVE_COLLECTION).find().toArray().then((leaves)=>{
+              db.get().collection(collections.LEAVE_COLLECTION).aggregate([
+                { 
+                  $match: {
+                    hodStatus : true
+                  }
+                }
+               ]).toArray().then((leaves)=>{
             
             resolve(leaves)
               })
@@ -317,4 +323,103 @@ HrDoLogin:(userData)=>{
     })
 },
 
+
+getTotalLeave:(userId) => {
+    return new Promise(async (resolve, reject) => {
+        let leave = await db.get().collection(collections.LEAVE_COLLECTION).aggregate(
+            [
+                {
+                    $match: {
+                        id: userId
+                    }
+                },
+                {
+                    $group: {
+                        _id: null,
+                        totalLeaves: {
+                            $sum: {
+                                $toDecimal: "$nofdays"
+                            }
+                        }
+                    }
+                },
+                {
+                    $project: {
+                        _id: 0,
+                        totalLeaves: 1
+                    }
+                }
+            ]
+        ).toArray()
+        resolve(leave)
+        
+    })
+
+},
+
+
+getListDetails: (listId) => {
+    return new Promise((resolve, reject) => {
+        db.get().collection(collections.LIST_COLLECTION).findOne({ _id: ObjectId(listId) }).then((response) => {
+            resolve(response)
+        })
+    })
+
+},
+
+updateList: (listId, listDetails) => {
+    return new Promise(async (resolve, reject) => {
+
+
+        db.get().collection(collections.LIST_COLLECTION)
+            .updateOne({ _id: ObjectId(listId) }, {
+                $set: {
+                    id: listDetails.id,
+                    name: listDetails.name,
+                    dob: listDetails.dob,
+                    phone: listDetails.phone,
+                    department: listDetails.department,
+                    email: listDetails.email,
+                    gender: listDetails.gender,
+                    address: listDetails.address,
+                    city: listDetails.city,
+                    country: listDetails.country,
+                    hod: listDetails.hod,
+
+
+
+                }
+            })
+            .then(async (response) => {
+                let body = await db.get().collection(collections.LIST_COLLECTION)
+                    .findOne({ _id: ObjectId(listId) })
+                response.body = body
+                resolve(response)
+            })
+    })
+},
+
+
+
+updatePassword: (listId, listDetails) => {
+    return new Promise(async (resolve, reject) => {
+
+        let password = await bcrypt.hash(listDetails.newPassword, 10)
+        db.get().collection(collections.LIST_COLLECTION)
+            .updateOne({ _id: ObjectId(listId) }, {
+                $set: {
+
+                    password: password
+
+
+                }
+            })
+            .then(async (response) => {
+                let body = await db.get().collection(collections.LIST_COLLECTION)
+                    .findOne({ _id: ObjectId(listId) })
+                response.body = body
+                resolve(response)
+            })
+    })
+},
 }

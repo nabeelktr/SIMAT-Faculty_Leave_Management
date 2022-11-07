@@ -172,9 +172,9 @@ router.post('/add-Hod', (req, res) => {
 router.get('/hodProfile', async (req, res) => {
   let user = req.session.user
   if (user) {
-    // let list = await userHelpers.getLeaves().then((leaves) => {
-    res.render('./admin-panel//hod/hodProfile', { user })//, { leaves })
-    // })
+    
+    res.render('./admin-panel//hod/hodProfile', { user })
+   
   } else {
     res.redirect('/signout')
   }
@@ -236,8 +236,7 @@ router.get('/leaves1', async (req, res) => {
 
 
 router.get('/accept-leave/:id', (req, res) => {
-
-  let status = { status: 'HOD Approved ' }
+  let status =[{hodStatus : true},{princiStatus : undefined}, {hrStatus: undefined} ]
 
   listHelper.updateLeave(req.params.id, status).then((response) => {
     res.redirect('/leaves1')
@@ -247,8 +246,8 @@ router.get('/accept-leave/:id', (req, res) => {
 
 router.get('/reject-leave/:id', (req, res) => {
 
-  let status1 = { status1: 'Rejected by HOD ' }
-  listHelper.updateLeave(req.params.id, status1).then((response) => {
+  let status =[{hodStatus : false},{princiStatus : undefined}, {hrStatus: undefined} ]
+  listHelper.updateLeave(req.params.id, status).then((response) => {
     res.redirect('/leaves1')
   })
 
@@ -355,9 +354,9 @@ router.get('/princiLeaves2', async (req, res) => {
 
 router.get('/accept-princiLeave/:id', (req, res) => {
 
-  let status2 = { status2: 'Principal Approved ' }
+  let status =[{hodStatus : true},{princiStatus : true}, {hrStatus: undefined} ]
 
-  listHelper.updateLeavePrinci(req.params.id, status2).then((response) => {
+  listHelper.updateLeave(req.params.id, status).then((response) => {
     res.redirect('/princiLeaves2')
   })
 
@@ -365,8 +364,8 @@ router.get('/accept-princiLeave/:id', (req, res) => {
 
 router.get('/reject-princiLeave/:id', (req, res) => {
 
-  let status3 = { status3: ' Rejected by Principal ' }
-  listHelper.updateLeavePrinci11(req.params.id, status3).then((response) => {
+  let status =[{hodStatus : true},{princiStatus : false}, {hrStatus: undefined} ]
+  listHelper.updateLeave(req.params.id, status).then((response) => {
     res.redirect('/princiLeaves2')
   })
 
@@ -454,9 +453,9 @@ router.get('/hrLeaves2', async (req, res) => {
 
 router.get('/accept-hrLeave/:id', (req, res) => {
 
-  let status4 = { status4: 'HR Approved ' }
+  let status =[{hodStatus : true},{princiStatus : true}, {hrStatus: true} ]
 
-  listHelper.updateLeaveHr(req.params.id, status4).then((response) => {
+  listHelper.updateLeave(req.params.id, status).then((response) => {
     res.redirect('/hrLeaves2')
   })
 
@@ -464,8 +463,8 @@ router.get('/accept-hrLeave/:id', (req, res) => {
 
 router.get('/reject-hrLeave/:id', (req, res) => {
 
-  let status5 = { status5: ' Rejected by HR' }
-  listHelper.updateLeaveHr11(req.params.id, status5).then((response) => {
+  let status =[{hodStatus : true},{princiStatus : true}, {hrStatus: false} ]
+  listHelper.updateLeave(req.params.id, status).then((response) => {
     res.redirect('/hrLeaves2')
   })
 

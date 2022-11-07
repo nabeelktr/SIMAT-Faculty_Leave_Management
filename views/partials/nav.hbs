@@ -1,14 +1,14 @@
- <aside id="slide-out" class="side-nav  fixed">
+ <aside id="slide-out" class="side-nav white fixed">
         <div class="side-nav-wrapper">
 
              {{#if user}}
             <div class="sidebar-profile">
-                <div class="sidebar-profile-image">
+                <div class="sidebar-profile-image"  >
                     <img src="/assets/images/profile-image.png" class="circle" alt="">
                 </div>
                 <div class="sidebar-profile-info">
 
-                    <p></p>
+                    <p>{{user.name}}</p>
                     <span></span>
 
 
@@ -18,7 +18,7 @@
             <ul class="sidebar-menu collapsible collapsible-accordion" data-collapsible="accordion">
 
                 <li class="no-padding"><a class="waves-effect waves-grey" href="/users/update-profile/{{user._id}}"><i
-                            class="material-icons">account_box</i>{{user.name}}</a></li>
+                            class="material-icons">account_box</i>Profile</a></li>
                 <li class="no-padding"><a class="waves-effect waves-grey" href="/users/changePassword"><i
                             class="material-icons">settings_input_svideo</i>Change Password</a></li>
                 <li class="no-padding">
@@ -30,7 +30,7 @@
                            
                            <li><a href="/users/leaves/{{user.department}}">Leave Request</a></li>
                            {{else}}
-                            <li><a href="/users/applyLeave">Apply Leave</a></li>
+                            <li><a href="/users/applyLeave/{{user.id}}">Apply Leave</a></li>
                             <li><a href="/users/leaveHistory/{{user.id}}">Leave History</a></li>
                            {{/if}} 
                         </ul>
@@ -48,6 +48,7 @@
             </ul>
 
             {{else}}
+            
             <ul class="sidebar-menu collapsible collapsible-accordion" data-collapsible="accordion">
                 <li class="no-padding"><a class="waves-effect waves-grey" href="/admin/"><i
                             class="material-icons">account_box</i>Home</a></li>
@@ -71,5 +72,5 @@
 
             </ul>
             {{> footer}}
-        
+        </div>
     </aside>

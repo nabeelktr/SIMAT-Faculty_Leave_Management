@@ -7,6 +7,8 @@ const listHelpers = require('../helpers/list-helpers');
 const { passwordCheck } = require('../helpers/user-helpers');
 const bcrypt=require('bcrypt');
 const { ObjectId } = require('mongodb')
+
+
 /* GET users listing. */
 router.get('/signOut', (req, res) => {
   req.session.destroy()
@@ -57,21 +59,25 @@ router.get('/changePassword', (req, res) => {
 
 
 
-router.get('/applyLeave', (req, res) => {
+router.get('/applyLeave/:id', async(req, res) => {
   
-  let user = req.session.user
-  
+   let user = req.session.user
   if(user){
-  res.render('./faculty/applyLeave', { user })
-  }else{res.redirect('/users/signOut') }
+  let totalLeave=await userHelpers.getTotalLeave(req.params.id)
+    console.log(totalLeave)
+     res.render('./faculty/applyLeave', { user,totalLeave })
+   }
+ 
+  else{res.redirect('/users/signOut') }
 })
+
 
 
 
 router.get('/update-profile/:id', (req, res) => {
 
 
-  listHelper.getListDetails(req.params.id).then((user) => {
+  userHelpers.getListDetails(req.params.id).then((user) => {
     
   
     res.render('./faculty/myProfile', { user })
@@ -87,7 +93,7 @@ router.get('/leaveHistory/:id', async (req, res) => {
  
 if(user){
   
-  let leaves=await userHelpers.getAllLeave(req.params.id)
+  let leaves=await userHelpers.getUserLeave(req.params.id)
   
     res.render('./faculty/leaveHistory', {leaves,user})
 }else{res.redirect('/users/signOut') }
@@ -133,7 +139,7 @@ router.post('/login', (req, res) => {
 router.post('/update-profile/:id', (req, res) => {
 
 
-  listHelper.updateList(req.params.id, req.body).then((users) => {
+  userHelpers.updateList(req.params.id, req.body).then((users) => {
     
     let user = users.body
    
@@ -161,8 +167,9 @@ router.post('/updatePassword/:id',(req,res)=>{
         
         
           
-          listHelper.updatePassword(req.params.id,req.body).then((response)=>{
-            res.redirect('/users/signOut')
+          userHelpers.updatePassword(req.params.id,req.body).then((response)=>{
+            res.redirect('/users/changePassword')
+            
           })
         
         
@@ -183,9 +190,9 @@ router.post('/updatePassword/:id',(req,res)=>{
 router.post('/applyLeave/:id', (req, res) => {
   
   console.log(req.body);
-  userHelpers.addLeave(req.body).then((response)=>{
+  userHelpers.addLeave(req.body).then(()=>{
     
-    res.redirect('/users/applyLeave')
+    res.redirect('/users/applyLeave/:id')
   })
   
 })
