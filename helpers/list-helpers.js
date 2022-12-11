@@ -1,10 +1,14 @@
-var db = require('../config/connection')
-var collections = require('../config/collections')
-const bcrypt = require('bcrypt')
+var db=require('../config/connection')
+var collections=require('../config/collections')
+const bcrypt=require('bcrypt')
+const { LIST_COLLECTION } = require('../config/collections')
+const { LEAVE_COLLECTION } = require('../config/collections')
+const {HOD} = require('../config/collections')
+const {PRINCIPAL} = require('../config/collections')
+const {HR} = require('../config/collections')
 const { ObjectId } = require('mongodb')
 const async = require('hbs/lib/async')
-const { response } = require('express')
-const { options } = require('../routes/users')
+
 
 module.exports = {
 
@@ -19,12 +23,7 @@ module.exports = {
 
         })
     },
-    getAllList: () => {
-        return new Promise(async (resolve, reject) => {
-            let lists = await db.get().collection(collections.LIST_COLLECTION).find().toArray()
-            resolve(lists)
-        })
-    },
+    
     deleteList: (listId) => {
         return new Promise((resolve, reject) => {
             console.log(ObjectId(listId));
@@ -64,7 +63,14 @@ module.exports = {
     },
 
    
+ getLeaveDetails: (leaveId)=>{
+        return new Promise(async (resolve,reject)=>{
+            db.get().collection(collections.LEAVE_COLLECTION)
+                .findOne({_id: ObjectId(leaveId)}).then((leaves)=>{
+                resolve(leaves)
+            })
+        })
+    },
 }
-
 
 

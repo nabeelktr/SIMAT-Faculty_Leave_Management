@@ -73,7 +73,10 @@ module.exports={
           
         return new Promise((resolve,reject)=>{
             
+           Leaves.finalarrangement = Leaves.finalarrangement.split('\r\n').filter((i)=>i
             
+           )
+               
             
         db.get().collection('Leaves').insertOne(Leaves).then((data) => {
             
@@ -82,6 +85,7 @@ module.exports={
             resolve(data)
             
         })
+    
         
         })
     },
@@ -353,6 +357,7 @@ getTotalLeave:(userId) => {
         ).toArray()
         resolve(leave)
         
+        
     })
 
 },
@@ -420,6 +425,12 @@ updatePassword: (listId, listDetails) => {
                 response.body = body
                 resolve(response)
             })
+    })
+},
+getAllList: () => {
+    return new Promise(async (resolve, reject) => {
+        let lists = await db.get().collection(collections.LIST_COLLECTION).find().toArray()
+        resolve(lists)
     })
 },
 }

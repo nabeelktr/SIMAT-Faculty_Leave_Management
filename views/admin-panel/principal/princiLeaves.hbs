@@ -112,12 +112,13 @@
                                 {{/compare}}
                            
                             {{#compare princiStatus undefined}}
-                              <td style="color: rgb(0, 8, 255);">HOD approved</td>
+                              <td style=" font-size: 11px; color: rgb(0, 8, 255);">HOD approved</td>
                                 <td>
-                                    <a href="/admin/accept-princiLeave/{{this._id}}" class="btn btn-primary"
+                                    <a  href="/admin/princi-leave-action/{{this._id}}/{{this.id}}" style="text-decoration: wavy;"><i class="i " > i </i></a>
+                                   {{!-- <a href="/admin/accept-princiLeave/{{this._id}}" class="btn btn-primary"
                                         style="font-size: 9px; padding: 0 1rem;">Accept </a>
                                     <a href="/admin/reject-princiLeave/{{this._id}}" class="btn btn-primary"
-                                        style="font-size: 9px; padding: 0 1rem; margin-top: 2px;">Reject </a>
+                                        style="font-size: 9px; padding: 0 1rem; margin-top: 2px;">Reject </a> --}}
                                 </td>
                                 {{/compare}}
                             

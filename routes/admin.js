@@ -1,9 +1,9 @@
 var express = require('express');
-var hbs =require('hbs')
+var hbs =require('hbs');
 hbs.registerPartials(__dirname + './views/partials')
 const { Db } = require('mongodb');
 var router = express.Router();
-var listHelper = require('../helpers/list-helpers');
+const listHelper = require('../helpers/list-helpers');
 const userHelpers = require('../helpers/user-helpers');
 
 
@@ -31,7 +31,7 @@ router.get('/list', (req, res) => {
 
 
 router.get('/viewList', (req, res) => {
-  listHelper.getAllList().then((lists) => {
+  userHelpers.getAllList().then((lists) => {
     res.render('../views/admin-panel/admin', { lists })
   })
 })
@@ -88,15 +88,17 @@ router.post('/login', (req, res) => {
 
   let user = req.body
   if (user.name === 'admin' && user.password === '123')
-    listHelper.getAllList().then((lists) => {
+    userHelpers.getAllList().then((lists) => {
       res.render('../views/admin-panel/admin', { lists })
     })
- 
+   
+      
   else {
     
     res.redirect('/adminLogin')
 
   }
+
 })
 
 router.post('/addList', (req, res) => {
@@ -253,6 +255,19 @@ router.get('/reject-leave/:id', (req, res) => {
 
 })
 
+router.get('/leave-action/:id/:ts',  (req, res) => {
+  
+  
+  listHelper.getLeaveDetails(req.params.id).then(async(leaves) => {
+    let user=req.session.user
+    let totalLeave= await userHelpers.getTotalLeave(req.params.ts) 
+    
+    res.render('../views/admin-panel/leaveDetails',{leaves, user, totalLeave})
+  })
+
+})
+
+
 
 //princi
 
@@ -371,6 +386,22 @@ router.get('/reject-princiLeave/:id', (req, res) => {
 
 })
 
+
+router.get('/princi-leave-action/:id/:ts',  (req, res) => {
+  
+  
+  listHelper.getLeaveDetails(req.params.id).then(async(leaves) => {
+   
+    let totalLeave= await userHelpers.getTotalLeave(req.params.ts) 
+    let user1 = await userHelpers.getPrinci().then((user) => {
+    res.render('../views/admin-panel/leaveDetails',{leaves, user, totalLeave})
+  })
+
+})
+})
+
+
+
 //HR
 
 
@@ -481,6 +512,19 @@ router.get('/hrProfile', async (req, res) => {
 
 
 
+})
+
+router.get('/hr-leave-action/:id/:ts',  (req, res) => {
+  
+  
+  listHelper.getLeaveDetails(req.params.id).then(async(leaves) => {
+   
+    let totalLeave= await userHelpers.getTotalLeave(req.params.ts) 
+    let user1 = await userHelpers.getHr().then((user) => {
+    res.render('../views/admin-panel/leaveDetails',{leaves, user, totalLeave})
+  })
+
+})
 })
 
 module.exports = router;

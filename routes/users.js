@@ -64,7 +64,7 @@ router.get('/applyLeave/:id', async(req, res) => {
    let user = req.session.user
   if(user){
   let totalLeave=await userHelpers.getTotalLeave(req.params.id)
-    console.log(totalLeave)
+    
      res.render('./faculty/applyLeave', { user,totalLeave })
    }
  
@@ -189,7 +189,7 @@ router.post('/updatePassword/:id',(req,res)=>{
 
 router.post('/applyLeave/:id', (req, res) => {
   
-  console.log(req.body);
+  
   userHelpers.addLeave(req.body).then(()=>{
     
     res.redirect('/users/applyLeave/:id')

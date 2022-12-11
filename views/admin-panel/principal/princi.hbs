@@ -34,9 +34,9 @@
                                         
                                         <tr>
                                             <th scope="row">{{princi.id}}</th>
+                                            <td>{{princi.name}}</td>
                                             <td>{{princi.dob}}</td>
                                             <td>{{princi.phone}}</td>
-                                            <td>{{princi.name}}</td>
                                             
                                             <td><a href="/admin/edit-princi/{{princi._id}}" class="btn btn-primary" style="font-size: 9px; padding: 0 1rem;">Edit </a></td>
                                             <td><a href="/admin/delete-princi/{{princi._id}}", class="btn btn-danger" style="font-size: 9px; padding: 0 1rem; " onclick="return confirm('Are you sure want to delete: {{princi.id}}')">Delete </a></td>

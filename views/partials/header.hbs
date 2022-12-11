@@ -5,7 +5,8 @@
             <div class="nav-wrapper row">
                 
                 <div class="header-title col s4">
-                    <span class="chapter-title">SIMAT E-GOVERNANCE {{#if admin}}| ADMIN {{else if user.hod}}| HOD {{else if user}}|  FACULTY  {{/if}}</span>
+                    <span class="chapter-title">SIMAT E-GOVERNANCE {{#if admin}}| ADMIN {{else if user.hod}}| HOD{{else if user.principal}}| PRINCIPAL
+                        {{else if user.hr}}| HR {{else if user}}|  FACULTY  {{/if}}</span>
                 </div>
 
 
