@@ -98,8 +98,21 @@ if(user){
     res.render('./faculty/leaveHistory', {leaves,user})
 }else{res.redirect('/users/signOut') }
   })
-    
+     
 
+  router.get('/leave-info/:id', async (req, res) => {
+
+
+    let user = req.session.user
+   
+  if(user){
+    
+    listHelper.getLeaveDetails(req.params.id).then(async(leaves) => {
+    
+      res.render('./faculty/leaveInfo', {leaves,user})
+  })}
+  else{res.redirect('/users/signOut') }
+    })
   
 
   

@@ -74,7 +74,7 @@
                                     <th scope="col">Number of days</th>
                                     <th scope="col">Discription</th>
                                     <th scope="col">Status</th>
-                                    <th scope="col">Action</th>
+                                    <th scope="col">Info</th>
 
                                 </tr>
                             </thead>
@@ -109,59 +109,18 @@
                            
                             {{#compare hrStatus undefined}}
                               <td style="    font-size: 11px; color:blue; ">HOD approved<br>Principal approved</td>
-                                <td>
-                                    <a  href="/admin/hr-leave-action/{{this._id}}/{{this.id}}" style="text-decoration: wavy;"><i class="i " > i </i></a>
-                                        {{!--<a href="/admin/accept-hrLeave/{{this._id}}" class="btn btn-primary"
-                                            style="font-size: 9px; padding: 0 1rem;">Accept </a>
-                                        <a href="/admin/reject-hrLeave/{{this._id}}" class="btn btn-primary"
-                                            style="font-size: 9px; padding: 0 1rem; margin-top: 2px;">Reject </a>--}}
-                                    </td>
+                                
                                 {{/compare}}
+                                 <td>
+                                    <a  href="/admin/hr-leave-action/{{this._id}}/{{this.id}}" style="text-decoration: wavy;"><i class="i " > i </i></a>
+                                        
+                                    </td>
                             {{/compare}}
+                           
                             {{/each}}
                               
                               
-                              {{!--  {{#each leaves}}
-                                {{#if this.status2}}
-                                <tr>
-                                    <th>{{this.id}}</th>
-                                    <td>{{this.leavetype}}</td>
-                                    <td>{{this.name}}</td>
-                                    <td style="text-transform: uppercase;">{{this.department}}</td>
-
-                                    <td style="    font-size: 11px;  ">{{this.fromdate}}</td>
-                                    <td style="    font-size: 11px;  ">{{this.todate}}</td>
-                                    <td>{{this.nofdays}}</td>
-                                    <td style="    font-size: 11px;  ">{{this.description}}</td>
-
-
-                                    {{#if this.status4 }}
-                                    <td style="    font-size: 11px; color:blue; ">
-                                        {{this.status}}<br>{{this.status2}}<br>{{this.status4}}<p
-                                            style="color:rgb(255, 0, 0);">{{this.status5}}</p>
-                                    </td>
-                                    {{else if this.status5}}
-                                    <td style="    font-size: 11px; color: blue; ">
-                                        {{this.status}}<br>{{this.status2}}<br>
-                                        <p style="color:rgb(255, 0, 0);">{{this.status5}}</p>
-                                    </td>
-                                    {{else }}
-                                    <td style="    font-size: 11px; color:blue; ">{{this.status}}<br>{{this.status2}}
-                                    </td>
-
-                                    <td>
-                                        <a href="/admin/accept-hrLeave/{{this._id}}" class="btn btn-primary"
-                                            style="font-size: 9px; padding: 0 1rem;">Accept </a>
-                                        <a href="/admin/reject-hrLeave/{{this._id}}" class="btn btn-primary"
-                                            style="font-size: 9px; padding: 0 1rem; margin-top: 2px;">Reject </a>
-                                    </td>
-                                    {{/if}}
-
-
-
-                                </tr>
-                                {{/if}}
-                                {{/each}}  --}}
+                              
 
                             </tbody>
                         </table>

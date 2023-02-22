@@ -237,19 +237,19 @@ router.get('/leaves1', async (req, res) => {
 })
 
 
-router.get('/accept-leave/:id', (req, res) => {
+router.get('/accept-leave/:id/:comment', (req, res) => {
   let status =[{hodStatus : true},{princiStatus : undefined}, {hrStatus: undefined} ]
 
-  listHelper.updateLeave(req.params.id, status).then((response) => {
+  listHelper.updateLeave(req.params.id, status, decodeURI(req.params.comment)).then((response) => {
     res.redirect('/leaves1')
   })
 
 })
 
-router.get('/reject-leave/:id', (req, res) => {
+router.get('/reject-leave/:id/:comment', (req, res) => {
 
   let status =[{hodStatus : false},{princiStatus : undefined}, {hrStatus: undefined} ]
-  listHelper.updateLeave(req.params.id, status).then((response) => {
+  listHelper.updateLeave(req.params.id, status,  decodeURI(req.params.comment)).then((response) => {
     res.redirect('/leaves1')
   })
 
@@ -367,20 +367,20 @@ router.get('/princiLeaves2', async (req, res) => {
 
 })
 
-router.get('/accept-princiLeave/:id', (req, res) => {
+router.get('/accept-princiLeave/:id/:comment', (req, res) => {
 
   let status =[{hodStatus : true},{princiStatus : true}, {hrStatus: undefined} ]
 
-  listHelper.updateLeave(req.params.id, status).then((response) => {
+  listHelper.updateLeave(req.params.id, status,  decodeURI(req.params.comment)).then((response) => {
     res.redirect('/princiLeaves2')
   })
 
 })
 
-router.get('/reject-princiLeave/:id', (req, res) => {
+router.get('/reject-princiLeave/:id/:comment', (req, res) => {
 
   let status =[{hodStatus : true},{princiStatus : false}, {hrStatus: undefined} ]
-  listHelper.updateLeave(req.params.id, status).then((response) => {
+  listHelper.updateLeave(req.params.id, status,  decodeURI(req.params.comment)).then((response) => {
     res.redirect('/princiLeaves2')
   })
 
@@ -482,20 +482,20 @@ router.get('/hrLeaves2', async (req, res) => {
 })
 
 
-router.get('/accept-hrLeave/:id', (req, res) => {
+router.get('/accept-hrLeave/:id/:comment', (req, res) => {
 
   let status =[{hodStatus : true},{princiStatus : true}, {hrStatus: true} ]
 
-  listHelper.updateLeave(req.params.id, status).then((response) => {
+  listHelper.updateLeave(req.params.id, status,  decodeURI(req.params.comment)).then((response) => {
     res.redirect('/hrLeaves2')
   })
 
 })
 
-router.get('/reject-hrLeave/:id', (req, res) => {
+router.get('/reject-hrLeave/:id/:comment', (req, res) => {
 
   let status =[{hodStatus : true},{princiStatus : true}, {hrStatus: false} ]
-  listHelper.updateLeave(req.params.id, status).then((response) => {
+  listHelper.updateLeave(req.params.id, status,  decodeURI(req.params.comment)).then((response) => {
     res.redirect('/hrLeaves2')
   })
 

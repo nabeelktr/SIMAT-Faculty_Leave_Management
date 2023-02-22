@@ -355,7 +355,7 @@ getTotalLeave:(userId) => {
                 }
             ]
         ).toArray()
-        resolve(leave)
+        resolve(leave.length?leave[0].totalLeaves:0)
         
         
     })

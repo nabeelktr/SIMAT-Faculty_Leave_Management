@@ -158,9 +158,7 @@
                             <tr>
                                 <td style="font-size:16px;"><b>Total Leaves Taken:</b></td>
                                 <td>
-                                    {{#each totalLeave}}
-                                    {{this.totalLeaves}}
-                                    {{/each}}
+                                    {{totalLeave}}
                                 </td>
 
 
@@ -234,38 +232,113 @@ echo htmlentities($result->AdminRemark);
                             </tr>
 
                             --}}
+                             
+                                 {{#if leaves.hodComment}}
+                                 <tr>
+
+                                <td style="font-size:16px;"><b>HOD Comment : </b></td>
+                                <td colspan="5">
+                                    {{leaves.hodComment}}
+
+                               </td>
+                                 </tr>
+                               {{/if}}
+                               {{#if leaves.princiComment}}
+                               <tr>
+
+                                <td style="font-size:16px;"><b>Principal Comment : </b></td>
+                                <td colspan="5">
+                                    {{leaves.princiComment}}
+
+                               </td>
+                               </tr>
+                               {{/if}}
+                               {{#if leaves.hrComment}}
+                               <tr>
+
+                                <td style="font-size:16px;"><b>HR Comment : </b></td>
+                                <td colspan="5">
+                                    {{leaves.hrComment}}
+
+                               </td>
+                               </tr>
+                                
+                                 
+                                    {{/if}}
+
+                            
 
                             <tr>
-                                <td style="font-size:16px;"><b> Action : </b></td>
-                                <td colspan="5">
+                                
 
 
+                                    
                                     {{#if user.hod}}
-                                    <a href="/admin/accept-leave/{{leaves._id}}" class="btn btn-primary"
-                                        style="font-size: 9px; padding: 0 1rem;">Accept
+                                    {{#compare leaves.hodStatus undefined}}
+
+                                    <td style="font-size:16px;"><b>Add Comment : </b></td>
+                                <td colspan="5">
+                                    <textarea id="text"  onchange="[...document.getElementsByClassName('action')].forEach(i =>{
+                                        i.href=i.dataset.href+'/'+encodeURIComponent(this.value)
+                                        })" required></textarea>
+                                    
+                                </td>
+                               
+                                    
+                                    <td colspan="5">
+                                    <a   data-href="/admin/accept-leave/{{leaves._id}}" href="/admin/accept-leave/{{leaves._id}}"  class="btn btn-primary action"
+                                        style="font-size: 9px; padding: 0 1rem;" >Accept
                                     </a>
-                                    <a href="/admin/reject-leave/{{leaves._id}}" class="btn btn-primary"
+                                    <a data-href="/admin/reject-leave/{{leaves._id}}" href="/admin/reject-leave/{{leaves._id}}" class="btn btn-primary action"
                                         style="font-size: 9px; padding: 0 1rem; margin-top: 2px;">Reject
                                     </a>
+                                    </td>
+                                    {{/compare}}
                                     {{else if user.principal}}
-                                    <a href="/admin/accept-princiLeave/{{leaves._id}}" class="btn btn-primary"
+                                    {{#compare leaves.princiStatus undefined}}
+
+                                    <td style="font-size:16px;"><b>Add Comment : </b></td>
+                                <td colspan="5">
+                                    <textarea onchange="[...document.getElementsByClassName('action')].forEach(i =>{
+                                        i.href=i.dataset.href+'/'+encodeURIComponent(this.value)
+                                        })" required></textarea>
+                                    
+                                </td>
+
+                                    
+                                    <td colspan="5">
+                                    <a data-href="/admin/accept-princiLeave/{{leaves._id}}" href="/admin/accept-princiLeave/{{leaves._id}}" class="btn btn-primary action"
                                         style="font-size: 9px; padding: 0 1rem;">
                                         Accept </a>
-                                    <a href="/admin/reject-princiLeave/{{leaves._id}}" class="btn btn-primary"
+                                    <a data-href="/admin/reject-princiLeave/{{leaves._id}}" href="/admin/reject-princiLeave/{{leaves._id}}" class="btn btn-primary action"
                                         style="font-size: 9px; padding: 0 1rem; margin-top: 2px;"> Reject </a>
-
+                                    </td>
+                                    {{/compare}}
                                     {{else if user.hr}}
-                                    <a href="/admin/accept-hrLeave/{{leaves._id}}" class="btn btn-primary"
+                                    {{#compare leaves.hrStatus undefined}}
+
+                                    <td style="font-size:16px;"><b>Add Comment : </b></td>
+                                <td colspan="5">
+                                    <textarea onchange="[...document.getElementsByClassName('action')].forEach(i =>{
+                                        i.href=i.dataset.href+'/'+encodeURIComponent(this.value)
+                                        })" required></textarea>
+                                    
+                                </td>
+                                    <td colspan="5">
+                                    <a data-href="/admin/accept-hrLeave/{{leaves._id}}" href="/admin/accept-hrLeave/{{leaves._id}}" class="btn btn-primary action"
                                         style="font-size: 9px; padding: 0 1rem;">Accept </a>
-                                    <a href="/admin/reject-hrLeave/{{leaves._id}}" class="btn btn-primary"
+                                    <a data-href="/admin/reject-hrLeave/{{leaves._id}}" href="/admin/reject-hrLeave/{{leaves._id}}" class="btn btn-primary action"
                                         style="font-size: 9px; padding: 0 1rem; margin-top: 2px;">Reject </a>
+                                        </td>
+                                        {{/compare}}
                                     {{/if}}
 
 
 
-                                </td>
+                                
                             </tr>
                     </tbody>
+                    
                 </table>
             </div>
         </div>

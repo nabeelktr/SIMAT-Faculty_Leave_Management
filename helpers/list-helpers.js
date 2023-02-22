@@ -36,7 +36,7 @@ module.exports = {
     
    
 
-    updateLeave: (listId, status) => {
+    updateLeave: (listId, status, comment) => {
         return new Promise(async (resolve, reject) => {
 
 
@@ -45,12 +45,26 @@ module.exports = {
 
 
 
-                    $set: {
+                    $set: status[2].hrStatus!==undefined?{
 
-                        hodStatus: status[0].hodStatus,
+                        // hodStatus: status[0].hodStatus,
+                        // princiStatus: status[1].princiStatus,
+                        hrStatus: status[2].hrStatus,
+                        hrComment: comment
+                
+
+                    }:status[1].princiStatus!==undefined?{
+
+                        // hodStatus: status[0].hodStatus,
+                        // princiStatus: status[1].princiStatus,
                         princiStatus: status[1].princiStatus,
-                        hrStatus: status[2].hrStatus
+                        princiComment: comment
+                
 
+                    }:{
+                       hodStatus: status[0].hodStatus,
+                        hodComment: comment
+                
                     }
                 })
                 .then(async (response) => {
@@ -61,7 +75,6 @@ module.exports = {
                 })
         })
     },
-
    
  getLeaveDetails: (leaveId)=>{
         return new Promise(async (resolve,reject)=>{

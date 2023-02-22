@@ -1,0 +1,95 @@
+{{> loader}}
+{{> header}}
+{{> nav}}
+<main class="mn-inner">
+            <div class="row">
+
+                <div class="page-title" style=" margin-left: 20%;   font-weight: bold;">Leave Details</div>
+            </div>
+            <div class="col s12 m12 l6">
+                <div class="card" style="margin-left: 20%;">
+                    <div class="card-content">
+                    <span class="card-title">Leave Details</span>
+
+
+                    <table id="example" class="display responsive-table ">
+
+
+                        <tbody>
+
+                            <tr>
+                                <td style="font-size:16px;"> <b>Faculty Name :</b></td>
+                                <td>
+                                    {{leaves.name}}
+                                </td>
+                                <td style="font-size:16px;"><b>Faculty Code :</b></td>
+                                <td>
+                                    {{leaves.id}}
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td style="font-size:16px;"><b>Leave Type :</b></td>
+                                <td>
+                                    {{leaves.leavetype}}
+                                </td>
+                                <td style="font-size:16px;"><b>Leave Date :</b></td>
+                                <td>From : {{leaves.fromdate}}<br>to : {{leaves.todate}}
+
+
+
+                            </tr>
+
+                           
+                            <tr>
+                                <td style="font-size:16px;"><b>Leave Description : </b></td>
+                                <td colspan="5">
+                                    {{leaves.description}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="font-size:16px;"><b>Alternate Arranegement : </b></td>
+                                <td colspan="5">
+                                    {{#each leaves.finalarrangement}}{{this}}<br>{{/each}}
+                                </td>
+
+                            </tr>
+                             {{#if leaves.hodComment}}
+                                 <tr>
+
+                                <td style="font-size:16px;"><b>HOD Comment : </b></td>
+                                <td colspan="5">
+                                    {{leaves.hodComment}}
+
+                               </td>
+                                 </tr>
+                               {{/if}}
+                               {{#if leaves.princiComment}}
+                               <tr>
+
+                                <td style="font-size:16px;"><b>Principal Comment : </b></td>
+                                <td colspan="5">
+                                    {{leaves.princiComment}}
+
+                               </td>
+                               </tr>
+                               {{/if}}
+                               {{#if leaves.hrComment}}
+                               <tr>
+
+                                <td style="font-size:16px;"><b>HR Comment : </b></td>
+                                <td colspan="5">
+                                    {{leaves.hrComment}}
+
+                               </td>
+                               </tr>
+                                
+                                 
+                                    {{/if}}
+                                    
+                    
+                </table>
+            </div>
+        </div>
+    </div>
+</div></main>

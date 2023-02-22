@@ -15,13 +15,14 @@
                          <table class="display responsive-table ">
                         <thead style="color: rgb(110, 110, 110);" >
                             <tr >
-                                <th scope="col" >Faculty code</th>
+                                
                                 <th scope="col" >Leave type</th>
                                 <th scope="col" >From </th>
                                 <th scope="col" >To </th>
                                 <th scope="col" >No.of days</th>
                                 <th scope="col" >Discription</th>
                                 <th scope="col" >Status</th>
+                                <th scope="col" >Info</th>
                             </tr>
                         </thead>
                         <tbody style="font-weight:500 ;   color: rgb(110, 110, 110);">
@@ -32,7 +33,7 @@
                             </style>
                             {{#each leaves}}
                             <tr>
-                                <th style="color: rgb(110, 110, 110);" >{{this.id}}</th>
+                                
                                 <td>{{this.leavetype}}</td>
                                 <td style="    font-size: 11px;  ">{{this.fromdate}}</td>
                                 <td style="    font-size: 11px;  ">{{this.todate}}</td>
@@ -57,16 +58,10 @@
                                 {{/compare}}
                               
                               
-                              {{!--  {{#if this.status }}
-                                <td style="    font-size: 11px; color:blue; ">{{this.status}}<br><p style="color: red;">{{this.status3}}</p>{{this.status2}}<br><p style="color: red;">{{this.status5}}</p>{{this.status4}}</td>
-                                
-                                {{else if this.status1}}
-                                <td style="    font-size: 11px; color:blue; "><p style="color: red;">{{this.status1}}</p></td>
-
-                                {{else}}
-                                <td style="color: orange;">Pending</td>
-                                {{/if}}
-                            </tr> --}}
+                               <td >
+                                    <a  href="/users/leave-info/{{this._id}}" style="text-decoration: wavy;"><i class="i " > i </i></a>
+                                   
+                                </td>
                             {{/each}}
                            
                         </tbody>
