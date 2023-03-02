@@ -80,6 +80,11 @@ module.exports = {
         return new Promise(async (resolve,reject)=>{
             db.get().collection(collections.LEAVE_COLLECTION)
                 .findOne({_id: ObjectId(leaveId)}).then((leaves)=>{
+                    date1 = JSON.stringify(leaves.fromdate)
+                    date2 = JSON.stringify(leaves.todate)
+                    leaves.fromdate = date1.slice(1,11)
+                    leaves.todate = date2.slice(1,11)
+                    
                 resolve(leaves)
             })
         })

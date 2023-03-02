@@ -6,7 +6,8 @@ const listHelpers = require('../helpers/list-helpers');
 
 const { passwordCheck } = require('../helpers/user-helpers');
 const bcrypt=require('bcrypt');
-const { ObjectId } = require('mongodb')
+const { ObjectId } = require('mongodb');
+const { json } = require('express');
 
 
 /* GET users listing. */
@@ -108,7 +109,7 @@ if(user){
   if(user){
     
     listHelper.getLeaveDetails(req.params.id).then(async(leaves) => {
-    
+      
       res.render('./faculty/leaveInfo', {leaves,user})
   })}
   else{res.redirect('/users/signOut') }

@@ -76,7 +76,8 @@ module.exports={
            Leaves.finalarrangement = Leaves.finalarrangement.split('\r\n').filter((i)=>i
             
            )
-               
+            Leaves.fromdate = new Date(Leaves.fromdate)
+            Leaves.todate = new Date(Leaves.todate)
             
         db.get().collection('Leaves').insertOne(Leaves).then((data) => {
             
@@ -95,9 +96,12 @@ module.exports={
     getUserLeave:(user)=>{
         return new Promise((resolve,reject)=>{
             
-           db.get().collection(collections.LEAVE_COLLECTION).find({id:user}).toArray().then((leaves)=>{
-            
-            resolve(leaves)
+           db.get().collection(collections.LEAVE_COLLECTION).find({id:user}).toArray().then(async(leaves)=>{
+
+               
+                 
+                    
+            resolve( leaves )
         })
     })
     
@@ -334,7 +338,8 @@ getTotalLeave:(userId) => {
             [
                 {
                     $match: {
-                        id: userId
+                        id: userId,
+                        
                     }
                 },
                 {

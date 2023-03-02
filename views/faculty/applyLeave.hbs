@@ -2,205 +2,241 @@
 {{> header}}
 {{> nav}}
 <main class="mn-inner" style="width: 70%; margin-left: 20%;">
-    <form action="/users/applyLeave/{{user._id}}" method="post" id="example-form"
-                    onsubmit="return  myFunction22() " name="addemp">
-    <div class="row" style=" ">
-        <div class="col s12">
-            <div class="page-title" style="   font-weight: bold;">Leave Application</div>
+    <form action="/users/applyLeave/{{user._id}}" method="post" id="example-form" onsubmit="return  myFunction22() "
+        name="addemp">
+        <div class="row" style=" ">
+            <div class="col s12">
+                <div class="page-title" style="   font-weight: bold;">Leave Application</div>
+            </div>
         </div>
-    </div>
-    <div class="col s12 m12 l8">
-        <div class="card" style=" ">
-            <div class="card-content">
-                <form action="/users/applyLeave/{{user._id}}" method="post" id="example-form"
-                    onsubmit="return  myFunction22() " name="addemp">
-                    <div>
+        <div class="col s12 m12 l8">
+            <div class="card" style=" ">
+                <div class="card-content">
+                    <form action="/users/applyLeave/{{user._id}}" method="post" id="example-form"
+                        onsubmit="return  myFunction22() " name="addemp">
                         <div>
-                            <h5>Provide the details below :</h5>
-                        </div>
-                        <section>
-                            <div class="wizard-content">
-                                <div class="row">
-                                    <div class="col m12">
+                            <div>
+                                <h5>Provide the details below :</h5>
+                            </div>
+                            <section>
+                                <div class="wizard-content">
+                                    <div class="row">
+                                        <div class="col m12">
 
 
 
-                                        <!-- Select Leave Type -->
-                                        <div class="input-field col  s12">
-                                            <select id="selectval" name="leavetype" autocomplete="off" required>
-                                                <option value="">Select leave type...</option>
+                                            <!-- Select Leave Type -->
+                                            <div class="input-field col  s12">
+                                                <select id="selectval" name="leavetype" autocomplete="off" required>
+                                                    <option value="">Select leave type...</option>
 
 
-                                                <option value="Casual Leave">Casual Leave</option>
+                                                    <option value="Casual Leave">Casual Leave</option>
 
-                                            </select>
+                                                </select>
+                                            </div>
+
+
+
+
+                                            <!-- Leave Details -->
+                                            <div class="input-field col m6 s12">
+                                                <label for="fromdate"></label>
+                                                <input id="sree" onchange="adddate()" name="fromdate" type="date"
+                                                    class='input-group date' autocomplete="off" required>
+                                            </div>
+
+                                            <div class="input-field col m6 s12">
+                                                <label for="todate"></label>
+                                                <input id="sree2" onchange="adddate()" name="todate" type="date"
+                                                    class='input-group date' autocomplete="off" required>
+
+                                            </div>
+
+
+                                            <div class="input-field col m3 s12">
+                                                <label style="display: none ;" id="days">No.of Days</label>
+                                                <input style="display: none;" id="sree3" name="" readonly required />
+                                                <input style="display: none;" type="number" id="sree4" name="nofdays"
+                                                    readonly required />
+
+
+
+                                                <input style="display: none;" id="leaves" value="{{totalLeave}}" />
+
+
+
+                                            </div>
+
+                                            <script>
+
+                                                function adddate() {
+                                                    dat1 = document.getElementById('sree').value;
+                                                    dat2 = document.getElementById('sree2').value;
+                                                    leave = document.getElementById('leaves').value;
+
+
+
+
+
+                                                    date2 = new Date(dat2)
+                                                    date1 = new Date(dat1)
+                                                    
+
+                                                    
+                                                    const diffTime = Math.abs(date2 - date1);
+                                                    const diffDays = (Math.floor((date2 - date1) / (1000 * 60 * 60 * 24)) + 1);
+                                                    limit = parseFloat('12');
+                                                    total = parseFloat(leave)
+                                                    nod = parseFloat(diffDays);
+                                                    totalLeave = total + nod;
+                                                    var x = document.getElementById("sree3");
+
+                                                    x.style.display = "block";
+
+                                                    if (date2 == "Invalid Date") {
+                                                        document.getElementById("sree3").value = "Please specify end date "
+                                                        document.getElementById("days").style.display = "none"
+
+                                                    } else if (date2 < date1) {
+                                                        alert("negative days..");
+                                                        document.getElementById('sree2').value = ""
+                                                        document.getElementById('sree4').style.display = "none"
+                                                        document.getElementById("days").style.display = "none"
+                                                    }
+                                                    else if (nod === 1 && totalLeave > limit) {
+
+                                                            alert("Casual Leave limit ecxeeded , Total leave =" + total);
+                                                            document.getElementById('sree2').value = ""
+                                                            document.getElementById('sree4').style.display = "none"
+                                                            document.getElementById("days").style.display = "none"
+                                                        }
+                                                    else if (nod > 1) {
+
+
+                                                        if (nod === 2 && date1.getMonth() != date2.getMonth() && totalLeave <= limit) {
+                                                            
+
+                                                            document.getElementById("sree3").style.display = "none"
+                                                            document.getElementById("days").style.display = "contents"
+                                                            document.getElementById("sree4").value = diffDays;
+                                                            document.getElementById("sree4").style.display = "block"
+
+                                                        }
+                                                        
+                                                        else {
+
+                                                            alert("You can apply only 1 leave per month");
+                                                            document.getElementById('sree2').value = ""
+                                                            document.getElementById('sree4').style.display = "none"
+                                                            document.getElementById("days").style.display = "none"
+                                                        }
+                                                        
+                                                    }
+
+                                                    else {
+
+                                                        document.getElementById("sree3").style.display = "none"
+                                                        document.getElementById("days").style.display = "contents"
+                                                        document.getElementById("sree4").value = diffDays;
+                                                        document.getElementById("sree4").style.display = "block"
+                                                        document.getElementById("altdate").value = document.getElementById('sree').value;;
+
+                                                    }
+                                                }
+                                            </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                            <label></label>
+                                            <input style="display: none;" value="{{user.id}}" name="id" type="text">
+
+
+                                            <div class="input-field col m12 s12">
+                                                <label for="birthdate">Description</label>
+                                                <textarea id="textarea1" name="description" class="materialize-textarea"
+                                                    length="500" required></textarea>
+                                            </div>
+
+
+
                                         </div>
+                                        <input type="hidden" name="name" value="{{user.name}}">
+                                        <input type="hidden" name="department" value="{{user.department}}">
 
 
-
-
-                                        <!-- Leave Details -->
-                                        <div class="input-field col m6 s12">
-                                            <label for="fromdate"></label>
-                                            <input id="sree" onchange="adddate()" name="fromdate" type="date"
-                                                class='input-group date' autocomplete="off" required>
-                                        </div>
-
-                                        <div class="input-field col m6 s12">
-                                            <label for="todate"></label>
-                                            <input id="sree2" onchange="adddate()" name="todate" type="date"
-                                                class='input-group date' autocomplete="off" required>
-
-                                        </div>
-
-
-                                        <div class="input-field col m3 s12">
-                                            <label style="display: none ;" id="days">No.of Days</label>
-                                            <input style="display: none;" id="sree3" name="" readonly required />
-                                            <input style="display: none;" type="number" id="sree4" name="nofdays"
-                                                readonly required />
-
-
-                                            
-                                            <input style="display: none;" id="leaves" value="{{totalLeave}}" />
-                                            
-
-
-                                        </div>
 
                                         <script>
+                                            function myFunction22() {
+                                                if (document.getElementById("selectval").value == "Casual Leave") {
+                                                    
 
-                                            function adddate() {
-                                                date1 = document.getElementById('sree').value;
-                                                date2 = document.getElementById('sree2').value;
-                                                leave = document.getElementById('leaves').value;
+                                                    let x = document.forms["addemp"]["fromdate"].value;
+                                                    var date2 = new Date(x);
+                                                    var date = new Date;
+                                                    const diff = (Math.floor((date2 - date) / (1000 * 60 * 60 * 24)) + 1);
+                                                    nod = parseFloat(diff);
+                                                    console.log("hello",nod);
+                                                    
+                                                    if (nod <= -7) {
+                                                        
+                                                        alert("Sorry, you cannot apply leave for past days before 1 week.");
+                                                        return false;
+                                                    }
+                                                    else if (nod >= 14){
 
 
-                                                date1 = new Date(date1)
-                                                date2 = new Date(date2)
-                                                const diffTime = Math.abs(date2 - date1);
-                                                const diffDays = (Math.floor((date2 - date1) / (1000 * 60 * 60 * 24)) + 1);
-                                                limit = parseFloat('12');
-                                                total = parseFloat(leave)
-                                                now = parseFloat(diffDays);
-                                                totalLeave = total + now;
-                                                var x = document.getElementById("sree3");
+                                                            
+                                                            alert("Sorry, you cannot apply for leave for the coming Days after 2 weeks.") ;
+                                                            return false;
+                                                        }
 
-                                                x.style.display = "block";
+                                                    }
+                                                
 
-                                                if (date2 == "Invalid Date") {
-                                                    document.getElementById("sree3").value = "Please specify end date "
-                                                    document.getElementById("days").style.display = "none"
-
-                                                } else if (date2 < date1) {
-                                                    alert("negative days..");
-                                                    document.getElementById('sree2').value = ""
-                                                    document.getElementById('sree4').style.display = "none"
-                                                    document.getElementById("days").style.display = "none"
-                                                }
-                                                else if (totalLeave > limit) {
-
-                                                    alert("Casual Leave limit ecxeeded , Total leave =" + total);
-                                                    document.getElementById('sree2').value = ""
-                                                    document.getElementById('sree4').style.display = "none"
-                                                    document.getElementById("days").style.display = "none"
-                                                }
-                                                else {
-
-                                                    document.getElementById("sree3").style.display = "none"
-                                                    document.getElementById("days").style.display = "contents"
-                                                    document.getElementById("sree4").value = diffDays;
-                                                    document.getElementById("sree4").style.display = "block"
 
                                                 }
-                                            }
+                                            
                                         </script>
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                                        <label></label>
-                                        <input style="display: none;" value="{{user.id}}" name="id" type="text">
-
-
-                                        <div class="input-field col m12 s12">
-                                            <label for="birthdate">Description</label>
-                                            <textarea id="textarea1" name="description" class="materialize-textarea"
-                                                length="500" required></textarea>
-                                        </div>
-
-
-
                                     </div>
-                                    <input type="hidden" name="name" value="{{user.name}}">
-                                    <input type="hidden" name="department" value="{{user.department}}">
-
-
-
-                                    <script>
-                                        function myFunction22() {
-                                            if (document.getElementById("selectval").value == "Casual Leave") {
-                                                var date = new Date;
-
-                                                let x = document.forms["addemp"]["fromdate"].value;
-                                                var date2 = new Date(x)
-                                                var date2 = date2.getDate()
-                                                var date = date.getDate()
-                                                if ((date2) < date) {
-                                                    alert("Sorry, you cannot request leave in recent days.");
-                                                    return false;
-                                                }
-                                                else {
-
-                                                    if ((date2) >= date + 14) {
-
-                                                        alert("Sorry, you cannot apply for leave for the coming Days after 2 weeks.");
-                                                        return false;
-                                                    }
-
-                                                }
-
-
-                                            }
-                                        }
-                                    </script>
-
+                                    <div class="input-field col m12 s12">
+                                        <h5>ALTERNATE ARRANGEMENT</h5>
+                                        <p>(If you have more than one arrangement then you can add it one by one)</p>
+                                        <br>
+                                        <br>
+                                    </div>
 
 
                                 </div>
-                                <div class="input-field col m12 s12">
-                                    <h5>ALTERNATE ARRANGEMENT</h5>
-                                    <p>(If you have more than one arrangement then you can add it one by one)</p> <br>
-                                    <br>
-                                </div>
 
+                            </section>
+                        </div>
+                    </form>
 
-                            </div>
-
-                        </section>
-                    </div>
-                </form>
-               
                     <form id="myForm" name="altern">
                         <div class="input-field col m4 s12">
                             <h6>Date</h6>
-                            <input name="alterdate" type="date"> <br> <br>
+                            <input id="altdate" name="alterdate" type="date"> <br> <br>
                         </div>
                         <div class="input-field col m8 s12">
                             <h6>Subject</h6>
@@ -276,7 +312,7 @@
                                 branch.push(e)
                                 altf.push(f)
 
-                                arrangement.push("Date :" + a + "    " + "Subject :" + b + "    " + "Period :" + c + "    " + "Semester :" + d + "    " + "Branch :" + e + "    " + "Alternate Faculty :" + e + "")
+                                arrangement.push("Date :" + a + "    " + "Subject :" + b + "    " + "Period :" + c + "    " + "Semester :" + d + "    " + "Branch :" + e + "    " + "Alternate Faculty :" + f + "")
 
                                 embedElements()
                                 myFunction2()
@@ -285,7 +321,7 @@
 
                                 addmore()
 
-                               
+
                             }
 
                             else {
@@ -295,7 +331,7 @@
                     </script> <br> <br>
 
 
-                    
+
 
 
 
@@ -311,7 +347,7 @@
                                 arrangement.forEach(el => {
                                     let i = 0
                                     document.getElementById('result').innerHTML += `<textarea id=` + i + `>${el}</textarea><br />`;
-                                    
+
                                     i = i + 1
 
                                 });
@@ -345,18 +381,18 @@
                     </script>
 
 
-                    <button type="submit"  class="waves-effect waves-light btn indigo m-b-xs">Apply Leave</button>       
+                    <button type="submit" class="waves-effect waves-light btn indigo m-b-xs">Apply Leave</button>
 
-            </form>
-        
-                
+    </form>
 
 
 
-            </div>
-        </div>
+
+
+    </div>
+    </div>
     </div>
 
 
-</form>
+    </form>
 </main>
