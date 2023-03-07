@@ -29,6 +29,40 @@
       cursor: pointer;
       
   }
+.send-btn {
+  background-color: #26a69a; /* Green */
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 5px;
+}
 
+.send-btn:hover {
+  background-color: #72d4cb;
+}
+
+.cancel-btn {
+  background-color: brown; /* Red */
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.cancel-btn:hover {
+  background-color: rgb(185, 86, 86);
+}
     
   

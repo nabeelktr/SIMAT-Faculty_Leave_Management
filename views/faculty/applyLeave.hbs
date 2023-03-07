@@ -2,6 +2,7 @@
 {{> header}}
 {{> nav}}
 <main class="mn-inner" style="width: 70%; margin-left: 20%;">
+
     <form action="/users/applyLeave/{{user._id}}" method="post" id="example-form" onsubmit="return  myFunction22() "
         name="addemp">
         <div class="row" style=" ">
@@ -210,73 +211,7 @@
 
 
 
-                                        <script>
-                                            function myFunction22() {
-                                                if (document.getElementById("selectval").value == "Casual Leave") {
 
-
-                                                    let x = document.forms["addemp"]["fromdate"].value;
-                                                    var date2 = new Date(x);
-                                                    var date = new Date;
-                                                    const diff = (Math.floor((date2 - date) / (1000 * 60 * 60 * 24)) + 1);
-                                                    nod = parseFloat(diff);
-
-
-
-
-
-                                                    if (nod <= -7) {
-
-                                                        var confirmMsg = "Oops! You cannot apply for leave in the past or within 1 week from now. Would you like to send a request to your Head of Department?";
-                                                        var dialog = document.createElement("div");
-                                                        var sendBtn = document.createElement("button");
-                                                        sendBtn.innerHTML = "Yes, send request";
-                                                        sendBtn.classList.add("btn-send");
-                                                        var noBtn = document.createElement("button");
-                                                        noBtn.innerHTML = "No, cancel";
-                                                        noBtn.classList.add("btn-cancel");
-                                                        dialog.appendChild(document.createElement("br"));
-                                                        dialog.appendChild(document.createTextNode(confirmMsg));
-                                                        dialog.appendChild(document.createElement("br"));
-                                                        dialog.appendChild(document.createElement("br"));
-                                                        dialog.appendChild(sendBtn);
-                                                        dialog.appendChild(noBtn);
-                                                        dialog.style.position = "fixed";
-                                                        dialog.style.top = "50%";
-                                                        dialog.style.left = "50%";
-                                                        dialog.style.transform = "translate(-50%, -50%)";
-                                                        dialog.style.background = "white";
-                                                        dialog.style.padding = "20px";
-                                                        dialog.style.borderRadius = "10px";
-                                                        dialog.style.boxShadow = "0px 0px 10px rgba(0, 0, 0, 0.25)";
-                                                        document.body.appendChild(dialog);
-
-                                                        sendBtn.addEventListener("click", function () {
-                                                            // Send request to apply for leave
-                                                            
-                                                            document.body.removeChild(dialog);
-                                                        });
-
-                                                        noBtn.addEventListener("click", function () {
-                                                            document.body.removeChild(dialog);
-                                                        });
-                                                        return false;
-                                                    }
-                                                    else if (nod >= 14) {
-
-
-
-                                                        alert("Sorry, you cannot apply for leave for the coming Days after 2 weeks.");
-                                                        return false;
-                                                    }
-
-                                                }
-
-
-
-                                            }
-
-                                        </script>
 
 
 
@@ -444,17 +379,125 @@
 
 
                     <button type="submit" class="waves-effect waves-light btn indigo m-b-xs">Apply Leave</button>
+                </div>
+            </div>
+        </div>
 
     </form>
 
 
 
+    <form style="display: none;" id="unlockRForm" method="post" action="/users/unlockRequest/{{user._id}}">
+        <div class="row" style=" ">
 
+            <div class="col s12">
+                <div class="page-title" style="   font-weight: bold;">Permission Request</div>
+            </div>
+        </div>
+        <div class="col s12 m12 l8">
+            <div class="card" style=" ">
+                <div class="card-content">
+                    <div>
+                        <h5>Provide the details below :</h5>
+                    </div>
 
-    </div>
-    </div>
-    </div>
-
-
+                    <div class="form-group">
+                        <label for="leave-reason">
+                            <h6>Reason :</h6>
+                        </label>
+                        <textarea id="leave-reason" name="leaveReason" class="form-control" required></textarea>
+                    </div>
+                    <button type="submit" class="waves-effect waves-light btn indigo m-b-xs">Send Request</button>
+                </div>
+            </div>
+        </div>
     </form>
+
+
+
+    <script>
+        function myFunction22() {
+            if (document.getElementById("selectval").value == "Casual Leave") {
+
+
+                let x = document.forms["addemp"]["fromdate"].value;
+                var date2 = new Date(x);
+                var date = new Date;
+                const diff = (Math.floor((date2 - date) / (1000 * 60 * 60 * 24)) + 1);
+                nod = parseFloat(diff);
+
+
+
+
+
+                if (nod <= -7) {
+                    var overlay = document.createElement("div");
+                    overlay.style.position = "fixed";
+                    overlay.style.top = "0";
+                    overlay.style.left = "0";
+                    overlay.style.width = "100%";
+                    overlay.style.height = "100%";
+                    overlay.style.backgroundColor = "rgba(0, 0, 0, 0.5)"; // semi-transparent black overlay
+                    document.body.appendChild(overlay);
+
+                    var confirmMsg = "Oops! You cannot apply for leave for a past date that is more than 7 days old. Would you like to send a request to your Head of Department?";
+                    var dialog = document.createElement("div");
+                    var sendBtn = document.createElement("button");
+                    sendBtn.innerHTML = "Yes";
+                    sendBtn.classList.add("send-btn");
+                    var noBtn = document.createElement("button");
+                    noBtn.innerHTML = "No, cancel";
+                    noBtn.classList.add("cancel-btn");
+                    dialog.appendChild(document.createElement("br"));
+                    dialog.appendChild(document.createTextNode(confirmMsg));
+                    dialog.appendChild(document.createElement("br"));
+                    dialog.appendChild(document.createElement("br"));
+                    dialog.appendChild(sendBtn);
+                    dialog.appendChild(noBtn);
+                    dialog.style.position = "fixed";
+                    dialog.style.zIndex = "9999";
+                    dialog.style.top = "50%";
+                    dialog.style.left = "50%";
+                    dialog.style.transform = "translate(-50%, -50%)";
+                    dialog.style.background = "white";
+                    dialog.style.padding = "20px";
+                    dialog.style.borderRadius = "10px";
+                    dialog.style.boxShadow = "0px 0px 10px rgba(0, 0, 0, 0.25)";
+                    document.body.appendChild(dialog);
+
+                    sendBtn.addEventListener("click", function () {
+                        // Send request to apply for leave
+                        var form = document.getElementById("unlockRForm");
+
+                        document.getElementById("example-form").style.display = "none";
+
+                        form.style.display = "block";
+
+                        document.body.removeChild(dialog);
+                        document.body.removeChild(overlay);
+                    });
+
+                    noBtn.addEventListener("click", function () {
+                        document.body.removeChild(dialog);
+                        document.body.removeChild(overlay);
+                    });
+                    return false;
+                }
+                else if (nod >= 14) {
+
+
+
+                    alert("Sorry, you cannot apply for leave for the coming Days after 2 weeks.");
+                    return false;
+                }
+
+            }
+
+
+
+        }
+
+    </script>
+
+
 </main>
