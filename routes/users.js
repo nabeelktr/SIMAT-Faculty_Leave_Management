@@ -95,8 +95,8 @@ router.get('/leaveHistory/:id', async (req, res) => {
 if(user){
   
   let leaves=await userHelpers.getUserLeave(req.params.id)
-  
-    res.render('./faculty/leaveHistory', {leaves,user})
+  let totalLeave = await userHelpers.getTotalLeave(req.params.id)
+    res.render('./faculty/leaveHistory', {leaves,user,totalLeave})
 }else{res.redirect('/users/signOut') }
   })
      

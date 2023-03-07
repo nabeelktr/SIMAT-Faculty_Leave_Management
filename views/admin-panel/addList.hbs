@@ -4,86 +4,76 @@
 {{> admin-nav}}
 <main class="mn-inner">
     <div class="row">
-        <div class="col s12 m12 l6">
-        <div class="card white darken-1" style="margin-left: 20%;">
-
-            <div class="card-content ">
-                <span class="card-title" style="font-size:20px;"></span></span>
-
-
-
-
-                <section>
-                    <container class="container mt-4 ">
-                        <div class="row ">
-                            <div class="col-md-12">
-                                <form action="/admin/addList" method="post">
-                                    <div class="col s6">
-
-                                        <label for="">Id</label>
-                                        <input type="text" name="id" class="form-control">
-                                        <label for="">Name</label>
-                                        <input type="text" name="name" class="form-control">
-
-
-
-
-
-                                        <label for="">Dob</label>
-                                        <input type="text" name="dob" class="form-control">
-
-                                        <label for="">Phone</label>
-                                        <input type="text" name="phone" class="form-control">
+        <div class="col s12 m12 l6 offset-l3">
+            <div class="card white" style="margin-left: 20%; max-width: 600px;">
+                <div class="card-content">
+                    <span class="card-title" style="font-size: 20px; font-weight: bold;">Add List</span>
+                    <div class="row">
+                        <form class="col s12" action="/admin/addList" method="post">
+                            <div class="col s12 m6">
+                                <div class="row">
+                                    <div class="input-field col s12">
+                                        <input id="id" type="text" class="validate" name="id">
+                                        <label for="id">ID</label>
                                     </div>
-
-
-
-
-                                    <div class=" col s6">
-                                        <label for="">Department</label>
-                                                <select name="department" autocomplete="off">
-                                                            
-                                                            <option value="cse">CSE</option>
-                                                            <option value="me">ME</option>
-                                                            <option value="ece">ECE</option>
-                                                            <option value="eee">EEE</option>
-                                                            <option value="ce">CE</option>
-                                                            
-                                                        </select>
-
-                                        <label for="">Email</label>
-                                        <input type="email" name="email" class="form-control">
-
-                                        <label for="">Password</label>
-                                        <input type="password" class="form-control" name="password"><br><br>
-
-
-                                        <button type="submit" class="btn btn-primary form-control">Add
-                                            List</button>
-
-
-
-
-
-
+                                </div>
+                                <div class="row">
+                                    <div class="input-field col s12">
+                                        <input id="name" type="text" class="validate" name="name">
+                                        <label for="name">Name</label>
                                     </div>
-
-                                </form>
+                                </div>
+                                <div class="row">
+                                    <div class="input-field col s12">
+                                        <input id="dob" type="text" class="validate datepicker" name="dob">
+                                        <label for="dob">Date of Birth</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="input-field col s12">
+                                        <select name="department">
+                                            <option value="" disabled selected>Choose department</option>
+                                            <option value="cse">CSE</option>
+                                            <option value="me">ME</option>
+                                            <option value="ece">ECE</option>
+                                            <option value="eee">EEE</option>
+                                            <option value="ce">CE</option>
+                                        </select>
+                                        <label>Department</label>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </container>
-                </section>
-
-
-
-
-
-
-
+                            <div class="col s12 m6">
+                                <div class="row">
+                                    <div class="input-field col s12">
+                                        <input id="phone" type="text" class="validate" name="phone">
+                                        <label for="phone">Phone</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="input-field col s12">
+                                        <input id="email" type="email" class="validate" name="email">
+                                        <label for="email">Email</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="input-field col s12">
+                                        <input id="password" type="password" class="validate" name="password">
+                                        <label for="password">Password</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="input-field col s12">
+                                        <button class="btn waves-effect waves-light" type="submit" style="width: 100%;">Add List</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
 </main>
 
 

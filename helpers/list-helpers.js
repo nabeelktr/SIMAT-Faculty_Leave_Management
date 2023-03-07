@@ -89,6 +89,40 @@ module.exports = {
             })
         })
     },
+
+monthCheck: (userId,month)=>{
+    return new Promise((resolve,reject)=>{
+        
+        console.log(month)
+        db.get().collection(collections.LEAVE_COLLECTION).aggregate(
+            [{
+               $match : {
+                id : userId ,
+                
+                $and: [
+                    {
+                        $expr: {
+                            $eq: [{ $month: "$fromdate" }, parseInt(month)]
+                        }
+                    },
+                    {
+                        $expr: {
+                            $eq: [{ $year: "$fromdate" }, new Date().getFullYear()]
+                        }
+                    },
+                    {
+                        hrStatus: true
+                    }
+                ]
+
+          
+        }}]).toArray().then((response)=>{
+              console.log(response)
+              resolve(response)
+          })
+    })
+
+}
 }
 
 

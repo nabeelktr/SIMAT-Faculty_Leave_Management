@@ -2,94 +2,57 @@
 {{> header}}
 {{> nav}}
 <main class="mn-inner">
-            <div class="row">
-
-                <div class="page-title" style=" margin-left: 20%;   font-weight: bold;">Leave Details</div>
-            </div>
-            <div class="col s12 m12 l6">
-                <div class="card" style="margin-left: 20%;">
-                    <div class="card-content">
-                    <span class="card-title">Leave Details</span>
-
-
-                    <table id="example" class="display responsive-table ">
-
-
-                        <tbody>
-
-                            <tr>
-                                <td style="font-size:16px;"> <b>Faculty Name :</b></td>
-                                <td>
-                                    {{leaves.name}}
-                                </td>
-                                <td style="font-size:16px;"><b>Faculty Code :</b></td>
-                                <td>
-                                    {{leaves.id}}
-                                </td>
-
-                            </tr>
-                            <tr>
-                                <td style="font-size:16px;"><b>Leave Type :</b></td>
-                                <td>
-                                    {{leaves.leavetype}}
-                                </td>
-                                <td style="font-size:16px;"><b>Leave Date :</b></td>
-                                <td>From : {{leaves.fromdate}}<br>to : {{leaves.todate}}
-
-
-
-                            </tr>
-
-                           
-                            <tr>
-                                <td style="font-size:16px;"><b>Leave Description : </b></td>
-                                <td colspan="5">
-                                    {{leaves.description}}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="font-size:16px;"><b>Alternate Arranegement : </b></td>
-                                <td colspan="5">
-                                    {{#each leaves.finalarrangement}}{{this}}<br>{{/each}}
-                                </td>
-
-                            </tr>
-                             {{#if leaves.hodComment}}
-                                 <tr>
-
-                                <td style="font-size:16px;"><b>HOD Comment : </b></td>
-                                <td colspan="5">
-                                    {{leaves.hodComment}}
-
-                               </td>
-                                 </tr>
-                               {{/if}}
-                               {{#if leaves.princiComment}}
-                               <tr>
-
-                                <td style="font-size:16px;"><b>Principal Comment : </b></td>
-                                <td colspan="5">
-                                    {{leaves.princiComment}}
-
-                               </td>
-                               </tr>
-                               {{/if}}
-                               {{#if leaves.hrComment}}
-                               <tr>
-
-                                <td style="font-size:16px;"><b>HR Comment : </b></td>
-                                <td colspan="5">
-                                    {{leaves.hrComment}}
-
-                               </td>
-                               </tr>
-                                
-                                 
-                                    {{/if}}
-                                    
-                    
-                </table>
-            </div>
+  <div class="row">
+    <div class="page-title col s12" style="font-weight: bold; margin-left: 20%; ">Leave Details</div>
+  </div>
+  <div class="col s12 m12 l6 offset-l3">
+    <div class="card" style="margin-left: 20%;">
+      <div class="card-content">
+        <div class="responsive-table">
+          <table id="example" class="display">
+            <tbody>
+              <tr>
+                <td><strong>Faculty Name:</strong></td>
+                <td>{{leaves.name}}</td>
+                <td><strong>Faculty Code:</strong></td>
+                <td>{{leaves.id}}</td>
+              </tr>
+              <tr>
+                <td><strong>Leave Type:</strong></td>
+                <td>{{leaves.leavetype}}</td>
+                <td><strong>Leave Dates:</strong></td>
+                <td><strong>From :</strong> {{leaves.fromdate}}<br><strong>To &emsp; :</strong> {{leaves.todate}}</td>
+              </tr>
+              <tr>
+                <td><strong>Leave Description:</strong></td>
+                <td colspan="3">{{leaves.description}}</td>
+              </tr>
+              <tr>
+                <td><strong>Alternate Arrangement:</strong></td>
+                <td colspan="3">{{#each leaves.finalarrangement}}{{this}}<br>{{/each}}</td>
+              </tr>
+              {{#if leaves.hodComment}}
+              <tr>
+                <td><strong>HOD Comment:</strong></td>
+                <td colspan="3">{{leaves.hodComment}}</td>
+              </tr>
+              {{/if}}
+              {{#if leaves.princiComment}}
+              <tr>
+                <td><strong>Principal Comment:</strong></td>
+                <td colspan="3">{{leaves.princiComment}}</td>
+              </tr>
+              {{/if}}
+              {{#if leaves.hrComment}}
+              <tr>
+                <td><strong>HR Comment:</strong></td>
+                <td colspan="3">{{leaves.hrComment}}</td>
+              </tr>
+              {{/if}}
+            </tbody>
+          </table>
         </div>
+      </div>
     </div>
-</div></main>
+  </div>
+</main>

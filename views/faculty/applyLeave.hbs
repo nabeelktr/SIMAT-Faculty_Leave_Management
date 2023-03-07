@@ -74,16 +74,18 @@
                                                     dat1 = document.getElementById('sree').value;
                                                     dat2 = document.getElementById('sree2').value;
                                                     leave = document.getElementById('leaves').value;
+                                                    userid = document.getElementById('userid').value
 
 
 
 
 
-                                                    date2 = new Date(dat2)
                                                     date1 = new Date(dat1)
-                                                    
+                                                    date2 = new Date(dat2)
+                                                    month = date2.getMonth() + 1;
 
-                                                    
+
+
                                                     const diffTime = Math.abs(date2 - date1);
                                                     const diffDays = (Math.floor((date2 - date1) / (1000 * 60 * 60 * 24)) + 1);
                                                     limit = parseFloat('12');
@@ -106,24 +108,37 @@
                                                     }
                                                     else if (nod === 1 && totalLeave > limit) {
 
-                                                            alert("Casual Leave limit ecxeeded , Total leave =" + total);
-                                                            document.getElementById('sree2').value = ""
-                                                            document.getElementById('sree4').style.display = "none"
-                                                            document.getElementById("days").style.display = "none"
-                                                        }
+                                                        alert("Casual Leave limit ecxeeded , Total leave =" + total);
+                                                        document.getElementById('sree2').value = ""
+                                                        document.getElementById('sree4').style.display = "none"
+                                                        document.getElementById("days").style.display = "none"
+                                                    }
                                                     else if (nod > 1) {
 
 
                                                         if (nod === 2 && date1.getMonth() != date2.getMonth() && totalLeave <= limit) {
-                                                            
 
-                                                            document.getElementById("sree3").style.display = "none"
-                                                            document.getElementById("days").style.display = "contents"
-                                                            document.getElementById("sree4").value = diffDays;
-                                                            document.getElementById("sree4").style.display = "block"
+
+                                                            fetch('/monthcheck/' + userid + '/' + month).then((res) => {
+                                                                if (res.status == 200) {
+
+                                                                    document.getElementById("sree3").style.display = "none"
+                                                                    document.getElementById("days").style.display = "contents"
+                                                                    document.getElementById("sree4").value = diffDays;
+                                                                    document.getElementById("sree4").style.display = "block"
+
+                                                                }
+                                                                else {
+                                                                    alert("You already applied for a leave this month");
+                                                                    document.getElementById('sree2').value = ""
+                                                                    document.getElementById('sree').value = ""
+                                                                    document.getElementById('sree4').style.display = "none"
+                                                                    document.getElementById("days").style.display = "none"
+                                                                }
+                                                            })
 
                                                         }
-                                                        
+
                                                         else {
 
                                                             alert("You can apply only 1 leave per month");
@@ -131,16 +146,27 @@
                                                             document.getElementById('sree4').style.display = "none"
                                                             document.getElementById("days").style.display = "none"
                                                         }
-                                                        
+
                                                     }
 
                                                     else {
+                                                        fetch('/monthcheck/' + userid + '/' + month).then((res) => {
+                                                            if (res.status == 200) {
 
-                                                        document.getElementById("sree3").style.display = "none"
-                                                        document.getElementById("days").style.display = "contents"
-                                                        document.getElementById("sree4").value = diffDays;
-                                                        document.getElementById("sree4").style.display = "block"
-                                                        document.getElementById("altdate").value = document.getElementById('sree').value;;
+                                                                document.getElementById("sree3").style.display = "none"
+                                                                document.getElementById("days").style.display = "contents"
+                                                                document.getElementById("sree4").value = diffDays;
+                                                                document.getElementById("sree4").style.display = "block"
+                                                                document.getElementById("altdate").value = document.getElementById('sree').value;
+                                                            }
+                                                            else {
+                                                                alert("You already applied for a leave this month");
+                                                                document.getElementById('sree2').value = ""
+                                                                document.getElementById('sree').value = ""
+                                                                document.getElementById('sree4').style.display = "none"
+                                                                document.getElementById("days").style.display = "none"
+                                                            }
+                                                        })
 
                                                     }
                                                 }
@@ -166,7 +192,8 @@
 
 
                                             <label></label>
-                                            <input style="display: none;" value="{{user.id}}" name="id" type="text">
+                                            <input style="display: none;" value="{{user.id}}" id="userid" name="id"
+                                                type="text">
 
 
                                             <div class="input-field col m12 s12">
@@ -186,34 +213,69 @@
                                         <script>
                                             function myFunction22() {
                                                 if (document.getElementById("selectval").value == "Casual Leave") {
-                                                    
+
 
                                                     let x = document.forms["addemp"]["fromdate"].value;
                                                     var date2 = new Date(x);
                                                     var date = new Date;
                                                     const diff = (Math.floor((date2 - date) / (1000 * 60 * 60 * 24)) + 1);
                                                     nod = parseFloat(diff);
-                                                    console.log("hello",nod);
-                                                    
+
+
+
+
+
                                                     if (nod <= -7) {
-                                                        
-                                                        alert("Sorry, you cannot apply leave for past days before 1 week.");
+
+                                                        var confirmMsg = "Oops! You cannot apply for leave in the past or within 1 week from now. Would you like to send a request to your Head of Department?";
+                                                        var dialog = document.createElement("div");
+                                                        var sendBtn = document.createElement("button");
+                                                        sendBtn.innerHTML = "Yes, send request";
+                                                        sendBtn.classList.add("btn-send");
+                                                        var noBtn = document.createElement("button");
+                                                        noBtn.innerHTML = "No, cancel";
+                                                        noBtn.classList.add("btn-cancel");
+                                                        dialog.appendChild(document.createElement("br"));
+                                                        dialog.appendChild(document.createTextNode(confirmMsg));
+                                                        dialog.appendChild(document.createElement("br"));
+                                                        dialog.appendChild(document.createElement("br"));
+                                                        dialog.appendChild(sendBtn);
+                                                        dialog.appendChild(noBtn);
+                                                        dialog.style.position = "fixed";
+                                                        dialog.style.top = "50%";
+                                                        dialog.style.left = "50%";
+                                                        dialog.style.transform = "translate(-50%, -50%)";
+                                                        dialog.style.background = "white";
+                                                        dialog.style.padding = "20px";
+                                                        dialog.style.borderRadius = "10px";
+                                                        dialog.style.boxShadow = "0px 0px 10px rgba(0, 0, 0, 0.25)";
+                                                        document.body.appendChild(dialog);
+
+                                                        sendBtn.addEventListener("click", function () {
+                                                            // Send request to apply for leave
+                                                            
+                                                            document.body.removeChild(dialog);
+                                                        });
+
+                                                        noBtn.addEventListener("click", function () {
+                                                            document.body.removeChild(dialog);
+                                                        });
                                                         return false;
                                                     }
-                                                    else if (nod >= 14){
+                                                    else if (nod >= 14) {
 
 
-                                                            
-                                                            alert("Sorry, you cannot apply for leave for the coming Days after 2 weeks.") ;
-                                                            return false;
-                                                        }
 
+                                                        alert("Sorry, you cannot apply for leave for the coming Days after 2 weeks.");
+                                                        return false;
                                                     }
-                                                
-
 
                                                 }
-                                            
+
+
+
+                                            }
+
                                         </script>
 
 

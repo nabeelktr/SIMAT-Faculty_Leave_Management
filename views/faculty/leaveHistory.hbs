@@ -12,7 +12,9 @@
     <div class="col s12 m12 l6">
         <div class="card" style="margin-left: 20%;">
             <div class="card-content">
-                <table class="display responsive-table ">
+                <p style="font-weight: bold; color: rgb(110, 110, 110);">CASUAL LEAVES : {{totalLeave}}&emsp;&emsp; DUTY LEAVES : 0</p>
+                <br>
+                <table style="border-top: solid; border-color: rgba(110, 110, 110, 0.212);" class="display responsive-table ">
                     <thead style="color: rgb(110, 110, 110);">
                         <tr>
 
@@ -20,7 +22,7 @@
                             <th scope="col">From </th>
                             <th scope="col">To </th>
                             <th scope="col">No.of days</th>
-                            <th scope="col">Discription</th>
+                            
                             <th scope="col">Status</th>
                             <th scope="col">Info</th>
                         </tr>
@@ -40,7 +42,7 @@
                             <td style="    font-size: 11px;  " id="fromdate">{{this.fromdate}}</td>
                             <td style="    font-size: 11px;  " id="todate">{{this.todate}}</td>
                             <td>{{this.nofdays}}</td>
-                            <td style="    font-size: 11px;  ">{{this.description}}</td>
+                            
 
 
                             {{#compare hodStatus true}}

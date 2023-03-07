@@ -44,7 +44,7 @@ router.get('/delete-list/:id', (req, res) => {
 })
 
 router.get('/edit-list/:id', async (req, res) => {
-  let list = await listHelper.getListDetails(req.params.id)
+  let list = await userHelpers.getListDetails(req.params.id)
   console.log(list);
 
   res.render('./admin-panel/editList', { list })
@@ -111,7 +111,7 @@ router.post('/addList', (req, res) => {
 router.post('/edit-list/:id', (req, res) => {
 
 
-  listHelper.updateList(req.params.id, req.body).then((response) => {
+  userHelpers.updateList(req.params.id, req.body).then((response) => {
     res.redirect('/viewList')
   })
 
@@ -267,15 +267,24 @@ router.get('/leave-action/:id/:ts',  (req, res) => {
 
 })
 
+router.get('/monthcheck/:id/:month',(req,res) => {
+
+  listHelper.monthCheck(req.params.id,req.params.month).then((status)=>{
+    if(status[0] != null)
+    res.sendStatus(400)
+    else
+    res.sendStatus(200)
+  })
+})
 
 
 //princi
 
 router.get('/signoutPrinci', (req, res) => {
 
+  
 
-
-  res.redirect('/princiLogin')
+  res.redirect('/princiLogin1')
 })
 
 router.post('/princiLogin', (req, res) => {
@@ -295,6 +304,7 @@ router.post('/princiLogin', (req, res) => {
       })
 
     } else {
+      login= false
 
       res.redirect('/princiLogin')
 
@@ -344,7 +354,8 @@ router.get('/princiLogin', (req, res) => {
 
 
 
-  } else {
+  } 
+  else{
     loginErr = "Enter Valid Details.."
     res.render('../views/admin-panel/principal/princiLogin', { loginErr });
     login = false
@@ -426,7 +437,12 @@ router.post('/add-Hr', (req, res) => {
   })
 })
 
+router.get('/signoutHr', (req, res) => {
 
+  
+
+  res.redirect('/hrLogin1')
+})
 
 router.get('/hrLogin1', (req, res) => {
   res.render('../views/hr/hrLogin')
@@ -451,6 +467,7 @@ router.post('/hrLogin', (req, res) => {
       })
 
     } else {
+      login = f
 
       res.redirect('/hrLogin')
 
