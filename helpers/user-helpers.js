@@ -6,6 +6,8 @@ const { LEAVE_COLLECTION } = require('../config/collections')
 const { HOD } = require('../config/collections')
 const { PRINCIPAL } = require('../config/collections')
 const { HR } = require('../config/collections')
+const { PERMISSION } = require('../config/collections')
+
 const { ObjectId } = require('mongodb')
 const async = require('hbs/lib/async')
 
@@ -448,4 +450,32 @@ module.exports = {
             resolve(lists)
         })
     },
+
+    unlockRequest:(data)=>{
+        return new Promise((resolve, reject) => {
+
+           data.date = new Date();
+
+            db.get().collection('permission').insertOne(data).then((data) => {
+
+
+
+                resolve(data)
+
+            })
+
+
+        })
+    },
+
+    getPermission:(userId)=>{
+        return new Promise( (resolve, reject) => {
+             db.get().collection(collections.PERMISSION).find({id: userId}).toArray().then((data) => {
+                
+                resolve(data[0])
+            })
+        })
+    }
+
+    
 }

@@ -3,5 +3,6 @@ module.exports={
     LEAVE_COLLECTION:'Leaves',
     HOD:'hod',
     PRINCIPAL:'principal',
-    HR:'hr'
+    HR:'hr',
+    PERMISSION: 'permission'
 }

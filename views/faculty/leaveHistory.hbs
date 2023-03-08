@@ -14,6 +14,11 @@
             <div class="card-content">
                 <p style="font-weight: bold; color: rgb(110, 110, 110);">CASUAL LEAVES : {{totalLeave}}&emsp;&emsp; DUTY LEAVES : 0</p>
                 <br>
+                {{#if permission}}
+                  {{#if permission.status}}<h6 style="color:blue ;"><b>Permission Request was {{permission.status}}</b></h6>{{else}}
+                    <h6 style="color:orange ;"><b>The Permission request is pending.</b></h6>{{/if}}
+                {{/if}}
+
                 <table style="border-top: solid; border-color: rgba(110, 110, 110, 0.212);" class="display responsive-table ">
                     <thead style="color: rgb(110, 110, 110);">
                         <tr>

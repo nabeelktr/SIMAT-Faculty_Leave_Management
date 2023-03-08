@@ -1,0 +1,81 @@
+{{> loader}}
+{{> header}}
+{{> hod-nav}}
+
+<body>
+
+    <main class="mn-inner">
+
+        <div class="row">
+            <div class="page-title" style=" margin-left: 20%;   font-weight: bold;">HOD Info</div>
+        </div>
+        <div class="col s12 m12 l12 offset-l2 offset-m3">
+            <div class="card" style="margin-left: 20%;">
+                <div class="card-content">
+
+
+                    <table class="display responsive-table ">
+                        <thead style="color: rgb(110, 110, 110);">
+                            <tr>
+                                <th scope="col">Faculty code</th>
+                                
+                                <th scope="col">Name</th>
+                                
+
+                                <th scope="col">Date </th>
+                                
+                                
+                                <th scope="col">Reason</th>
+                                
+                                <th scope="col">Action</th>
+
+                            </tr>
+                        </thead>
+                        <tbody   style="font-weight:500 ;   color: rgb(110, 110, 110);">
+                            <style>
+                                tr:nth-child(even) {
+                                    background-color: #f2f2f2;
+                                }
+                            </style>
+                            {{#each list}}
+                            <tr>
+                                <th style="color: rgb(110, 110, 110);">{{this.id}}</th>
+                                
+                                <td>{{this.name}}</td>
+                                <td style="text-transform: uppercase;">{{this.department}}</td>
+
+                                <td style="    font-size: 11px;  ">{{this.date}}</td>
+                                
+                                <td style="    font-size: 11px;  ">{{reason}}</td>
+                             
+                              {{#if status }}
+                                <td style="   "> </td>
+                                
+                             {{else }}
+
+                                <td style="    font-size: 11px; color:rgb(255, 0, 0); ">Rejected by HOD </td>
+                                {{/if}}
+
+                            
+                               
+                            
+                              
+                              
+                              
+                               
+
+                            </tr>
+                            {{/each}}
+
+                        </tbody>
+                    </table>
+
+
+                </div>
+            </div>
+        </div>
+
+    </main>
+    
+    <div class="left-sidebar-hover"></div>
+</body>

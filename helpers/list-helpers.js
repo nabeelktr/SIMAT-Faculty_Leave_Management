@@ -122,6 +122,15 @@ monthCheck: (userId,month)=>{
           })
     })
 
+},
+
+
+getPermissionList: (dept)=>{
+    return new Promise((resolve, reject) => {
+        db.get().collection(collections.PERMISSION).find({department: dept}).toArray().then((list)=>{
+            resolve(list)
+        })
+    })
 }
 }
 

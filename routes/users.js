@@ -5,7 +5,7 @@ var listHelper = require('../helpers/list-helpers');
 const listHelpers = require('../helpers/list-helpers');
 
 const { passwordCheck } = require('../helpers/user-helpers');
-const bcrypt=require('bcrypt');
+const bcrypt = require('bcrypt');
 const { ObjectId } = require('mongodb');
 const { json } = require('express');
 
@@ -33,11 +33,11 @@ router.get('/facultyLogin', function (req, res, next) {
 router.get('/myProfile', function (req, res) {
   let user = req.session.user
 
-if(user){
-  
-  res.render('./faculty/myProfile', { user })
+  if (user) {
 
-}else{res.redirect('/users/signOut') }
+    res.render('./faculty/myProfile', { user })
+
+  } else { res.redirect('/users/signOut') }
 
 })
 
@@ -48,28 +48,28 @@ if(user){
 
 
 router.get('/changePassword', (req, res) => {
-  
-  let user = req.session.user
-  
 
-  if(user){
-  res.render('./faculty/changePassword', { user })
-  }else{res.redirect('/users/signOut') }
+  let user = req.session.user
+
+
+  if (user) {
+    res.render('./faculty/changePassword', { user })
+  } else { res.redirect('/users/signOut') }
 })
 
 
 
 
-router.get('/applyLeave/:id', async(req, res) => {
-  
-   let user = req.session.user
-  if(user){
-  let totalLeave=await userHelpers.getTotalLeave(req.params.id)
-    
-     res.render('./faculty/applyLeave', { user,totalLeave })
-   }
- 
-  else{res.redirect('/users/signOut') }
+router.get('/applyLeave/:id', async (req, res) => {
+
+  let user = req.session.user
+  if (user) {
+    let totalLeave = await userHelpers.getTotalLeave(req.params.id)
+
+    res.render('./faculty/applyLeave', { user, totalLeave })
+  }
+
+  else { res.redirect('/users/signOut') }
 })
 
 
@@ -79,8 +79,8 @@ router.get('/update-profile/:id', (req, res) => {
 
 
   userHelpers.getListDetails(req.params.id).then((user) => {
-    
-  
+
+
     res.render('./faculty/myProfile', { user })
 
   })
@@ -91,32 +91,38 @@ router.get('/leaveHistory/:id', async (req, res) => {
 
 
   let user = req.session.user
- 
-if(user){
-  
-  let leaves=await userHelpers.getUserLeave(req.params.id)
-  let totalLeave = await userHelpers.getTotalLeave(req.params.id)
-    res.render('./faculty/leaveHistory', {leaves,user,totalLeave})
-}else{res.redirect('/users/signOut') }
-  })
-     
 
-  router.get('/leave-info/:id', async (req, res) => {
+  if (user) {
+
+    let leaves = await userHelpers.getUserLeave(req.params.id)
+    let totalLeave = await userHelpers.getTotalLeave(req.params.id)
+    let permission = await userHelpers.getPermission(req.params.id)
+    console.log(permission)
+    res.render('./faculty/leaveHistory', { leaves, user, totalLeave,permission })
+  }
+  else {
+    res.redirect('/users/signOut')
+  }
+})
 
 
-    let user = req.session.user
-   
-  if(user){
-    
-    listHelper.getLeaveDetails(req.params.id).then(async(leaves) => {
-      
-      res.render('./faculty/leaveInfo', {leaves,user})
-  })}
-  else{res.redirect('/users/signOut') }
+router.get('/leave-info/:id', async (req, res) => {
+
+
+  let user = req.session.user
+
+  if (user) {
+
+    listHelper.getLeaveDetails(req.params.id).then(async (leaves) => {
+
+      res.render('./faculty/leaveInfo', { leaves, user })
     })
-  
+  }
+  else { res.redirect('/users/signOut') }
+})
 
-  
+
+
 
 
 // post
@@ -154,10 +160,10 @@ router.post('/update-profile/:id', (req, res) => {
 
 
   userHelpers.updateList(req.params.id, req.body).then((users) => {
-    
+
     let user = users.body
-   
-  
+
+
     res.render('./faculty/myProfile', { user })
 
   })
@@ -166,67 +172,76 @@ router.post('/update-profile/:id', (req, res) => {
 
 })
 
-router.post('/updatePassword/:id',(req,res)=>{
+router.post('/updatePassword/:id', (req, res) => {
 
-  
-  
-  let pass=req.body
-  userHelpers.passwordCheck(req.params.id,req.body).then((response)=>{
+
+
+  let pass = req.body
+  userHelpers.passwordCheck(req.params.id, req.body).then((response) => {
     console.log(response.status);
     if (response.status) {
-      
+
       req.session.loggedIn = true
-      
-      if(pass.newPassword === pass.confirmPassword){
-        
-        
-          
-          userHelpers.updatePassword(req.params.id,req.body).then((response)=>{
-            res.redirect('/users/changePassword')
-            
-          })
-        
-        
-      }else{
+
+      if (pass.newPassword === pass.confirmPassword) {
+
+
+
+        userHelpers.updatePassword(req.params.id, req.body).then((response) => {
+          res.redirect('/users/changePassword')
+
+        })
+
+
+      } else {
         console.log('pass not checked');
         res.redirect('/users/changePassword')
       }
 
-    }else{
+    } else {
       res.redirect('/users/changePassword')
     }
 
-    
+
   })
 })
 
 
 router.post('/applyLeave/:id', (req, res) => {
-  
-  
-  userHelpers.addLeave(req.body).then(()=>{
-    
+
+
+  userHelpers.addLeave(req.body).then(() => {
+
     res.redirect('/users/applyLeave/:id')
   })
-  
+
 })
 //leave 
 
 
-router.get('/leaves/:department',async (req,res)=>{
-  
-  
-  let list=await userHelpers.getLeaves(req.params.department).then((leaves)=>{
+router.get('/leaves/:department', async (req, res) => {
+
+
+  let list = await userHelpers.getLeaves(req.params.department).then((leaves) => {
     let user = req.session.user
-    
-  
-    res.render('../views/faculty/leaves',{leaves,user})
-  })
-  
-  
-    
+
+
+    res.render('../views/faculty/leaves', { leaves, user })
   })
 
-  
+
+
+})
+
+router.post('/unlockRequest', async (req, res) => {
+  userHelpers.unlockRequest(req.body).then(() => {
+
+    res.redirect('/users/applyLeave/' + req.body.id)
+  })
+
+
+})
+
+
 
 module.exports = router;

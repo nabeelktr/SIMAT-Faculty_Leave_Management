@@ -544,4 +544,13 @@ router.get('/hr-leave-action/:id/:ts',  (req, res) => {
 })
 })
 
+
+// Permission RQST
+router.get('/permissionRqst/:dept', (req, res) => {
+
+  listHelper.getPermissionList(req.params.dept).then((list)=>{
+    res.render('../views/admin-panel/hod/permission',{list})
+  })
+})
+
 module.exports = router;
