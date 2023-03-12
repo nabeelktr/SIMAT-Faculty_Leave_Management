@@ -60,11 +60,16 @@ router.get('/changePassword', (req, res) => {
 
 
 
-router.get('/applyLeave/:id', async (req, res) => {
+router.get('/applyLeave/:id' , async (req, res) => {
 
-  let user = req.session.user
-  if (user) {
+  
+  let user1 = req.session.user
+  console.log("user1",user1)
+  if (user1) {
+    let user = await userHelpers.getUser(user1._id)
+    console.log("user",user)
     let totalLeave = await userHelpers.getTotalLeave(req.params.id)
+
 
     res.render('./faculty/applyLeave', { user, totalLeave })
   }
@@ -89,11 +94,11 @@ router.get('/update-profile/:id', (req, res) => {
 
 router.get('/leaveHistory/:id', async (req, res) => {
 
-
+  
   let user = req.session.user
 
   if (user) {
-
+    
     let leaves = await userHelpers.getUserLeave(req.params.id)
     let totalLeave = await userHelpers.getTotalLeave(req.params.id)
     let permission = await userHelpers.getPermission(req.params.id)
@@ -208,13 +213,16 @@ router.post('/updatePassword/:id', (req, res) => {
 
 
 router.post('/applyLeave/:id', (req, res) => {
+  
+  listHelper.updateFacultyPermission2(req.params.id).then(()=>{
 
-
-  userHelpers.addLeave(req.body).then(() => {
-
-    res.redirect('/users/applyLeave/:id')
+    
+    userHelpers.addLeave(req.body).then(() => {
+      
+      res.redirect(`/users/applyLeave/${req.params.id}`)
+    })
   })
-
+    
 })
 //leave 
 

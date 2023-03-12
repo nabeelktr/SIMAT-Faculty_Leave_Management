@@ -44,6 +44,13 @@ module.exports = {
 
         })
     },
+    getUser:(_id)=>{
+        return new Promise((resolve, reject) => {
+            db.get().collection(collections.LIST_COLLECTION).findOne({_id: ObjectId(_id) }).then((data)=>{
+                resolve(data)
+            })
+        })
+    },
 
     passwordCheck: (userId, userdata) => {
         return new Promise(async (resolve, reject) => {
@@ -78,8 +85,16 @@ module.exports = {
             Leaves.finalarrangement = Leaves.finalarrangement.split('\r\n').filter((i) => i
 
             )
-            Leaves.fromdate = new Date(Leaves.fromdate)
-            Leaves.todate = new Date(Leaves.todate)
+            if (Leaves.leaveDuration === "fullDay") {
+                Leaves.fromdate = new Date(Leaves.fromdate);
+                Leaves.todate = new Date(Leaves.todate);
+                delete Leaves.halfdaydate;
+                delete Leaves.session;
+              } else {
+                Leaves.halfdaydate = new Date(Leaves.halfdaydate);
+                delete Leaves.fromdate;
+                delete Leaves.todate;
+              }
 
             db.get().collection('Leaves').insertOne(Leaves).then((data) => {
 
@@ -102,11 +117,18 @@ module.exports = {
 
 
                 for (i = 0; i < leaves.length; i++) {
-                    date1 = JSON.stringify(leaves[i].fromdate)
-                    date2 = JSON.stringify(leaves[i].todate)
-                    leaves[i].fromdate = date1.slice(1, 11)
-                    leaves[i].todate = date2.slice(1, 11)
-
+                    if(leaves[i].leavetype == "Casual Leave" && leaves[i].leaveDuration == "fullDay"){
+                        date1 = JSON.stringify(leaves[i].fromdate)
+                        date2 = JSON.stringify(leaves[i].todate)
+                        leaves[i].fromdate = date1.slice(1,11)
+                        leaves[i].todate = date2.slice(1,11)
+                        }
+                        else if(leaves[i].leavetype == "Casual Leave" && leaves[i].leaveDuration == "halfDay"){
+                            date1 = JSON.stringify(leaves[i].halfdaydate);
+                            leaves[i].halfdaydate = date1.slice(1,11)
+    
+    
+                        }
                 }
 
                 resolve(leaves)
@@ -347,10 +369,17 @@ module.exports = {
                     {
                         $match: {
                             id: userId,
+                            hrStatus : true,
+                            leavetype: "Casual Leave",
                             $expr: {
-                                $eq: [{ $year: "$fromdate" }, new Date().getFullYear()]
-                              },
-                            hrStatus : true
+                            $cond: [
+                                { $eq: ["$leaveDuration", "fullDay"] },
+                                { $eq: [{ $year: "$fromdate" }, new Date().getFullYear()] },
+                                { $eq: [{ $year: "$halfdaydate" }, new Date().getFullYear()] }
+                              ]
+                            }
+                               
+                            
 
                         }
                     },
@@ -372,6 +401,7 @@ module.exports = {
                     }
                 ]
             ).toArray()
+            console.log(leave)
             resolve(leave.length ? leave[0].totalLeaves : 0)
 
 
@@ -470,7 +500,7 @@ module.exports = {
 
     getPermission:(userId)=>{
         return new Promise( (resolve, reject) => {
-             db.get().collection(collections.PERMISSION).find({id: userId}).toArray().then((data) => {
+             db.get().collection(collections.PERMISSION).find({id: userId}).sort({ timestamp: -1 }).sort({date: -1}).toArray().then((data) => {
                 
                 resolve(data[0])
             })

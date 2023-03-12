@@ -18,20 +18,20 @@
                         <thead style="color: rgb(110, 110, 110);">
                             <tr>
                                 <th scope="col">Faculty code</th>
-                                
+
                                 <th scope="col">Name</th>
-                                
+
 
                                 <th scope="col">Date </th>
-                                
-                                
+
+
                                 <th scope="col">Reason</th>
-                                
+
                                 <th scope="col">Action</th>
 
                             </tr>
                         </thead>
-                        <tbody   style="font-weight:500 ;   color: rgb(110, 110, 110);">
+                        <tbody style="font-weight:500 ;   color: rgb(110, 110, 110);">
                             <style>
                                 tr:nth-child(even) {
                                     background-color: #f2f2f2;
@@ -40,29 +40,41 @@
                             {{#each list}}
                             <tr>
                                 <th style="color: rgb(110, 110, 110);">{{this.id}}</th>
-                                
+
                                 <td>{{this.name}}</td>
                                 <td style="text-transform: uppercase;">{{this.department}}</td>
 
                                 <td style="    font-size: 11px;  ">{{this.date}}</td>
-                                
-                                <td style="    font-size: 11px;  ">{{reason}}</td>
-                             
-                              {{#if status }}
-                                <td style="   "> </td>
-                                
-                             {{else }}
 
-                                <td style="    font-size: 11px; color:rgb(255, 0, 0); ">Rejected by HOD </td>
+                                <td style="    font-size: 11px;  ">{{reason}}</td>
+
+                                {{#if status }}
+                                <td style="   "> </td>
+
+                                {{else }}
+
+
+                                
+                                <td>
+                                    <a href="/admin/permission-accept/{{this._id}}/{{this.department}}/{{this.id}}"
+                                        class="btn btn-primary"
+                                        style="font-size: 9px; padding: 0 1rem; width: 60px;">Accept</a>&nbsp;
+
+                                    <a href="/admin/permission-reject/{{this._id}}/{{this.department}}"
+                                        class="btn btn-primary"
+                                        style="font-size: 9px; padding: 0 1rem; width: 60px;">Reject</a>
+                                </td>
+                                
+
                                 {{/if}}
 
-                            
-                               
-                            
-                              
-                              
-                              
-                               
+
+
+
+
+
+
+
 
                             </tr>
                             {{/each}}
@@ -76,6 +88,6 @@
         </div>
 
     </main>
-    
+
     <div class="left-sidebar-hover"></div>
 </body>

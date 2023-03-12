@@ -3,8 +3,8 @@
 {{> nav}}
 <main class="mn-inner" style="width: 70%; margin-left: 20%;">
 
-    <form action="/users/applyLeave/{{user._id}}" method="post" id="example-form" onsubmit="return  myFunction22() "
-        name="addemp">
+    <form action="/users/applyLeave/{{user._id}}" method="post" id="leave-form" onsubmit="return  myFunction22() "
+        name="mainaddemp">
         <div class="row" style=" ">
             <div class="col s12">
                 <div class="page-title" style="   font-weight: bold;">Leave Application</div>
@@ -13,49 +13,88 @@
         <div class="col s12 m12 l8">
             <div class="card" style=" ">
                 <div class="card-content">
-                    <form action="/users/applyLeave/{{user._id}}" method="post" id="example-form"
-                        onsubmit="return  myFunction22() " name="addemp">
-                        <div>
-                            <div>
-                                <h5>Provide the details below :</h5>
-                            </div>
-                            <section>
-                                <div class="wizard-content">
-                                    <div class="row">
-                                        <div class="col m12">
+                    <div>
+                        <h5>Provide the details below :</h5>
+                    </div>
 
+                    <div>
+                        <section>
+                            <div class="wizard-content">
+                                <div class="row">
+                                    <div class="col m12">
 
+                                        <!-- Select Leave Type -->
+                                        <div class="input-field col s12">
+                                            <select id="selectval" name="leavetype" autocomplete="off" required
+                                                onchange="checkLeaveType()">
+                                                <option value="">Select leave type...</option>
+                                                <option value="Casual Leave">Casual Leave</option>
+                                            </select>
+                                        </div>
 
-                                            <!-- Select Leave Type -->
-                                            <div class="input-field col  s12">
-                                                <select id="selectval" name="leavetype" autocomplete="off" required>
-                                                    <option value="">Select leave type...</option>
+                                        <form id="casual-form" name="addemp">
 
+                                            <div class="">
+                                                <input class="form-check-input" type="radio" name="leaveDuration"
+                                                    id="fullDayRadio" value="fullDay" checked onclick="fullday()">
+                                                <label class="form-check-label" for="fullDayRadio">
+                                                    Full Day
+                                                </label>
 
-                                                    <option value="Casual Leave">Casual Leave</option>
-
-                                                </select>
+                                                <input class="form-check-input" type="radio" name="leaveDuration"
+                                                    id="halfDayRadio" value="halfDay" onclick="halfday()">
+                                                <label class="form-check-label" for="halfDayRadio">
+                                                    Half Day
+                                                </label>
                                             </div>
+
+
+                                            <div id="sessionblock" style="display: none;" class="input-field col s4">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="session"
+                                                        id="forenoonRadio" value="forenoon" checked
+                                                        onclick="showSession()">
+                                                    <label class="form-check-label" for="forenoonRadio">
+                                                        Forenoon
+                                                    </label>
+
+                                                    <input class="form-check-input" type="radio" name="session"
+                                                        id="afternoonRadio" value="afternoon" onclick="showSession()">
+                                                    <label class="form-check-label" for="afternoonRadio">
+                                                        Afternoon
+                                                    </label>
+                                                </div><br><br>
+                                                <div class="">
+                                                    <input id="halfdate" onchange="halfsdate()" name="halfdaydate"
+                                                        type="date" style="display: none;" class='input-group date'
+                                                        autocomplete="off">
+                                                </div>
+                                            </div>
+
 
 
 
 
                                             <!-- Leave Details -->
+                                            <br>
                                             <div class="input-field col m6 s12">
-                                                <label for="fromdate"></label>
+
                                                 <input id="sree" onchange="adddate()" name="fromdate" type="date"
                                                     class='input-group date' autocomplete="off" required>
+
+
                                             </div>
 
                                             <div class="input-field col m6 s12">
-                                                <label for="todate"></label>
+
                                                 <input id="sree2" onchange="adddate()" name="todate" type="date"
                                                     class='input-group date' autocomplete="off" required>
 
                                             </div>
 
 
-                                            <div class="input-field col m3 s12">
+
+                                            <div class="input-field col m3 s12" id="nodblock">
                                                 <label style="display: none ;" id="days">No.of Days</label>
                                                 <input style="display: none;" id="sree3" name="" readonly required />
                                                 <input style="display: none;" type="number" id="sree4" name="nofdays"
@@ -70,12 +109,95 @@
                                             </div>
 
                                             <script>
+                                                function checkLeaveType() {
+                                                    var selectElement = document.getElementById("selectval");
+                                                    var selectedValue = selectElement.options[selectElement.selectedIndex].value;
+
+                                                    if (selectedValue === "Casual Leave") {
+                                                        console.log('cl ss');
+                                                    }
+
+                                                }
+                                                function halfday() {
+                                                    const nod = 0.5;
+                                                    console.log('halfdayyyy')
+                                                    document.getElementById('sree').style.display = "none";
+                                                    document.getElementById('sree2').style.display = "none";
+                                                    document.getElementById('sree').removeAttribute('required');
+                                                    document.getElementById('sree2').removeAttribute('required');
+                                                    document.getElementById('sree').value = "";
+                                                    document.getElementById('sree2').value = "";
+
+                                                    document.getElementById("sree4").value = nod;
+                                                    document.getElementById("nodblock").style.display = "none";
+                                                    document.getElementById('halfdate').style.display = "block"
+                                                    document.getElementById('halfdate').setAttribute('required', true);
+
+                                                    document.getElementById('sessionblock').style.display = "block";
+
+
+
+                                                }
+                                                function fullday() {
+                                                    console.log('non halfdayyyy ')
+                                                    document.getElementById("nodblock").style.display = "block";
+                                                    document.getElementById('sree').style.display = "block";
+                                                    document.getElementById('sree2').style.display = "block";
+
+
+                                                    document.getElementById('halfdate').style.display = "none";
+                                                    document.getElementById('halfdate').value = ""
+                                                    document.getElementById('halfdate').removeAttribute('required');
+
+                                                    document.getElementById('sessionblock').style.display = "none";
+                                                    document.getElementById("sree4").value = "";
+
+
+                                                }
+
+
+
+                                                function halfsdate() {
+                                                    nod = 0.5;
+                                                    leave = document.getElementById('leaves').value;
+                                                    userid = document.getElementById('userid').value;
+                                                    limit = parseFloat('12');
+                                                    total = parseFloat(leave)
+                                                    totalLeave = total + nod;
+                                                    date = document.getElementById('halfdate').value;
+                                                    month = new Date(date).getMonth() + 1;
+
+                                                    if (totalLeave > limit) {
+                                                        alert("Casual Leave limit exceeded, Total leave =" + total);
+                                                        document.getElementById('halfdate').value = "";
+                                                    } else {
+                                                        fetch('/monthcheck/' + userid + '/' + month).then((res) => {
+                                                            if (res.status == 200) {
+                                                                fetch('/halfmonthcheck/' + userid + '/' + month).then((res) => {
+                                                                    if (res.status == 200) {
+                                                                        document.getElementById("altdate").value = document.getElementById('halfdate').value;
+                                                                    } else {
+                                                                        alert("You already applied for a leave this month");
+                                                                        document.getElementById('halfdate').value = "";
+                                                                    }
+                                                                })
+                                                            } else {
+                                                                alert("You already applied for a leave this month");
+                                                                document.getElementById('halfdate').value = "";
+                                                            }
+                                                        })
+                                                    }
+                                                }
+
+
+
 
                                                 function adddate() {
                                                     dat1 = document.getElementById('sree').value;
                                                     dat2 = document.getElementById('sree2').value;
                                                     leave = document.getElementById('leaves').value;
-                                                    userid = document.getElementById('userid').value
+                                                    userid = document.getElementById('userid').value;
+
 
 
 
@@ -83,15 +205,16 @@
 
                                                     date1 = new Date(dat1)
                                                     date2 = new Date(dat2)
-                                                    month = date2.getMonth() + 1;
+                                                    month = date1.getMonth() + 1;
 
 
 
                                                     const diffTime = Math.abs(date2 - date1);
                                                     const diffDays = (Math.floor((date2 - date1) / (1000 * 60 * 60 * 24)) + 1);
+                                                    nod = parseFloat(diffDays);
+
                                                     limit = parseFloat('12');
                                                     total = parseFloat(leave)
-                                                    nod = parseFloat(diffDays);
                                                     totalLeave = total + nod;
                                                     var x = document.getElementById("sree3");
 
@@ -205,32 +328,33 @@
 
 
 
-                                        </div>
-                                        <input type="hidden" name="name" value="{{user.name}}">
-                                        <input type="hidden" name="department" value="{{user.department}}">
+                                            <input type="hidden" name="name" value="{{user.name}}">
+                                            <input type="hidden" name="department" value="{{user.department}}">
 
 
 
 
 
-
+                                        </form>
 
                                     </div>
-                                    <div class="input-field col m12 s12">
-                                        <h5>ALTERNATE ARRANGEMENT</h5>
-                                        <p>(If you have more than one arrangement then you can add it one by one)</p>
-                                        <br>
-                                        <br>
-                                    </div>
-
 
                                 </div>
 
-                            </section>
-                        </div>
-                    </form>
+
+
+                            </div>
+
+                        </section>
+                    </div>
 
                     <form id="myForm" name="altern">
+                        <div class="input-field col m12 s12">
+                            <h5>ALTERNATE ARRANGEMENT</h5>
+                            <p>(If you have more than one arrangement then you can add it one by one)</p>
+                            <br>
+                            <br>
+                        </div>
                         <div class="input-field col m4 s12">
                             <h6>Date</h6>
                             <input id="altdate" name="alterdate" type="date"> <br> <br>
@@ -417,24 +541,37 @@
         </div>
     </form>
 
-
+    <input type="hidden" id="permission" value="{{user.permission}}">
 
     <script>
         function myFunction22() {
             if (document.getElementById("selectval").value == "Casual Leave") {
+                var radioValue = document.querySelector('input[name="leaveDuration"]:checked').value;
 
+                console.log(radioValue);
 
-                let x = document.forms["addemp"]["fromdate"].value;
+                let x;
+                if (radioValue == "fullDay") {
+                    x = document.getElementById('sree').value;
+                } else {
+                    x = document.getElementById('halfdate').value;
+                }
                 var date2 = new Date(x);
                 var date = new Date;
                 const diff = (Math.floor((date2 - date) / (1000 * 60 * 60 * 24)) + 1);
                 nod = parseFloat(diff);
+                let permission = document.getElementById('permission').value
+                console.log(nod, x);
 
 
 
 
 
-                if (nod <= -7) {
+
+
+
+
+                if (nod <= -7 && permission !== "true") {
                     var overlay = document.createElement("div");
                     overlay.style.position = "fixed";
                     overlay.style.top = "0";
@@ -473,7 +610,7 @@
                         // Send request to apply for leave
                         var form = document.getElementById("unlockRForm");
 
-                        document.getElementById("example-form").style.display = "none";
+                        document.getElementById("leave-form").style.display = "none";
 
                         form.style.display = "block";
 
@@ -495,8 +632,8 @@
                     return false;
                 }
 
-            }
 
+            }
 
 
         }

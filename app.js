@@ -58,6 +58,7 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+
 // handlebar comment
 
 hhbs.handlebars.registerHelper('compare', function(lvalue, rvalue, options) {

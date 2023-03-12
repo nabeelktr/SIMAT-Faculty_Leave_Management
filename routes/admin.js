@@ -1,7 +1,7 @@
 var express = require('express');
-var hbs =require('hbs');
+var hbs = require('hbs');
 hbs.registerPartials(__dirname + './views/partials')
-const { Db } = require('mongodb');
+const { Db, Decimal128 } = require('mongodb');
 var router = express.Router();
 const listHelper = require('../helpers/list-helpers');
 const userHelpers = require('../helpers/user-helpers');
@@ -13,7 +13,7 @@ router.get('/', function (req, res, next) {
 });
 
 router.get('/adminLogin', (req, res) => {
-  res.render('../views/admin-panel/adminlogin',{admin:'admin'})
+  res.render('../views/admin-panel/adminlogin', { admin: 'admin' })
 })
 
 
@@ -91,10 +91,10 @@ router.post('/login', (req, res) => {
     userHelpers.getAllList().then((lists) => {
       res.render('../views/admin-panel/admin', { lists })
     })
-   
-      
+
+
   else {
-    
+
     res.redirect('/adminLogin')
 
   }
@@ -174,9 +174,9 @@ router.post('/add-Hod', (req, res) => {
 router.get('/hodProfile', async (req, res) => {
   let user = req.session.user
   if (user) {
-    
+
     res.render('./admin-panel//hod/hodProfile', { user })
-   
+
   } else {
     res.redirect('/signout')
   }
@@ -238,7 +238,7 @@ router.get('/leaves1', async (req, res) => {
 
 
 router.get('/accept-leave/:id/:comment', (req, res) => {
-  let status =[{hodStatus : true},{princiStatus : undefined}, {hrStatus: undefined} ]
+  let status = [{ hodStatus: true }, { princiStatus: undefined }, { hrStatus: undefined }]
 
   listHelper.updateLeave(req.params.id, status, decodeURI(req.params.comment)).then((response) => {
     res.redirect('/leaves1')
@@ -248,32 +248,50 @@ router.get('/accept-leave/:id/:comment', (req, res) => {
 
 router.get('/reject-leave/:id/:comment', (req, res) => {
 
-  let status =[{hodStatus : false},{princiStatus : undefined}, {hrStatus: undefined} ]
-  listHelper.updateLeave(req.params.id, status,  decodeURI(req.params.comment)).then((response) => {
+  let status = [{ hodStatus: false }, { princiStatus: undefined }, { hrStatus: undefined }]
+  listHelper.updateLeave(req.params.id, status, decodeURI(req.params.comment)).then((response) => {
     res.redirect('/leaves1')
   })
 
 })
 
-router.get('/leave-action/:id/:ts',  (req, res) => {
-  
-  
-  listHelper.getLeaveDetails(req.params.id).then(async(leaves) => {
-    let user=req.session.user
-    let totalLeave= await userHelpers.getTotalLeave(req.params.ts) 
-    
-    res.render('../views/admin-panel/leaveDetails',{leaves, user, totalLeave})
+router.get('/leave-action/:id/:ts', (req, res) => {
+
+
+  listHelper.getLeaveDetails(req.params.id).then(async (leaves) => {
+    let user = req.session.user
+    let totalLeave = await userHelpers.getTotalLeave(req.params.ts)
+
+    res.render('../views/admin-panel/leaveDetails', { leaves, user, totalLeave })
   })
 
 })
 
-router.get('/monthcheck/:id/:month',(req,res) => {
+router.get('/monthcheck/:id/:month', (req, res) => {
 
-  listHelper.monthCheck(req.params.id,req.params.month).then((status)=>{
-    if(status[0] != null)
-    res.sendStatus(400)
+  listHelper.monthCheck(req.params.id, req.params.month).then((status) => {
+    if (status[0] != null)
+      res.sendStatus(400)
     else
-    res.sendStatus(200)
+      res.sendStatus(200)
+  })
+})
+
+router.get('/halfmonthcheck/:id/:month', (req, res) => {
+
+  
+  listHelper.halfmonthCheck(req.params.id, req.params.month).then((nod) => {
+    if(nod[0] != null){
+    statuss =parseFloat(nod[0].totalLeaves.toString())
+    console.log("half ",statuss )
+    
+    if ( statuss > 0.5)
+      res.sendStatus(400)
+    else
+      res.sendStatus(200)
+    }else{
+      res.sendStatus(200)
+    }
   })
 })
 
@@ -282,7 +300,7 @@ router.get('/monthcheck/:id/:month',(req,res) => {
 
 router.get('/signoutPrinci', (req, res) => {
 
-  
+
 
   res.redirect('/princiLogin1')
 })
@@ -304,7 +322,7 @@ router.post('/princiLogin', (req, res) => {
       })
 
     } else {
-      login= false
+      login = false
 
       res.redirect('/princiLogin')
 
@@ -320,8 +338,8 @@ router.get('/addPrinci', (req, res) => {
   res.render('../views/admin-panel/principal/addPrinci')
 })
 
-router.get('/princi',  (req, res) => {
-   userHelpers.getPrinci().then((princi) => {
+router.get('/princi', (req, res) => {
+  userHelpers.getPrinci().then((princi) => {
     console.log(princi)
     res.render('../views/admin-panel/principal/princi', { princi })
   })
@@ -334,10 +352,10 @@ router.post('/add-Princi', (req, res) => {
     res.redirect('/princi')
   })
 })
-router.get('/princiProfile',  (req, res) => {
+router.get('/princiProfile', (req, res) => {
 
 
-   userHelpers.getPrinci().then((user) => {
+  userHelpers.getPrinci().then((user) => {
     res.render('./admin-panel/principal/princiProfile', { user })
   })
 
@@ -354,8 +372,8 @@ router.get('/princiLogin', (req, res) => {
 
 
 
-  } 
-  else{
+  }
+  else {
     loginErr = "Enter Valid Details.."
     res.render('../views/admin-panel/principal/princiLogin', { loginErr });
     login = false
@@ -380,9 +398,9 @@ router.get('/princiLeaves2', async (req, res) => {
 
 router.get('/accept-princiLeave/:id/:comment', (req, res) => {
 
-  let status =[{hodStatus : true},{princiStatus : true}, {hrStatus: undefined} ]
+  let status = [{ hodStatus: true }, { princiStatus: true }, { hrStatus: undefined }]
 
-  listHelper.updateLeave(req.params.id, status,  decodeURI(req.params.comment)).then((response) => {
+  listHelper.updateLeave(req.params.id, status, decodeURI(req.params.comment)).then((response) => {
     res.redirect('/princiLeaves2')
   })
 
@@ -390,25 +408,25 @@ router.get('/accept-princiLeave/:id/:comment', (req, res) => {
 
 router.get('/reject-princiLeave/:id/:comment', (req, res) => {
 
-  let status =[{hodStatus : true},{princiStatus : false}, {hrStatus: undefined} ]
-  listHelper.updateLeave(req.params.id, status,  decodeURI(req.params.comment)).then((response) => {
+  let status = [{ hodStatus: true }, { princiStatus: false }, { hrStatus: undefined }]
+  listHelper.updateLeave(req.params.id, status, decodeURI(req.params.comment)).then((response) => {
     res.redirect('/princiLeaves2')
   })
 
 })
 
 
-router.get('/princi-leave-action/:id/:ts',  (req, res) => {
-  
-  
-  listHelper.getLeaveDetails(req.params.id).then(async(leaves) => {
-   
-    let totalLeave= await userHelpers.getTotalLeave(req.params.ts) 
-    let user1 = await userHelpers.getPrinci().then((user) => {
-    res.render('../views/admin-panel/leaveDetails',{leaves, user, totalLeave})
-  })
+router.get('/princi-leave-action/:id/:ts', (req, res) => {
 
-})
+
+  listHelper.getLeaveDetails(req.params.id).then(async (leaves) => {
+
+    let totalLeave = await userHelpers.getTotalLeave(req.params.ts)
+    let user1 = await userHelpers.getPrinci().then((user) => {
+      res.render('../views/admin-panel/leaveDetails', { leaves, user, totalLeave })
+    })
+
+  })
 })
 
 
@@ -439,7 +457,7 @@ router.post('/add-Hr', (req, res) => {
 
 router.get('/signoutHr', (req, res) => {
 
-  
+
 
   res.redirect('/hrLogin1')
 })
@@ -501,9 +519,9 @@ router.get('/hrLeaves2', async (req, res) => {
 
 router.get('/accept-hrLeave/:id/:comment', (req, res) => {
 
-  let status =[{hodStatus : true},{princiStatus : true}, {hrStatus: true} ]
+  let status = [{ hodStatus: true }, { princiStatus: true }, { hrStatus: true }]
 
-  listHelper.updateLeave(req.params.id, status,  decodeURI(req.params.comment)).then((response) => {
+  listHelper.updateLeave(req.params.id, status, decodeURI(req.params.comment)).then((response) => {
     res.redirect('/hrLeaves2')
   })
 
@@ -511,8 +529,8 @@ router.get('/accept-hrLeave/:id/:comment', (req, res) => {
 
 router.get('/reject-hrLeave/:id/:comment', (req, res) => {
 
-  let status =[{hodStatus : true},{princiStatus : true}, {hrStatus: false} ]
-  listHelper.updateLeave(req.params.id, status,  decodeURI(req.params.comment)).then((response) => {
+  let status = [{ hodStatus: true }, { princiStatus: true }, { hrStatus: false }]
+  listHelper.updateLeave(req.params.id, status, decodeURI(req.params.comment)).then((response) => {
     res.redirect('/hrLeaves2')
   })
 
@@ -522,8 +540,8 @@ router.get('/hrProfile', async (req, res) => {
 
 
   let list = await userHelpers.getHr().then((user) => {
-    
-    
+
+
     res.render('../views/hr/hrProfile', { user })
   })
 
@@ -531,26 +549,66 @@ router.get('/hrProfile', async (req, res) => {
 
 })
 
-router.get('/hr-leave-action/:id/:ts',  (req, res) => {
-  
-  
-  listHelper.getLeaveDetails(req.params.id).then(async(leaves) => {
-   
-    let totalLeave= await userHelpers.getTotalLeave(req.params.ts) 
-    let user1 = await userHelpers.getHr().then((user) => {
-    res.render('../views/admin-panel/leaveDetails',{leaves, user, totalLeave})
-  })
+router.get('/hr-leave-action/:id/:ts', (req, res) => {
 
-})
+
+  listHelper.getLeaveDetails(req.params.id).then(async (leaves) => {
+
+    let totalLeave = await userHelpers.getTotalLeave(req.params.ts)
+    let user1 = await userHelpers.getHr().then((user) => {
+      res.render('../views/admin-panel/leaveDetails', { leaves, user, totalLeave })
+    })
+
+  })
 })
 
 
 // Permission RQST
 router.get('/permissionRqst/:dept', (req, res) => {
+  user = req.session.user
+  if (user) {
+    
+    listHelper.getPermissionList(req.params.dept).then((list) => {
+      res.render('../views/admin-panel/hod/permission', { list, user})
+    })
+  } else {
+    res.redirect('/signout')
+  }
+})
+router.get('/permission-accept/:id/:dept/:userid', (req, res) => {
+ 
+  if (user) {
+    var action="Accepted"
+    
+    listHelper.editPermissionList(req.params.id, action).then(() => {
+      listHelper.updateFacultyPermission(req.params.userid).then(()=>{
 
-  listHelper.getPermissionList(req.params.dept).then((list)=>{
-    res.render('../views/admin-panel/hod/permission',{list})
-  })
+        listHelper.getPermissionList(req.params.dept).then((list) => {
+          res.render('../views/admin-panel/hod/permission', { user,list })
+        })
+      })
+
+    })
+  }
+  else {
+    res.redirect('/signout')
+  }
+})
+router.get('/permission-reject/:id/:dept', (req, res) => {
+  console.log("paraaamsss",req.params.id, req.params.dept)
+  if (user) {
+    var action="Rejected"
+    
+    listHelper.editPermissionList(req.params.id, action).then(() => {
+      listHelper.getPermissionList(req.params.dept).then((list) => {
+        res.render('../views/admin-panel/hod/permission', { user,list })
+      })
+
+    })
+  }
+  else {
+    res.redirect('/signout')
+  }
 })
 
 module.exports = router;
