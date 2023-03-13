@@ -117,18 +117,18 @@ module.exports = {
 
 
                 for (i = 0; i < leaves.length; i++) {
-                    if(leaves[i].leavetype == "Casual Leave" && leaves[i].leaveDuration == "fullDay"){
+                    if( leaves[i].leaveDuration == "fullDay"){
                         date1 = JSON.stringify(leaves[i].fromdate)
                         date2 = JSON.stringify(leaves[i].todate)
                         leaves[i].fromdate = date1.slice(1,11)
                         leaves[i].todate = date2.slice(1,11)
                         }
-                        else if(leaves[i].leavetype == "Casual Leave" && leaves[i].leaveDuration == "halfDay"){
+                        else if( leaves[i].leaveDuration == "halfDay"){
                             date1 = JSON.stringify(leaves[i].halfdaydate);
                             leaves[i].halfdaydate = date1.slice(1,11)
-    
-    
                         }
+                        
+    
                 }
 
                 resolve(leaves)
@@ -140,6 +140,20 @@ module.exports = {
     getLeaves: (user) => {
         return new Promise(async (resolve, reject) => {
             db.get().collection(collections.LEAVE_COLLECTION).find({ department: user }).toArray().then((leaves) => {
+                for (i = 0; i < leaves.length; i++) {
+                    if( leaves[i].leaveDuration == "fullDay"){
+                        date1 = JSON.stringify(leaves[i].fromdate)
+                        date2 = JSON.stringify(leaves[i].todate)
+                        leaves[i].fromdate = date1.slice(1,11)
+                        leaves[i].todate = date2.slice(1,11)
+                        }
+                        else if( leaves[i].leaveDuration == "halfDay"){
+                            date1 = JSON.stringify(leaves[i].halfdaydate);
+                            leaves[i].halfdaydate = date1.slice(1,11)
+                        }
+                        
+    
+                }
 
                 resolve(leaves)
             })
@@ -401,7 +415,53 @@ module.exports = {
                     }
                 ]
             ).toArray()
-            console.log(leave)
+            
+            resolve(leave.length ? leave[0].totalLeaves : 0)
+
+
+        })
+
+    },
+    getTotalDutyLeave: (userId) => {
+        return new Promise(async (resolve, reject) => {
+            let leave = await db.get().collection(collections.LEAVE_COLLECTION).aggregate(
+                [
+                    {
+                        $match: {
+                            id: userId,
+                            hrStatus : true,
+                            leavetype: "Duty Leave",
+                            $expr: {
+                            $cond: [
+                                { $eq: ["$leaveDuration", "fullDay"] },
+                                { $eq: [{ $year: "$fromdate" }, new Date().getFullYear()] },
+                                { $eq: [{ $year: "$halfdaydate" }, new Date().getFullYear()] }
+                              ]
+                            }
+                               
+                            
+
+                        }
+                    },
+                    {
+                        $group: {
+                            _id: null,
+                            totalLeaves: {
+                                $sum: {
+                                    $toDecimal: "$nofdays"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        $project: {
+                            _id: 0,
+                            totalLeaves: 1
+                        }
+                    }
+                ]
+            ).toArray()
+            
             resolve(leave.length ? leave[0].totalLeaves : 0)
 
 

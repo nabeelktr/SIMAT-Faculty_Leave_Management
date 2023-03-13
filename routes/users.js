@@ -64,10 +64,10 @@ router.get('/applyLeave/:id' , async (req, res) => {
 
   
   let user1 = req.session.user
-  console.log("user1",user1)
+  
   if (user1) {
     let user = await userHelpers.getUser(user1._id)
-    console.log("user",user)
+    
     let totalLeave = await userHelpers.getTotalLeave(req.params.id)
 
 
@@ -101,9 +101,10 @@ router.get('/leaveHistory/:id', async (req, res) => {
     
     let leaves = await userHelpers.getUserLeave(req.params.id)
     let totalLeave = await userHelpers.getTotalLeave(req.params.id)
+    let totalDl = await userHelpers.getTotalDutyLeave(req.params.id)
     let permission = await userHelpers.getPermission(req.params.id)
     console.log(permission)
-    res.render('./faculty/leaveHistory', { leaves, user, totalLeave,permission })
+    res.render('./faculty/leaveHistory', { leaves, user, totalLeave,permission,totalDl })
   }
   else {
     res.redirect('/users/signOut')

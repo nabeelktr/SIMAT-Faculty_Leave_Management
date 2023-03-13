@@ -29,6 +29,7 @@
                                                 onchange="checkLeaveType()">
                                                 <option value="">Select leave type...</option>
                                                 <option value="Casual Leave">Casual Leave</option>
+                                                <option value="Duty Leave">Duty Leave</option>
                                             </select>
                                         </div>
 
@@ -52,14 +53,13 @@
                                             <div id="sessionblock" style="display: none;" class="input-field col s4">
                                                 <div class="form-check">
                                                     <input class="form-check-input" type="radio" name="session"
-                                                        id="forenoonRadio" value="forenoon" checked
-                                                        onclick="showSession()">
+                                                        id="forenoonRadio" value="forenoon" checked onclick="">
                                                     <label class="form-check-label" for="forenoonRadio">
                                                         Forenoon
                                                     </label>
 
                                                     <input class="form-check-input" type="radio" name="session"
-                                                        id="afternoonRadio" value="afternoon" onclick="showSession()">
+                                                        id="afternoonRadio" value="afternoon" onclick="">
                                                     <label class="form-check-label" for="afternoonRadio">
                                                         Afternoon
                                                     </label>
@@ -99,225 +99,13 @@
                                                 <input style="display: none;" id="sree3" name="" readonly required />
                                                 <input style="display: none;" type="number" id="sree4" name="nofdays"
                                                     readonly required />
-
-
-
-                                                <input style="display: none;" id="leaves" value="{{totalLeave}}" />
-
-
-
+                                                <input style="display: none;" id="leaves" value="{{totalLeave}}">
                                             </div>
-
-                                            <script>
-                                                function checkLeaveType() {
-                                                    var selectElement = document.getElementById("selectval");
-                                                    var selectedValue = selectElement.options[selectElement.selectedIndex].value;
-
-                                                    if (selectedValue === "Casual Leave") {
-                                                        console.log('cl ss');
-                                                    }
-
-                                                }
-                                                function halfday() {
-                                                    const nod = 0.5;
-                                                    console.log('halfdayyyy')
-                                                    document.getElementById('sree').style.display = "none";
-                                                    document.getElementById('sree2').style.display = "none";
-                                                    document.getElementById('sree').removeAttribute('required');
-                                                    document.getElementById('sree2').removeAttribute('required');
-                                                    document.getElementById('sree').value = "";
-                                                    document.getElementById('sree2').value = "";
-
-                                                    document.getElementById("sree4").value = nod;
-                                                    document.getElementById("nodblock").style.display = "none";
-                                                    document.getElementById('halfdate').style.display = "block"
-                                                    document.getElementById('halfdate').setAttribute('required', true);
-
-                                                    document.getElementById('sessionblock').style.display = "block";
-
-
-
-                                                }
-                                                function fullday() {
-                                                    console.log('non halfdayyyy ')
-                                                    document.getElementById("nodblock").style.display = "block";
-                                                    document.getElementById('sree').style.display = "block";
-                                                    document.getElementById('sree2').style.display = "block";
-
-
-                                                    document.getElementById('halfdate').style.display = "none";
-                                                    document.getElementById('halfdate').value = ""
-                                                    document.getElementById('halfdate').removeAttribute('required');
-
-                                                    document.getElementById('sessionblock').style.display = "none";
-                                                    document.getElementById("sree4").value = "";
-
-
-                                                }
-
-
-
-                                                function halfsdate() {
-                                                    nod = 0.5;
-                                                    leave = document.getElementById('leaves').value;
-                                                    userid = document.getElementById('userid').value;
-                                                    limit = parseFloat('12');
-                                                    total = parseFloat(leave)
-                                                    totalLeave = total + nod;
-                                                    date = document.getElementById('halfdate').value;
-                                                    month = new Date(date).getMonth() + 1;
-
-                                                    if (totalLeave > limit) {
-                                                        alert("Casual Leave limit exceeded, Total leave =" + total);
-                                                        document.getElementById('halfdate').value = "";
-                                                    } else {
-                                                        fetch('/monthcheck/' + userid + '/' + month).then((res) => {
-                                                            if (res.status == 200) {
-                                                                fetch('/halfmonthcheck/' + userid + '/' + month).then((res) => {
-                                                                    if (res.status == 200) {
-                                                                        document.getElementById("altdate").value = document.getElementById('halfdate').value;
-                                                                    } else {
-                                                                        alert("You already applied for a leave this month");
-                                                                        document.getElementById('halfdate').value = "";
-                                                                    }
-                                                                })
-                                                            } else {
-                                                                alert("You already applied for a leave this month");
-                                                                document.getElementById('halfdate').value = "";
-                                                            }
-                                                        })
-                                                    }
-                                                }
-
-
-
-
-                                                function adddate() {
-                                                    dat1 = document.getElementById('sree').value;
-                                                    dat2 = document.getElementById('sree2').value;
-                                                    leave = document.getElementById('leaves').value;
-                                                    userid = document.getElementById('userid').value;
-
-
-
-
-
-
-                                                    date1 = new Date(dat1)
-                                                    date2 = new Date(dat2)
-                                                    month = date1.getMonth() + 1;
-
-
-
-                                                    const diffTime = Math.abs(date2 - date1);
-                                                    const diffDays = (Math.floor((date2 - date1) / (1000 * 60 * 60 * 24)) + 1);
-                                                    nod = parseFloat(diffDays);
-
-                                                    limit = parseFloat('12');
-                                                    total = parseFloat(leave)
-                                                    totalLeave = total + nod;
-                                                    var x = document.getElementById("sree3");
-
-                                                    x.style.display = "block";
-
-                                                    if (date2 == "Invalid Date") {
-                                                        document.getElementById("sree3").value = "Please specify end date "
-                                                        document.getElementById("days").style.display = "none"
-
-                                                    } else if (date2 < date1) {
-                                                        alert("negative days..");
-                                                        document.getElementById('sree2').value = ""
-                                                        document.getElementById('sree4').style.display = "none"
-                                                        document.getElementById("days").style.display = "none"
-                                                    }
-                                                    else if (nod === 1 && totalLeave > limit) {
-
-                                                        alert("Casual Leave limit ecxeeded , Total leave =" + total);
-                                                        document.getElementById('sree2').value = ""
-                                                        document.getElementById('sree4').style.display = "none"
-                                                        document.getElementById("days").style.display = "none"
-                                                    }
-                                                    else if (nod > 1) {
-
-
-                                                        if (nod === 2 && date1.getMonth() != date2.getMonth() && totalLeave <= limit) {
-
-
-                                                            fetch('/monthcheck/' + userid + '/' + month).then((res) => {
-                                                                if (res.status == 200) {
-
-                                                                    document.getElementById("sree3").style.display = "none"
-                                                                    document.getElementById("days").style.display = "contents"
-                                                                    document.getElementById("sree4").value = diffDays;
-                                                                    document.getElementById("sree4").style.display = "block"
-
-                                                                }
-                                                                else {
-                                                                    alert("You already applied for a leave this month");
-                                                                    document.getElementById('sree2').value = ""
-                                                                    document.getElementById('sree').value = ""
-                                                                    document.getElementById('sree4').style.display = "none"
-                                                                    document.getElementById("days").style.display = "none"
-                                                                }
-                                                            })
-
-                                                        }
-
-                                                        else {
-
-                                                            alert("You can apply only 1 leave per month");
-                                                            document.getElementById('sree2').value = ""
-                                                            document.getElementById('sree4').style.display = "none"
-                                                            document.getElementById("days").style.display = "none"
-                                                        }
-
-                                                    }
-
-                                                    else {
-                                                        fetch('/monthcheck/' + userid + '/' + month).then((res) => {
-                                                            if (res.status == 200) {
-
-                                                                document.getElementById("sree3").style.display = "none"
-                                                                document.getElementById("days").style.display = "contents"
-                                                                document.getElementById("sree4").value = diffDays;
-                                                                document.getElementById("sree4").style.display = "block"
-                                                                document.getElementById("altdate").value = document.getElementById('sree').value;
-                                                            }
-                                                            else {
-                                                                alert("You already applied for a leave this month");
-                                                                document.getElementById('sree2').value = ""
-                                                                document.getElementById('sree').value = ""
-                                                                document.getElementById('sree4').style.display = "none"
-                                                                document.getElementById("days").style.display = "none"
-                                                            }
-                                                        })
-
-                                                    }
-                                                }
-                                            </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
                                             <label></label>
                                             <input style="display: none;" value="{{user.id}}" id="userid" name="id"
                                                 type="text">
+
 
 
                                             <div class="input-field col m12 s12">
@@ -328,14 +116,19 @@
 
 
 
+
+
+
+
                                             <input type="hidden" name="name" value="{{user.name}}">
                                             <input type="hidden" name="department" value="{{user.department}}">
 
 
-
-
-
                                         </form>
+
+
+
+
 
                                     </div>
 
@@ -544,11 +337,325 @@
     <input type="hidden" id="permission" value="{{user.permission}}">
 
     <script>
+
+
+        function checkLeaveType() {
+            var selectElement = document.getElementById("selectval");
+            var selectedValue = selectElement.options[selectElement.selectedIndex].value;
+
+            if (selectedValue === "Casual Leave") {
+                var radioValue = document.querySelector('input[name="leaveDuration"]:checked').value;
+                if (radioValue == "fullDay"){
+                    fullday();
+                document.getElementById('sree').value = "";
+                document.getElementById('sree2').value = "";
+                }
+                else{
+                halfday();
+                document.getElementById('halfdate').value = "";
+                document.getElementById('halfdate').onchange = halfsdate;
+            }
+            }
+            else if (selectedValue === "Duty Leave") {
+                if (radioValue == "halfDay")
+                    dutyhalfday();
+                else
+                    dutyfullday();
+
+            }
+
+        }
+        function halfday() {
+            const nod = 0.5;
+
+            document.getElementById('sree').style.display = "none";
+            document.getElementById('sree2').style.display = "none";
+            document.getElementById('sree').removeAttribute('required');
+            document.getElementById('sree2').removeAttribute('required');
+            document.getElementById('sree').value = "";
+            document.getElementById('sree2').value = "";
+
+            document.getElementById("sree4").value = nod;
+            document.getElementById("nodblock").style.display = "none";
+            document.getElementById('halfdate').style.display = "block"
+            document.getElementById('halfdate').setAttribute('required', true);
+            document.getElementById('sessionblock').style.display = "block";
+
+            document.getElementById('halfdate').onchange = halfsdate;
+
+
+
+
+
+        }
+        function fullday() {
+
+            document.getElementById("nodblock").style.display = "block";
+            document.getElementById('sree').style.display = "block";
+            document.getElementById('sree2').style.display = "block";
+            document.getElementById('halfdate').style.display = "none";
+            document.getElementById('halfdate').value = ""
+            document.getElementById('halfdate').removeAttribute('required');
+            document.getElementById('sessionblock').style.display = "none";
+            document.getElementById("sree4").value = "";
+            document.getElementById("sree4").style.display = "none";
+            document.getElementById("days").style.display = "none";
+            document.getElementById("sree3").style.display = "none";
+
+
+
+            document.getElementById('sree').setAttribute('onchage', 'adddate()')
+            document.getElementById('sree2').setAttribute('onchange', 'adddate()');
+
+
+        }
+
+        function dutyfullday() {
+            document.getElementById("nodblock").style.display = "block";
+            document.getElementById('sree').style.display = "block";
+            document.getElementById('sree2').style.display = "block";
+            document.getElementById('halfdate').style.display = "none";
+            document.getElementById('halfdate').value = ""
+            document.getElementById('halfdate').removeAttribute('required');
+            document.getElementById('sessionblock').style.display = "none";
+            document.getElementById("sree4").value = "";
+
+            document.getElementById('sree').setAttribute('required', true)
+            document.getElementById('sree2').setAttribute('required', true);
+            document.getElementById('sree').onchange = dutyadddate;
+            document.getElementById('sree2').onchange = dutyadddate;
+            document.getElementById('fullDayRadio').checked = true;
+            document.getElementById('fullDayRadio').onclick = dutyfullday;
+            document.getElementById('halfDayRadio').onclick = dutyhalfday;
+
+
+
+
+
+
+        }
+
+        function dutyhalfday() {
+            const nod = 0.5;
+
+            document.getElementById('sree').style.display = "none";
+            document.getElementById('sree2').style.display = "none";
+            document.getElementById('sree').removeAttribute('required');
+            document.getElementById('sree2').removeAttribute('required');
+            document.getElementById('sree').value = "";
+            document.getElementById('sree2').value = "";
+
+            document.getElementById("sree4").value = nod;
+            document.getElementById("nodblock").style.display = "none";
+            document.getElementById('halfdate').style.display = "block"
+            document.getElementById('halfdate').setAttribute('required', true);
+            document.getElementById('sessionblock').style.display = "block";
+
+            document.getElementById('halfdate').removeAttribute('onchange');
+
+        }
+
+
+
+        function halfsdate() {
+            nod = 0.5;
+            leave = document.getElementById('leaves').value;
+            userid = document.getElementById('userid').value;
+            limit = parseFloat('12');
+            total = parseFloat(leave)
+            totalLeave = total + nod;
+            date = document.getElementById('halfdate').value;
+            month = new Date(date).getMonth() + 1;
+
+            if (totalLeave > limit) {
+                alert("Casual Leave limit exceeded, Total leave =" + total);
+                document.getElementById('halfdate').value = "";
+            } else {
+                fetch('/monthcheck/' + userid + '/' + month).then((res) => {
+                    if (res.status == 200) {
+                        fetch('/halfmonthcheck/' + userid + '/' + month).then((res) => {
+                            if (res.status == 200 || res.status == 201) {
+                                document.getElementById("altdate").value = document.getElementById('halfdate').value;
+                            } else {
+                                alert("You already applied for a leave this month");
+                                document.getElementById('halfdate').value = "";
+                            }
+                        })
+                    } else {
+                        alert("You already applied for a leave this month");
+                        document.getElementById('halfdate').value = "";
+                    }
+                })
+            }
+        }
+
+        function dutyadddate() {
+            dat1 = document.getElementById('sree').value;
+            dat2 = document.getElementById('sree2').value;
+            date1 = new Date(dat1)
+            date2 = new Date(dat2)
+            const diffTime = Math.abs(date2 - date1);
+            const diffDays = (Math.floor((date2 - date1) / (1000 * 60 * 60 * 24)) + 1);
+            nod = parseFloat(diffDays);
+
+
+            var x = document.getElementById("sree3");
+
+            x.style.display = "block";
+
+            if (date2 == "Invalid Date") {
+                document.getElementById("sree3").value = "Please specify end date "
+                document.getElementById("days").style.display = "none"
+
+            } else if (date2 < date1) {
+                alert("negative days..");
+                document.getElementById('sree2').value = ""
+                document.getElementById('sree4').style.display = "none"
+                document.getElementById("days").style.display = "none"
+            } else {
+                document.getElementById("sree3").style.display = "none"
+                document.getElementById("days").style.display = "contents"
+                document.getElementById("sree4").value = diffDays;
+                document.getElementById("sree4").style.display = "block"
+                document.getElementById("altdate").value = document.getElementById('sree').value;
+            }
+        }
+
+
+        function adddate() {
+            dat1 = document.getElementById('sree').value;
+            dat2 = document.getElementById('sree2').value;
+            leave = document.getElementById('leaves').value;
+            userid = document.getElementById('userid').value;
+
+
+
+
+
+
+            date1 = new Date(dat1)
+            date2 = new Date(dat2)
+            month = date1.getMonth() + 1;
+
+
+
+            const diffTime = Math.abs(date2 - date1);
+            const diffDays = (Math.floor((date2 - date1) / (1000 * 60 * 60 * 24)) + 1);
+            nod = parseFloat(diffDays);
+
+            limit = parseFloat('12');
+            total = parseFloat(leave)
+            totalLeave = total + nod;
+            var x = document.getElementById("sree3");
+
+            x.style.display = "block";
+
+            if (date2 == "Invalid Date") {
+                document.getElementById("sree3").value = "Please specify end date "
+                document.getElementById("days").style.display = "none"
+
+            } else if (date2 < date1) {
+                alert("negative days..");
+                document.getElementById('sree2').value = ""
+                document.getElementById('sree4').style.display = "none"
+                document.getElementById("days").style.display = "none"
+            }
+            else if (nod === 1 && totalLeave > limit) {
+
+                alert("Casual Leave limit ecxeeded , Total leave =" + total);
+                document.getElementById('sree2').value = ""
+                document.getElementById('sree4').style.display = "none"
+                document.getElementById("days").style.display = "none"
+            }
+            else if (nod > 1) {
+
+
+                if (nod === 2 && date1.getMonth() != date2.getMonth() && totalLeave <= limit) {
+
+
+
+                    fetch('/halfmonthcheck/' + userid + '/' + month).then((res) => {
+
+                        if (res.status == 200) {
+                            fetch('/monthcheck/' + userid + '/' + month).then((res) => {
+                                if (res.status == 200) {
+
+                                    document.getElementById("sree3").style.display = "none"
+                                    document.getElementById("days").style.display = "contents"
+                                    document.getElementById("sree4").value = diffDays;
+                                    document.getElementById("sree4").style.display = "block"
+
+                                }
+                                else {
+                                    alert("You already applied for a leave this month");
+                                    document.getElementById('sree2').value = ""
+                                    document.getElementById('sree').value = ""
+                                    document.getElementById('sree4').style.display = "none"
+                                    document.getElementById("days").style.display = "none"
+                                }
+                            })
+                        }
+                        else {
+                            alert("You already applied for a half day leave this month");
+                            document.getElementById('sree2').value = ""
+                            document.getElementById('sree').value = ""
+                            document.getElementById('sree4').style.display = "none"
+                            document.getElementById("days").style.display = "none"
+                        }
+
+
+
+                    })
+
+                }
+
+                else {
+
+                    alert("You can apply only 1 leave per month");
+                    document.getElementById('sree2').value = ""
+                    document.getElementById('sree4').style.display = "none"
+                    document.getElementById("days").style.display = "none"
+                }
+
+            }
+
+            else {
+                fetch('/halfmonthcheck/' + userid + '/' + month).then((res) => {
+                    console.log(res.status)
+                    if (res.status == 200) {
+                        fetch('/monthcheck/' + userid + '/' + month).then((res) => {
+                            if (res.status == 200) {
+                                document.getElementById("sree3").style.display = "none"
+                                document.getElementById("days").style.display = "contents"
+                                document.getElementById("sree4").value = diffDays;
+                                document.getElementById("sree4").style.display = "block"
+                                document.getElementById("altdate").value = document.getElementById('sree').value;
+                            }
+                            else {
+                                alert("You already applied for a leave this month");
+                                document.getElementById('sree2').value = ""
+                                document.getElementById('sree').value = ""
+                                document.getElementById('sree4').style.display = "none"
+                                document.getElementById("days").style.display = "none"
+                            }
+                        })
+                    }
+                    else {
+                        alert("You already applied for a half day leave this month");
+                        document.getElementById('sree2').value = ""
+                        document.getElementById('sree').value = ""
+                        document.getElementById('sree4').style.display = "none"
+                        document.getElementById("days").style.display = "none"
+                    }
+                })
+
+            }
+        }
+
+
         function myFunction22() {
             if (document.getElementById("selectval").value == "Casual Leave") {
                 var radioValue = document.querySelector('input[name="leaveDuration"]:checked').value;
-
-                console.log(radioValue);
 
                 let x;
                 if (radioValue == "fullDay") {
@@ -562,14 +669,6 @@
                 nod = parseFloat(diff);
                 let permission = document.getElementById('permission').value
                 console.log(nod, x);
-
-
-
-
-
-
-
-
 
                 if (nod <= -7 && permission !== "true") {
                     var overlay = document.createElement("div");

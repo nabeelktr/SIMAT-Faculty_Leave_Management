@@ -283,12 +283,12 @@ router.get('/halfmonthcheck/:id/:month', (req, res) => {
   listHelper.halfmonthCheck(req.params.id, req.params.month).then((nod) => {
     if(nod[0] != null){
     statuss =parseFloat(nod[0].totalLeaves.toString())
-    console.log("half ",statuss )
+  console.log(statuss,"half")
     
     if ( statuss > 0.5)
       res.sendStatus(400)
     else
-      res.sendStatus(200)
+      res.sendStatus(201)
     }else{
       res.sendStatus(200)
     }

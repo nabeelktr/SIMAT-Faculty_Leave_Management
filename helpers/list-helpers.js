@@ -47,16 +47,14 @@ module.exports = {
 
                     $set: status[2].hrStatus !== undefined ? {
 
-                        // hodStatus: status[0].hodStatus,
-                        // princiStatus: status[1].princiStatus,
+                        
                         hrStatus: status[2].hrStatus,
                         hrComment: comment
 
 
                     } : status[1].princiStatus !== undefined ? {
 
-                        // hodStatus: status[0].hodStatus,
-                        // princiStatus: status[1].princiStatus,
+                        
                         princiStatus: status[1].princiStatus,
                         princiComment: comment
 
@@ -80,13 +78,13 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
             db.get().collection(collections.LEAVE_COLLECTION)
                 .findOne({ _id: ObjectId(leaveId) }).then((leaves) => {
-                    if (leaves.leavetype == "Casual Leave" && leaves.leaveDuration == "fullDay") {
+                    if ( leaves.leaveDuration == "fullDay") {
                         date1 = JSON.stringify(leaves.fromdate)
                         date2 = JSON.stringify(leaves.todate)
                         leaves.fromdate = date1.slice(1, 11)
                         leaves.todate = date2.slice(1, 11)
                     }
-                    else if (leaves.leavetype == "Casual Leave" && leaves.leaveDuration == "halfDay") {
+                    else if ( leaves.leaveDuration == "halfDay") {
                         date1 = JSON.stringify(leaves.halfdaydate);
                         leaves.halfdaydate = date1.slice(1, 11)
 
@@ -101,7 +99,6 @@ module.exports = {
     monthCheck: (userId, month) => {
         return new Promise((resolve, reject) => {
 
-            console.log(month)
             db.get().collection(collections.LEAVE_COLLECTION).aggregate(
                 [{
                     $match: {
@@ -130,7 +127,7 @@ module.exports = {
 
                     }
                 }]).toArray().then((response) => {
-                    console.log(response)
+                    
                     resolve(response)
                 })
         })

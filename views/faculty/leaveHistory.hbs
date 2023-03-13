@@ -12,7 +12,7 @@
     <div class="col s12 m12 l6">
         <div class="card" style="margin-left: 20%;">
             <div class="card-content">
-                <p style="font-weight: bold; color: rgb(110, 110, 110);">CASUAL LEAVES : {{totalLeave}}&emsp;&emsp; DUTY LEAVES : 0</p>
+                <p style="font-weight: bold; color: rgb(110, 110, 110);">CASUAL LEAVES : {{totalLeave}}&emsp;&emsp; DUTY LEAVES : {{totalDl}}</p>
                 <br>
                 {{#if permission}}
                   {{#if permission.status}}<h6 style="color:blue ;"><b>Permission Request was {{permission.status}}</b></h6>{{else}}
@@ -44,8 +44,8 @@
                         <tr>
 
                             <td>{{this.leavetype}}</td>
-                            <td style="    font-size: 11px;  " id="fromdate">{{this.fromdate}}</td>
-                            <td style="    font-size: 11px;  " id="todate">{{this.todate}}</td>
+                            <td style="    font-size: 11px;  " id="fromdate">{{this.fromdate}}{{this.halfdaydate}}</td>
+                            <td style="    font-size: 11px;  " id="todate">{{this.todate}} {{this.halfdaydate}}</td>
                             <td>{{this.nofdays}}</td>
                             
 
