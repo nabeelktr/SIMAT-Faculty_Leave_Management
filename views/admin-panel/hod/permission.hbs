@@ -12,8 +12,6 @@
         <div class="col s12 m12 l12 offset-l2 offset-m3">
             <div class="card" style="margin-left: 20%;">
                 <div class="card-content">
-
-
                     <table class="display responsive-table ">
                         <thead style="color: rgb(110, 110, 110);">
                             <tr>
@@ -21,15 +19,13 @@
 
                                 <th scope="col">Name</th>
 
-
                                 <th scope="col">Date </th>
-
 
                                 <th scope="col">Reason</th>
 
                                 <th scope="col">Action</th>
-
                             </tr>
+
                         </thead>
                         <tbody style="font-weight:500 ;   color: rgb(110, 110, 110);">
                             <style>
@@ -39,14 +35,13 @@
                             </style>
                             {{#each list}}
                             <tr>
-                                <th style="color: rgb(110, 110, 110);">{{this.id}}</th>
+                                <th style="color: rgb(110, 110, 110); ">{{this.id}}</th>
 
-                                <td>{{this.name}}</td>
-                                <td style="text-transform: uppercase;">{{this.department}}</td>
+                                <td style=" font-size: 11px;  ">{{this.name}}</td>
 
-                                <td style="    font-size: 11px;  ">{{this.date}}</td>
+                                <td style=" font-size: 11px;  ">{{this.date}}</td>
 
-                                <td style="    font-size: 11px;  ">{{reason}}</td>
+                                <td style=" font-size: 11px;  ">{{this.leaveReason}}</td>
 
                                 {{#if status }}
                                 <td style="   "> </td>
@@ -67,22 +62,10 @@
                                 
 
                                 {{/if}}
-
-
-
-
-
-
-
-
-
                             </tr>
                             {{/each}}
-
                         </tbody>
                     </table>
-
-
                 </div>
             </div>
         </div>
@@ -91,3 +74,18 @@
 
     <div class="left-sidebar-hover"></div>
 </body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

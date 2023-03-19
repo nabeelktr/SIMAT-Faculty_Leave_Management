@@ -13,46 +13,92 @@
             <tbody>
               <tr>
                 <td><strong>Faculty Name:</strong></td>
-                <td>{{leaves.name}}</td>
+                <td class="fieldvalue">{{leaves.name}}</td>
                 <td><strong>Faculty Code:</strong></td>
-                <td>{{leaves.id}}</td>
+                <td class="fieldvalue">{{leaves.id}}</td>
               </tr>
               <tr>
                 <td><strong>Leave Type:</strong></td>
-                <td>{{leaves.leavetype}}</td>
+                <td class="fieldvalue">{{leaves.leavetype}}</td>
                 <td><strong>Leave Dates:</strong></td>
-                <td><strong>From :</strong> {{leaves.fromdate}}{{leaves.halfdaydate}}<br><strong>To &emsp; :</strong> {{leaves.todate}}{{leaves.halfdaydate}}</td>
+                <td class="fieldvalue"><strong>From :</strong> {{leaves.fromdate}}{{leaves.halfdaydate}}<br><strong>To
+                    &emsp; :</strong>
+                  {{leaves.todate}}{{leaves.halfdaydate}}</td>
+                <td style="display: none;" class="fieldvalue"></td>
               </tr>
               <tr>
                 <td><strong>Leave Description:</strong></td>
-                <td colspan="3">{{leaves.description}}</td>
+                <td colspan="3" class="fieldvalue">{{leaves.description}}</td>
               </tr>
               <tr>
                 <td><strong>Alternate Arrangement:</strong></td>
-                <td colspan="3">{{#each leaves.finalarrangement}}{{this}}<br>{{/each}}</td>
+                <td colspan="3" class="fieldvalue">{{#each leaves.finalarrangement}}{{this}}<br>{{/each}}</td>
               </tr>
               {{#if leaves.hodComment}}
               <tr>
                 <td><strong>HOD Comment:</strong></td>
-                <td colspan="3">{{leaves.hodComment}}</td>
+                <td colspan="3" class="fieldvalue">{{leaves.hodComment}}</td>
               </tr>
               {{/if}}
               {{#if leaves.princiComment}}
               <tr>
                 <td><strong>Principal Comment:</strong></td>
-                <td colspan="3">{{leaves.princiComment}}</td>
+                <td colspan="3" class="fieldvalue">{{leaves.princiComment}}</td>
               </tr>
               {{/if}}
               {{#if leaves.hrComment}}
               <tr>
                 <td><strong>HR Comment:</strong></td>
-                <td colspan="3">{{leaves.hrComment}}</td>
+                <td colspan="3" class="fieldvalue">{{leaves.hrComment}}</td>
               </tr>
               {{/if}}
             </tbody>
           </table>
         </div>
+        <button onclick="exportpdf()">Export</button>
       </div>
     </div>
   </div>
+  <script>
+    function exportpdf() {
+
+      const list = document.querySelectorAll('.fieldvalue')
+      console.log(list[0].innerText)
+      const doc = [];
+      for (let i = 0; i < list.length; i++) {
+        doc[i] = list[i].innerText
+      }
+      const parts = doc[3].split("\n");
+      const from = parts[0].split(": ")[1];
+      const to = parts[1].split(": ")[1];
+      doc[3] = from
+      doc[4] = to
+      console.log(doc)
+
+      fetch('/users/exportpdf', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ doc })
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.blob();
+  })
+  .then(blob => {
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.setAttribute('href', url);
+    link.setAttribute('download', 'leave-request.pdf');
+    link.click();
+  })
+  .catch(error => {
+    console.error(error);
+  });
+    }
+  </script>
+
 </main>

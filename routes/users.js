@@ -8,6 +8,9 @@ const { passwordCheck } = require('../helpers/user-helpers');
 const bcrypt = require('bcrypt');
 const { ObjectId } = require('mongodb');
 const { json } = require('express');
+const { PDFDocument, StandardFonts, rgb } = require('pdf-lib');
+const fs = require('fs');
+const stream = require('stream');
 
 
 /* GET users listing. */
@@ -250,6 +253,56 @@ router.post('/unlockRequest', async (req, res) => {
 
 
 })
+
+
+
+
+router.post('/exportpdf', async (req, res) => {
+  const [ facultyName, facultyCode, leaveType, leaveDatesFrom, leaveDatesTo, description, alternateArrangement, hodComment, princiComment, hrComment ] = req.body.doc;
+
+  // Create a new PDF document
+  const pdfDoc = await PDFDocument.create();
+
+  // Set the font styles
+  const font = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
+
+  // Set the document title
+  pdfDoc.setTitle('Leave Form');
+
+  // Create a new page and add content
+  const page = pdfDoc.addPage([550, 700]);
+
+  // Set the font size and color
+  page.drawText('Leave Form', { x: 175, y: 625, size: 24, font: font, color: rgb(0, 0.53, 0.71) });
+
+  page.drawText(`Faculty Name: ${facultyName}`, { x: 50, y: 550, size: 14, font: font });
+  page.drawText(`Code: ${facultyCode}`, { x: 50, y: 525, size: 14, font: font });
+  page.drawText(`Type of Leave: ${leaveType}`, { x: 50, y: 500, size: 14, font: font });
+  page.drawText(`From: ${leaveDatesFrom}`, { x: 50, y: 475, size: 14, font: font });
+  page.drawText(`To: ${leaveDatesTo}`, { x: 50, y: 450, size: 14, font: font });
+  page.drawText(`Description: ${description}`, { x: 50, y: 400, size: 14, font: font });
+  page.drawText(`Alternate Arrangement: ${alternateArrangement}`, { x: 50, y: 375, size: 14, font: font });
+  page.drawText(`HOD Comment: ${hodComment}`, { x: 50, y: 325, size: 14, font: font });
+  page.drawText(`Principal Comment: ${princiComment}`, { x: 50, y: 300, size: 14, font: font });
+
+  // Save the PDF document to a buffer
+  const pdfBytes = await pdfDoc.save();
+
+  // Set the response header for PDF
+  res.setHeader('Content-Type', 'application/pdf');
+  res.setHeader('Content-Disposition', 'attachment; filename=document.pdf');
+
+  // Pipe the PDF document to the response stream
+  const responseStream = new stream.PassThrough();
+  responseStream.end(pdfBytes);
+  responseStream.pipe(res);
+
+  // Handle errors that occur during piping the PDF document
+  responseStream.on('error', (err) => {
+    console.error(err);
+    return res.status(500).json({ message: 'Error generating PDF' });
+  });
+});
 
 
 
