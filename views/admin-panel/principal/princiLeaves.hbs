@@ -69,13 +69,13 @@
                             <tr>
                                 <th scope="col">Faculty code</th>
                                 <th scope="col">Leave type</th>
-                                <th scope="col">Name</th>
+                                
                                 <th scope="col">Department</th>
 
                                 <th scope="col">From </th>
                                 <th scope="col">To </th>
                                 <th scope="col">No.of days</th>
-                                <th scope="col">Discription</th>
+                                
                                 <th scope="col">Status</th>
                                 <th scope="col">Info</th>
 
@@ -94,13 +94,13 @@
                             <tr>
                                 <th>{{this.id}}</th>
                                 <td>{{this.leavetype}}</td>
-                                <td>{{this.name}}</td>
+                                
                                 <td style="text-transform: uppercase;">{{this.department}}</td>
 
-                                <td style="    font-size: 11px;  ">{{this.fromdate}}</td>
-                                <td style="    font-size: 11px;  ">{{this.todate}}</td>
+                                <td style="    font-size: 11px;  ">{{this.fromdate}}{{this.halfdaydate}}</td>
+                                <td style="    font-size: 11px;  ">{{this.todate}}{{this.halfdaydate}}</td>
                                 <td>{{this.nofdays}}</td>
-                                <td style="    font-size: 11px;  ">{{this.description}}</td>
+                               
 
 
                                 {{#compare princiStatus true}}

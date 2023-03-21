@@ -103,12 +103,7 @@
                                 <td colspan="3">{{leaves.princiComment}}</td>
                             </tr>
                             {{/if}}
-                            {{#if leaves.hrComment}}
-                            <tr>
-                                <td><strong>HR Comment:</strong></td>
-                                <td colspan="3">{{leaves.hrComment}}</td>
-                            </tr>
-                            {{/if}}
+                           
 
 
 
@@ -174,26 +169,7 @@
                                     </a>
                                 </td>
                                 {{/compare}}
-                                {{else if user.hr}}
-                                {{#compare leaves.hrStatus undefined}}
-
-                                <td ><strong>Add Comment : </strong></td>
-                                <td colspan="5">
-                                    <textarea id="text" onchange="[...document.getElementsByClassName('action')].forEach(i =>{
-                                            i.setAttribute('data-href', i.dataset.url+'/'+encodeURIComponent(this.value));
-                                        })" required></textarea>
-                                </td>
-
-                                <td colspan="5">
-                                    <a onclick="validateForm(this)" data-url="/admin/accept-hrLeave/{{leaves._id}}"
-                                        class="btn btn-primary action" style="font-size: 9px; padding: 0 1rem;">Accept
-                                    </a>
-                                    <a onclick="validateForm(this)" data-url="/admin/reject-hrLeave/{{leaves._id}}"
-                                        class="btn btn-primary action"
-                                        style="font-size: 9px; padding: 0 1rem; margin-top: 2px;">Reject
-                                    </a>
-                                </td>
-                                {{/compare}}
+                               
                                 {{/if}}
 
 

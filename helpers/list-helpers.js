@@ -45,14 +45,7 @@ module.exports = {
 
 
 
-                    $set: status[2].hrStatus !== undefined ? {
-
-                        
-                        hrStatus: status[2].hrStatus,
-                        hrComment: comment
-
-
-                    } : status[1].princiStatus !== undefined ? {
+                    $set:  status[1].princiStatus !== undefined ? {
 
                         
                         princiStatus: status[1].princiStatus,
@@ -119,7 +112,7 @@ module.exports = {
                                 }
                             },
                             {
-                                hrStatus: true
+                                princiStatus: true
                             }
 
                         ]
@@ -145,7 +138,7 @@ module.exports = {
 
                         $and: [
                             {
-                                hrStatus: true
+                                princiStatus: true
                             },
                             {
                                 leaveDuration: "halfDay"
