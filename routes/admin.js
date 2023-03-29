@@ -489,16 +489,20 @@ router.get('/hrLogin', (req, res) => {
 })
 
 
-router.get('/hrLeaves2', async (req, res) => {
+router.get('/hrsummary', async (req, res) => {
 
-  let list = await userHelpers.getFullLeave().then(async (leaves) => {
+  
     let user1 = await userHelpers.getHr().then((user) => {
-      res.render('../views/hr/hrLeaves', { leaves, user })
+      const casualLeaves = 20;
+      const dutyLeaves = 10;
+    
+      
+      res.render('../views/hr/summary', { casualLeaves, dutyLeaves,user })
     })
   })
 
 
-})
+
 
 
 

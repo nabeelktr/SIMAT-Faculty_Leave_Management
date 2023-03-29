@@ -1,0 +1,210 @@
+{{> loader}}
+{{> admin-header}}
+
+<aside id="slide-out" class="side-nav white fixed">
+    <div class="side-nav-wrapper">
+        <div class="sidebar-profile">
+            <div class="sidebar-profile-image">
+                <img src="/assets/images/profile-image.png" class="circle" alt="">
+            </div>
+            <div class="sidebar-profile-info">
+
+                <p></p>
+                <span></span>
+
+
+            </div>
+        </div>
+
+        <ul class="sidebar-menu collapsible collapsible-accordion" data-collapsible="accordion">
+
+            <li class="no-padding"><a class="waves-effect waves-grey" href="/users/update-profile/{{user._id}}"><i
+                        class="material-icons">account_box</i>{{user.name}}</a></li>
+            <li class="no-padding"><a class="waves-effect waves-grey" href="/users/changePassword"><i
+                        class="material-icons">settings_input_svideo</i>Change Password</a></li>
+            <li class="no-padding">
+                <a class="collapsible-header waves-effect waves-grey"><i class="material-icons">apps</i>Leaves<i
+                        class="nav-drop-icon material-icons">keyboard_arrow_right</i></a>
+                <div class="collapsible-body">
+                    <ul>
+                        <!-- <li><a href="/users/applyLeave">Apply Leave</a></li> -->
+
+
+                        <li><a href="">Leave Summary</a></li>
+
+                        <!--  <li><a href="/users/leaveHistory/{{user.id}}">Leave History</a></li> -->
+                    </ul>
+                </div>
+            </li>
+
+
+
+            <li class="no-padding">
+                <a class="waves-effect waves-grey" href="/admin/signOut"><i class="material-icons">exit_to_app</i>Sign
+                    Out</a>
+            </li>
+
+
+        </ul>
+        <div class="footer">
+            <p class="copyright"><a href="http://simat.ac.in/">SIMAT e-GOVERNANCE</a>©</p>
+
+        </div>
+    </div>
+</aside>
+
+
+
+<main class="mn-inner" style="margin-left: 20%;">
+    <div class="row">
+        <div class="col s12">
+
+            <div class="col s12">
+                <div class="card">
+                    <div class="card-content ">
+
+                        <h6 class="center-align" style="color: #676767; font-weight: bold;">LEAVE SUMMARY
+                             </h6><br>
+
+                        <div class="col s6">
+                            <div style="width: 50px;">
+
+                                <p style=" font-weight: bold;">Year: <select id="yearpicker" name="year" onchange="updatechart()"></select></p>
+                            </div>
+                            <div
+                                style="display: flex; flex-direction: column; align-items: flex-start; padding-top: 20px;">
+                                <table>
+                                    <tr>
+                                        <th></th>
+                                        <th>Casual Leaves</th>
+                                        <th>Duty Leaves</th>
+                                    </tr>
+                                    <tr>
+                                        <th>CSE</th>
+                                        <td>10</td>
+                                        <td>5</td>
+                                    </tr>
+                                    <tr>
+                                        <th>CE</th>
+                                        <td>8</td>
+                                        <td>4</td>
+                                    </tr>
+                                    <tr>
+                                        <th>ME</th>
+                                        <td>12</td>
+                                        <td>6</td>
+                                    </tr>
+                                    <tr>
+                                        <th>EEE</th>
+                                        <td>9</td>
+                                        <td>3</td>
+                                    </tr>
+                                    <tr>
+                                        <th>ECE</th>
+                                        <td>11</td>
+                                        <td>7</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+
+
+
+
+
+                        <div class="col s6">
+
+
+
+                            <div style="padding-top: 50px;">
+
+
+                                <div>
+                                    <canvas id="hr-summary-chart"></canvas>
+                                </div>
+
+
+
+
+                            </div>
+                        </div>
+                        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                        <script>
+
+                            // Get current year
+                            const currentYear = new Date().getFullYear();
+
+                            // Create options for all years in the range
+                            let options = '';
+                            for (let year = 2000; year <= 2090; year++) {
+                                if (year === currentYear) {
+                                    options += `<option value="${year}" selected>${year}</option>`;
+                                } else {
+                                    options += `<option value="${year}">${year}</option>`;
+                                }
+                            }
+
+                            // Set options in select element
+                            document.getElementById('yearpicker').innerHTML = options;
+
+
+                            const yearpicker = document.getElementById("yearpicker");
+
+                            yearpicker.value = currentYear;
+                            const casualLeaves = {{ casualLeaves }};
+                            const dutyLeaves = {{ dutyLeaves }};
+
+                            const chartData = [
+                                { label: 'Casual Leaves', value: casualLeaves },
+                                { label: 'Duty Leaves', value: dutyLeaves }
+                            ];
+
+
+                            chart(chartData);
+                            function chart(chartData) {
+
+                                const ctx = document.getElementById('hr-summary-chart').getContext('2d');
+                                const chart = new Chart(ctx, {
+                                    type: 'doughnut',
+                                    data: {
+                                        labels: chartData.map(d => d.label),
+                                        datasets: [{
+                                            data: chartData.map(d => d.value),
+                                            backgroundColor: ['#007bff', '#dc3545'], // Customize the background colors
+                                            hoverBackgroundColor: ['#007bff', '#dc3545'] // Customize the hover background colors
+                                        }]
+                                    },
+                                    options: {
+                                        responsive: true, // Make the chart responsive to screen size
+                                        maintainAspectRatio: false, // Disable aspect ratio to allow custom sizing
+                                        plugins: {
+                                            legend: {
+                                                position: 'right',
+                                                labels: {
+                                                    fontColor: 'white',
+                                                    usePointStyle: true
+                                                }
+                                            }
+                                        },
+                                        tooltips: {
+                                            backgroundColor: 'rgba(0, 0, 0, 0.8)', // Customize tooltip background color
+                                            bodyFontColor: 'white' // Customize tooltip body font color
+                                        }
+                                    }
+                                });
+                            }
+                            function updatechart() {
+                                const value = document.getElementById('yearpicker').value
+                                console.log('suiii',value)
+                            }
+
+
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>

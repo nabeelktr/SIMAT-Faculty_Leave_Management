@@ -1345,6 +1345,16 @@ nav .nav-wrapper ul li span.badge {
     color: #555;
 }
 
+.card-title-sui {
+    float: left;
+    
+    color: #302f2f;
+    line-height: 40px;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 34px;
+    padding: 0 10px;
+  }
 
 /* Drag Target */
 

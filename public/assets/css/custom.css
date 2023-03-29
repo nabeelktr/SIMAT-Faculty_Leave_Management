@@ -65,4 +65,13 @@
   background-color: rgb(185, 86, 86);
 }
     
-  
+path {
+  stroke: #fff;
+}
+
+text {
+  font-size: 14px;
+  font-weight: bold;
+  text-anchor: middle;
+}
+
