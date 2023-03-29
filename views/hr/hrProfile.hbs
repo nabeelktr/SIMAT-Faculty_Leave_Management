@@ -30,7 +30,11 @@
                             
                            
                            
-                           <li><a href="/admin/hrsummary">Leave Summary</a></li>
+                           <li><a id="summary" href="">Leave Summary</a></li>
+                           <script>
+                            const year = new Date().getFullYear();
+                            document.getElementById('summary').setAttribute('href', `admin/hrsummary/${year}`)
+                           </script>
                            
                             
                         </ul>

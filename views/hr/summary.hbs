@@ -56,6 +56,7 @@
 
 
 <main class="mn-inner" style="margin-left: 20%;">
+    
     <div class="row">
         <div class="col s12">
 
@@ -64,16 +65,23 @@
                     <div class="card-content ">
 
                         <h6 class="center-align" style="color: #676767; font-weight: bold;">LEAVE SUMMARY
-                             </h6><br>
+                        </h6><br>
 
                         <div class="col s6">
-                            <div style="width: 50px;">
+                            <form class="form-inline">
 
-                                <p style=" font-weight: bold;">Year: <select id="yearpicker" name="year" onchange="updatechart()"></select></p>
+                            <div class="column">
+                                <p style="font-weight: bold; color: rgb(110, 110, 110);">Year:</p>
+                                
                             </div>
-                            <div
-                                style="display: flex; flex-direction: column; align-items: flex-start; padding-top: 20px;">
+                            <div class="column" style="width: 50px; margin-left: 10px; margin-top: 20px; font-weight: bold; color: rgb(110, 110, 110);;">
+                                <select id="yearpicker" name="year" onchange="updatechart()" ></select>
+                            </div>
+                             
+                            </form>
+                            <div style="display: flex; flex-direction: column; align-items: flex-start; padding-top: 20px; color: rgb(110, 110, 110);;">
                                 <table>
+                                   
                                     <tr>
                                         <th></th>
                                         <th>Casual Leaves</th>
@@ -81,29 +89,30 @@
                                     </tr>
                                     <tr>
                                         <th>CSE</th>
-                                        <td>10</td>
-                                        <td>5</td>
+                                        <td>{{cseCL}}</td>
+                                        <td>{{cseDL}}</td>
                                     </tr>
                                     <tr>
                                         <th>CE</th>
-                                        <td>8</td>
-                                        <td>4</td>
+                                        <td>{{ceCL}}</td>
+                                        <td>{{ceDL}}</td>
                                     </tr>
                                     <tr>
                                         <th>ME</th>
-                                        <td>12</td>
-                                        <td>6</td>
+                                        <td>{{meCL}}</td>
+                                        <td>{{meDL}}</td>
                                     </tr>
                                     <tr>
                                         <th>EEE</th>
-                                        <td>9</td>
-                                        <td>3</td>
+                                        <td>{{eeeCL}}</td>
+                                        <td>{{eeeDL}}</td>
                                     </tr>
                                     <tr>
                                         <th>ECE</th>
-                                        <td>11</td>
-                                        <td>7</td>
+                                        <td>{{eceCL}}</td>
+                                        <td>{{eceDL}}</td>
                                     </tr>
+                                    
                                 </table>
                             </div>
                         </div>
@@ -117,7 +126,7 @@
 
 
 
-                            <div style="padding-top: 50px;">
+                            <div style="padding-top: 90px;">
 
 
                                 <div>
@@ -128,6 +137,7 @@
 
 
                             </div>
+                            <a type="hidden"  id="abtn"></a>
                         </div>
                         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
                         <script>
@@ -137,12 +147,11 @@
 
                             // Create options for all years in the range
                             let options = '';
-                            for (let year = 2000; year <= 2090; year++) {
-                                if (year === currentYear) {
-                                    options += `<option value="${year}" selected>${year}</option>`;
-                                } else {
+                            for (let year = 2020; year <= 2090; year++) {
+                                
+                                 
                                     options += `<option value="${year}">${year}</option>`;
-                                }
+                                
                             }
 
                             // Set options in select element
@@ -151,7 +160,7 @@
 
                             const yearpicker = document.getElementById("yearpicker");
 
-                            yearpicker.value = currentYear;
+                            yearpicker.value = {{year}};
                             const casualLeaves = {{ casualLeaves }};
                             const dutyLeaves = {{ dutyLeaves }};
 
@@ -195,8 +204,13 @@
                                 });
                             }
                             function updatechart() {
-                                const value = document.getElementById('yearpicker').value
-                                console.log('suiii',value)
+                                const selectedvalue = document.getElementById('yearpicker').value;
+                                document.getElementById('abtn').setAttribute('href', selectedvalue );
+                               document.getElementById('abtn').click();
+                               
+                                
+
+                                
                             }
 
 

@@ -4,6 +4,7 @@ hbs.registerPartials(__dirname + './views/partials')
 const { Db, Decimal128 } = require('mongodb');
 var router = express.Router();
 const listHelper = require('../helpers/list-helpers');
+const summaryHelpers = require('../helpers/summary-helpers');
 const userHelpers = require('../helpers/user-helpers');
 
 
@@ -489,15 +490,32 @@ router.get('/hrLogin', (req, res) => {
 })
 
 
-router.get('/hrsummary', async (req, res) => {
+router.get('/hrsummary/:year', async (req, res) => {
 
+    const id = req.params.year;
+    const year = parseInt(id);
+    
   
+    let casualLeaves = await summaryHelpers.getTotalLeave(year,"Casual Leave");
+    let dutyLeaves = await  summaryHelpers.getTotalLeave(year,"Duty Leave");
+    
+    cseCL = await summaryHelpers.getDeptLeave(year,"Casual Leave","cse");
+    ceCL = await summaryHelpers.getDeptLeave(year,"Casual Leave","ce");
+    meCL = await summaryHelpers.getDeptLeave(year,"Casual Leave","me");
+    eeeCL = await summaryHelpers.getDeptLeave(year,"Casual Leave","eee");
+    eceCL = await summaryHelpers.getDeptLeave(year,"Casual Leave","ece");
+    
+    cseDL = await summaryHelpers.getDeptLeave(year,"Duty Leave","cse");
+    ceDL = await summaryHelpers.getDeptLeave(year,"Duty Leave","ce");
+    meDL = await summaryHelpers.getDeptLeave(year,"Duty Leave","me");
+    eeeDL = await summaryHelpers.getDeptLeave(year,"Duty Leave","eee");
+    eceDL = await summaryHelpers.getDeptLeave(year,"Duty Leave","ece");
+
     let user1 = await userHelpers.getHr().then((user) => {
-      const casualLeaves = 20;
-      const dutyLeaves = 10;
     
       
-      res.render('../views/hr/summary', { casualLeaves, dutyLeaves,user })
+     
+      res.render('../views/hr/summary', { casualLeaves, dutyLeaves,user,cseCL,cseDL,ceCL,ceDL,meCL,meDL,eeeCL,eeeDL,eceCL,eceDL,year })
     })
   })
 
