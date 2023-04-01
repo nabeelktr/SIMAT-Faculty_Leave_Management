@@ -519,7 +519,11 @@ router.get('/hrsummary/:year', async (req, res) => {
     })
   })
 
-
+router.get('/findLeave',async (req,res)=>{
+  let list = await userHelpers.getHr().then((user) => {
+  res.render('../views/hr/findLeave', {user})
+  })
+})
 
 
 
@@ -551,6 +555,20 @@ router.get('/hr-leave-action/:id/:ts', (req, res) => {
     })
 
   })
+})
+
+router.post('/hrFacSearch',async (req,res)=>{
+  let list = await userHelpers.getHr().then(async (user) => {
+    data = req.body.value.toUpperCase();
+    
+    
+    let facLeaves = await summaryHelpers.getFacLeave(data)
+    
+      res.json({facLeaves});
+    
+    
+    })
+
 })
 
 

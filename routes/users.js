@@ -106,7 +106,7 @@ router.get('/leaveHistory/:id', async (req, res) => {
     let totalLeave = await userHelpers.getTotalLeave(req.params.id)
     let totalDl = await userHelpers.getTotalDutyLeave(req.params.id)
     let permission = await userHelpers.getPermission(req.params.id)
-    console.log(permission)
+   
     res.render('./faculty/leaveHistory', { leaves, user, totalLeave,permission,totalDl })
   }
   else {

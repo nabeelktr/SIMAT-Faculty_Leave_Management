@@ -1,158 +1,158 @@
 {{> loader}}
 {{> header}}
 
-    <aside id="slide-out" class="side-nav white fixed">
-        <div class="side-nav-wrapper">
-            <div class="sidebar-profile">
-                <div class="sidebar-profile-image">
-                    <img src="/assets/images/profile-image.png" class="circle" alt="">
-                </div>
-                <div class="sidebar-profile-info">
-
-                    <p></p>
-                    <span></span>
-
-
-                </div>
+<aside id="slide-out" class="side-nav white fixed">
+    <div class="side-nav-wrapper">
+        <div class="sidebar-profile">
+            <div class="sidebar-profile-image">
+                <img src="/assets/images/profile-image.png" class="circle" alt="">
             </div>
+            <div class="sidebar-profile-info">
 
-            <ul class="sidebar-menu collapsible collapsible-accordion" data-collapsible="accordion">
+                <p></p>
+                <span></span>
 
-                <li class="no-padding"><a class="waves-effect waves-grey" href="/admin/update-hodProfile/{{user._id}}"><i
-                            class="material-icons">account_box</i>{{user.name}}</a></li>
-                <li class="no-padding"><a class="waves-effect waves-grey" href="/users/changePassword"><i
-                            class="material-icons">settings_input_svideo</i>Change Password</a></li>
-                <li class="no-padding">
-                    <a class="collapsible-header waves-effect waves-grey"><i class="material-icons">apps</i>Leaves<i
-                            class="nav-drop-icon material-icons">keyboard_arrow_right</i></a>
-                    <div class="collapsible-body">
-                        <ul>
-                            
-                           
-                           
-                           <li><a id="summary" href="">Leave Summary</a></li>
-                           <script>
-                            const year = new Date().getFullYear();
-                            document.getElementById('summary').setAttribute('href', `admin/hrsummary/${year}`)
-                           </script>
-                           
-                            
-                        </ul>
-                    </div>
-                </li>
-
-
-
-                <li class="no-padding">
-                    <a class="waves-effect waves-grey" href="/admin/signoutHr"><i class="material-icons">exit_to_app</i>Sign
-                        Out</a>
-                </li>
-
-
-            </ul>
-            <div class="footer">
-                <p class="copyright"><a href="http://simat.ac.in/">SIMAT e-GOVERNANCE</a>©</p>
 
             </div>
         </div>
-    </aside>
 
+        <ul class="sidebar-menu collapsible collapsible-accordion" data-collapsible="accordion">
 
-    <body>
-
-        <main class="mn-inner">
-
-            <div class="row">
-                <div class="page-title" style="margin-left: 20%;    font-weight: bold;">HR Info</div>
-            </div>
-            <div class="col s12 m12 l12 offset-l2 offset-m3">
-                <div class="card" style="margin-left: 20%;">
-                    <div class="card-content">
-                       
-                         
-                            <div>
+            <li class="no-padding"><a class="waves-effect waves-grey" href=""><i
+                        class="material-icons">account_box</i>{{user.name}}</a></li>
+            <li class="no-padding"><a class="waves-effect waves-grey" href=""><i
+                        class="material-icons">settings_input_svideo</i>Change Password</a></li>
+            <li class="no-padding">
+                <a class="collapsible-header waves-effect waves-grey"><i class="material-icons">apps</i>Leaves<i
+                        class="nav-drop-icon material-icons">keyboard_arrow_right</i></a>
+                <div class="collapsible-body">
+                    <ul>
 
 
 
-                                <section>
-                                    <div class="wizard-content">
-                                       
-                                            <div class="row">
-                                                <div class="col m6">
+                        <li><a id="summary" href="">Leave Summary</a></li>
+                        <script>
+                            const year = new Date().getFullYear();
+                            document.getElementById('summary').setAttribute('href', `admin/hrsummary/${year}`)
+                        </script>
+                        <li><a href="/admin/findLeave">Find Leave</a></li>
+
+
+                    </ul>
+                </div>
+            </li>
 
 
 
-                                                    <div class="input-field col  s12">
-                                                        <label for="empcode">Faculty Code</label>
-                                                        <input  name="id"  value="{{user.id}}"
-                                                            type="text" autocomplete="off" readonly required>
-                                                        <span id="empid-availability" style="font-size:12px;"></span>
-                                                    </div>
+            <li class="no-padding">
+                <a class="waves-effect waves-grey" href="/admin/signoutHr"><i class="material-icons">exit_to_app</i>Sign
+                    Out</a>
+            </li>
 
 
-                                                    <div class="input-field col  s12">
-                                                        <label for=""> Name</label>
-                                                        <input id="name" name="name" value="{{user.name}}"
-                                                            type="text" required>
-                                                    </div>
+        </ul>
+        <div class="footer">
+            <p class="copyright"><a href="http://simat.ac.in/">SIMAT e-GOVERNANCE</a>©</p>
+
+        </div>
+    </div>
+</aside>
 
 
+<body>
 
-                                                    <div class="input-field col s12">
-                                                        <label for="email">Email</label>
-                                                        <input name="email" type="email" id="email" value="{{user.email}}" readonly
-                                                            autocomplete="off" required>
-                                                        <span id="emailid-availability" style="font-size:12px;"></span>
-                                                    </div>
+    <main class="mn-inner">
 
-                                                    <div class="input-field col s12">
-                                                        <label for="phone">Mobile Number</label>
-                                                        <input class="form-control" id="phone" name="phone" type="tel"
-                                                            value="{{user.phone}}" maxlength="10" autocomplete="off"
-                                                            required>
-                                                    </div>
-
-                                                </div>
+        <div class="row">
+            <div class="page-title" style="margin-left: 20%;    font-weight: bold;">HR Info</div>
+        </div>
+        <div class="col s12 m12 l12 offset-l2 offset-m3">
+            <div class="card" style="margin-left: 20%;">
+                <div class="card-content">
 
 
-                                                
-
-                                                    
-                                                   <div class="col m6 ">
-
-                                                    
-                                                    <div class="input-field col  s12">
-                                                        <label for="empcode">Date of birth</label>
-                                                        <input  name="id"  value="{{user.dob}}"
-                                                            type="text" autocomplete="off" readonly required>
-                                                        <span id="empid-availability" style="font-size:12px;"></span>
-                                                    </div>
+                    <div>
 
 
 
+                        <section>
+                            <div class="wizard-content">
 
-                                                    
-                                                    
-
-
-
-                                                    
+                                <div class="row">
+                                    <div class="col m6">
 
 
-                                                </div>
-                                            </div>
-                                        
+
+                                        <div class="input-field col  s12">
+                                            <label for="empcode">Faculty Code</label>
+                                            <input name="id" value="{{user.id}}" type="text" autocomplete="off" readonly
+                                                required>
+                                            <span id="empid-availability" style="font-size:12px;"></span>
+                                        </div>
+
+
+                                        <div class="input-field col  s12">
+                                            <label for=""> Name</label>
+                                            <input id="name" name="name" value="{{user.name}}" type="text" required>
+                                        </div>
+
+
+
+                                        <div class="input-field col s12">
+                                            <label for="email">Email</label>
+                                            <input name="email" type="email" id="email" value="{{user.email}}" readonly
+                                                autocomplete="off" required>
+                                            <span id="emailid-availability" style="font-size:12px;"></span>
+                                        </div>
+
+                                        <div class="input-field col s12">
+                                            <label for="phone">Mobile Number</label>
+                                            <input class="form-control" id="phone" name="phone" type="tel"
+                                                value="{{user.phone}}" maxlength="10" autocomplete="off" required>
+                                        </div>
+
                                     </div>
-                                </section>
 
 
-                                </section>
+
+
+
+                                    <div class="col m6 ">
+
+
+                                        <div class="input-field col  s12">
+                                            <label for="empcode">Date of birth</label>
+                                            <input name="id" value="{{user.dob}}" type="text" autocomplete="off"
+                                                readonly required>
+                                            <span id="empid-availability" style="font-size:12px;"></span>
+                                        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+                                    </div>
+                                </div>
+
                             </div>
+                        </section>
+
+
                         
                     </div>
                 </div>
             </div>
+        </div>
+        
 
-        </main>
-</div>
+    </main>
+</body>
+
 <div class="left-sidebar-hover"></div>

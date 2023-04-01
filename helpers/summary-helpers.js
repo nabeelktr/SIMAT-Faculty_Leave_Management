@@ -101,6 +101,31 @@ module.exports = {
         })
 
     },
+    getFacLeave: (user) => {
+        return new Promise((resolve, reject) => {
 
+            db.get().collection(collections.LEAVE_COLLECTION).find({ id: user, princiStatus: true }).sort({timestamp: -1}).toArray().then(async (leaves) => {
+
+
+                for (i = 0; i < leaves.length; i++) {
+                    if( leaves[i].leaveDuration == "fullDay"){
+                        date1 = JSON.stringify(leaves[i].fromdate)
+                        date2 = JSON.stringify(leaves[i].todate)
+                        leaves[i].fromdate = date1.slice(1,11)
+                        leaves[i].todate = date2.slice(1,11)
+                        }
+                        else if( leaves[i].leaveDuration == "halfDay"){
+                            date1 = JSON.stringify(leaves[i].halfdaydate);
+                            leaves[i].halfdaydate = date1.slice(1,11)
+                        }
+                        
+    
+                }
+
+                resolve(leaves)
+            })
+        })
+
+    },
 
 }

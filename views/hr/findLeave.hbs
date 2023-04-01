@@ -1,0 +1,254 @@
+{{> loader}}
+{{> header}}
+
+<aside id="slide-out" class="side-nav white fixed">
+    <div class="side-nav-wrapper">
+        <div class="sidebar-profile">
+            <div class="sidebar-profile-image">
+                <img src="/assets/images/profile-image.png" class="circle" alt="">
+            </div>
+            <div class="sidebar-profile-info">
+
+                <p></p>
+                <span></span>
+
+
+            </div>
+        </div>
+
+        <ul class="sidebar-menu collapsible collapsible-accordion" data-collapsible="accordion">
+
+            <li class="no-padding"><a class="waves-effect waves-grey" href=""><i
+                        class="material-icons">account_box</i>{{user.name}}</a></li>
+            <li class="no-padding"><a class="waves-effect waves-grey" href=""><i
+                        class="material-icons">settings_input_svideo</i>Change Password</a></li>
+            <li class="no-padding">
+                <a class="collapsible-header waves-effect waves-grey"><i class="material-icons">apps</i>Leaves<i
+                        class="nav-drop-icon material-icons">keyboard_arrow_right</i></a>
+                <div class="collapsible-body">
+                    <ul>
+
+
+
+                        <li><a id="summary" href="">Leave Summary</a></li>
+                        <script>
+                            const year = new Date().getFullYear();
+                            document.getElementById('summary').setAttribute('href', `admin/hrsummary/${year}`)
+                        </script>
+                        <li><a href="/admin/findLeave">Find Leave</a></li>
+
+
+                    </ul>
+                </div>
+            </li>
+
+
+
+            <li class="no-padding">
+                <a class="waves-effect waves-grey" href="/admin/signoutHr"><i class="material-icons">exit_to_app</i>Sign
+                    Out</a>
+            </li>
+
+
+        </ul>
+        <div class="footer">
+            <p class="copyright"><a href="http://simat.ac.in/">SIMAT e-GOVERNANCE</a>©</p>
+
+        </div>
+    </div>
+</aside>
+
+
+
+<main class="mn-inner" style="margin-left: 20%;">
+    <div class="card">
+        <div class="card-content ">
+
+            <div class="row">
+                <div class="col-md-6 ">
+
+                    <form class="form-inline my-2 my-lg-0" onsubmit="return search()">
+                        <div class="input-group" style="align-items: center;">
+                            <input class="form-control mr-sm-2" type="search" placeholder="Search by faculty code"
+                                id="search-input" required>
+                            <a href="" style="text-decoration: none; margin-top: 12px;" id="search-icon">
+                                <i class="fa fa-search i fa-3x" style="font-size: 23px;"></i>
+                            </a>
+                        </div>
+                    </form>
+
+                </div>
+                <div class="col-md-6">
+
+                    <form class="form-inline my-2 my-lg-0" onsubmit="return search2()">
+                        <div class="input-group" style="align-items: center;">
+                            <input class="form-control mr-sm-2" type="search" placeholder="Search by SL.no:"
+                                id="search-input2" required>
+                            <a href="" style="text-decoration: none; margin-top: 12px;" id="search-icon2">
+                                <i class="fa fa-search i fa-3x" style="font-size: 23px;"></i>
+                            </a>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+           <div id="table-container" align="center"></div>
+            {{#if leaves}}
+            <div class="responsive-table">
+                <table id="example" class="display">
+                    <tbody>
+                        <tr>
+                            <td><strong>Faculty Name:</strong></td>
+                            <td>{{leaves.name}}</td>
+                            <td><strong>Faculty Code:</strong></td>
+                            <td>{{leaves.id}}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Leave Type:</strong></td>
+                            <td>{{leaves.leavetype}}</td>
+                            <td><strong>Leave Dates:</strong></td>
+                            <td><strong>From :</strong> {{leaves.fromdate}}{{leaves.halfdaydate}}<br><strong>To
+                                    &emsp; :</strong> {{leaves.todate}}{{leaves.halfdaydate}}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Leave Description:</strong></td>
+                            <td colspan="3">{{leaves.description}}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Alternate Arrangement:</strong></td>
+                            <td colspan="3">{{#each leaves.finalarrangement}}{{this}}<br>{{/each}}</td>
+                        </tr>
+                        {{#if leaves.hodComment}}
+                        <tr>
+                            <td><strong>HOD Comment:</strong></td>
+                            <td colspan="3">{{leaves.hodComment}}</td>
+                        </tr>
+                        {{/if}}
+                        {{#if leaves.princiComment}}
+                        <tr>
+                            <td><strong>Principal Comment:</strong></td>
+                            <td colspan="3">{{leaves.princiComment}}</td>
+                        </tr>
+                        {{/if}}
+                    </tbody>
+                </table>
+            </div>
+            {{/if}}
+
+
+
+        </div>
+    </div>
+    <script>
+        const searchInput = document.getElementById('search-input');
+        const searchIcon = document.getElementById('search-icon');
+
+
+
+        searchIcon.addEventListener('click', function (event) {
+            event.preventDefault();
+
+            facLeaves();
+        });
+
+        function search() {
+
+            facLeaves();
+            return false;
+        }
+
+        function facLeaves() {
+            value = searchInput.value;
+            console.log('Searching...');
+            searchInput2.value = "";
+            if (value != "") {
+                if (value.length == 5) {
+                    fetch('/admin/hrFacSearch', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ value })
+                    }).then(response => response.json())
+  .then(data => {
+    // Handle the JSON response and update the DOM accordingly
+    if (data && data.facLeaves.length && Array.isArray(data.facLeaves)) {
+      const tableHtml = `
+       <table style="border-top: solid; border-color: rgba(110, 110, 110, 0.212); margin-top: 30px; "
+                class="display responsive-table ">
+                <thead style="color: rgb(110, 110, 110);">
+                    <tr>
+
+                        <th scope="col">Leave type</th>
+                        <th scope="col">From </th>
+                        <th scope="col">To </th>
+                        <th scope="col">No.of days</th>
+
+                        
+                        <th scope="col">Info</th>
+                    </tr>
+                </thead>
+                <tbody style="font-weight:500 ;   color: rgb(110, 110, 110);">
+                    <style>
+                        tr:nth-child(even) {
+                            background-color: #f2f2f2;
+                        }
+                    </style>
+                    ${data.facLeaves.map(item => `
+                     <tr>
+
+                        <td>${item.leavetype}</td>
+                        <td style="    font-size: 11px;  " id="fromdate"> ${item.fromdate?item.fromdate:item.halfdaydate}</td>
+                        <td style="    font-size: 11px;  " id="todate">${item.todate?item.todate:item.halfdaydate} </td>
+                        <td>${item.nofdays}</td>
+                        <td>
+                            <a href="/users/leave-info/${item._id}" style="text-decoration: wavy;"><i class="i "> i
+                                </i></a>
+
+                        </td>
+                        `).join('')}
+                        </tbody>
+            </table> 
+            `;
+              document.getElementById('table-container').innerHTML = tableHtml;
+    }
+    else{
+        const msg= `
+        <h6 style=" background-color: #f2f2f2; ">No data available<h6>`
+            document.getElementById('table-container').innerHTML = msg;
+    }
+  })
+  .catch(error => console.error(error));
+
+                }
+                else {
+                    searchInput.setCustomValidity("Please enter a valid code.");
+                    searchInput.reportValidity();
+                }
+
+            }
+
+        }
+
+        const searchInput2 = document.getElementById('search-input2');
+        const searchIcon2 = document.getElementById('search-icon2');
+
+        searchIcon2.addEventListener('click', function (event) {
+            event.preventDefault();
+            // Call your function here
+            singleLeave();
+        });
+
+        function search2() {
+            // Call your function here
+            singleLeave();
+            return false;
+        }
+
+        function singleLeave() {
+            // Your function code here
+            console.log('Searching2...');
+            searchInput.value = "";
+        }
+    </script>
+</main>
