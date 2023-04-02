@@ -160,7 +160,7 @@ router.get('/hodProfile', async (req, res) => {
   let user = req.session.user
   if (user) {
 
-    res.render('./admin-panel//hod/hodProfile', { user })
+    res.render('./admin-panel/hod/hodProfile', { user })
 
   } else {
     res.redirect('/signout')
