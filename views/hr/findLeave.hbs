@@ -67,8 +67,9 @@
             <div class="row">
                 <div class="col-md-6 ">
 
-                    <form class="form-inline my-2 my-lg-0" onsubmit="return search()">
-                        <div class="input-group" style="align-items: center;">
+                    <form class="form-inline my-2 my-lg-0" onsubmit="return search()"
+                        style="    justify-content: center;">
+                        <div class="input-group" style="align-items: center; text-align-last: center;">
                             <input class="form-control mr-sm-2" type="search" placeholder="Search by faculty code"
                                 id="search-input" required>
                             <a href="" style="text-decoration: none; margin-top: 12px;" id="search-icon">
@@ -80,8 +81,9 @@
                 </div>
                 <div class="col-md-6">
 
-                    <form class="form-inline my-2 my-lg-0" onsubmit="return search2()">
-                        <div class="input-group" style="align-items: center;">
+                    <form class="form-inline my-2 my-lg-0" onsubmit="return search2()"
+                        style="    justify-content: center;">
+                        <div class="input-group" style="align-items: center; text-align-last: center;">
                             <input class="form-control mr-sm-2" type="search" placeholder="Search by SL.no:"
                                 id="search-input2" required>
                             <a href="" style="text-decoration: none; margin-top: 12px;" id="search-icon2">
@@ -92,7 +94,8 @@
 
                 </div>
             </div>
-           <div id="table-container" align="center"></div>
+            <div id="table-container"></div>
+
             {{#if leaves}}
             <div class="responsive-table">
                 <table id="example" class="display">
@@ -169,13 +172,30 @@
                             'Content-Type': 'application/json'
                         },
                         body: JSON.stringify({ value })
-                    }).then(response => response.json())
-  .then(data => {
-    // Handle the JSON response and update the DOM accordingly
-    if (data && data.facLeaves.length && Array.isArray(data.facLeaves)) {
-      const tableHtml = `
-       <table style="border-top: solid; border-color: rgba(110, 110, 110, 0.212); margin-top: 30px; "
-                class="display responsive-table ">
+                    }).then(response => 
+                        
+                        response.json()
+
+                )
+                        .then(data => {
+                            // Handle the JSON response and update the DOM accordingly
+                            
+                            if (data.facLeaves) {
+
+                                const tableHtml = `
+      <div class="row">
+      <div class="col-md-6">
+        
+       <p style="font-weight: bold; color: rgb(110, 110, 110); margin-top: 30px; ">Name : ${data.facLeaves[0].name}<br> Dept : ${data.facLeaves[0].department.toUpperCase()}</p>
+       </div>
+        <div class="col-md-6" >
+             <p style="font-weight: bold; color: rgb(110, 110, 110); margin-top: 30px; ">Casual Leaves : ${data.TL}<br> Duty Leaves : ${data.DL}</p>
+             </div>
+             </div>
+                <br>
+                
+       <table style="border-top: solid; border-color: rgba(110, 110, 110, 0.212); margin-top: 10px; "
+                class="display responsive-table table-sm">
                 <thead style="color: rgb(110, 110, 110);">
                     <tr>
 
@@ -197,28 +217,28 @@
                     ${data.facLeaves.map(item => `
                      <tr>
 
-                        <td>${item.leavetype}</td>
-                        <td style="    font-size: 11px;  " id="fromdate"> ${item.fromdate?item.fromdate:item.halfdaydate}</td>
-                        <td style="    font-size: 11px;  " id="todate">${item.todate?item.todate:item.halfdaydate} </td>
-                        <td>${item.nofdays}</td>
-                        <td>
-                            <a href="/users/leave-info/${item._id}" style="text-decoration: wavy;"><i class="i "> i
-                                </i></a>
+                        <td>${item.leavetype?item.leavetype:''}</td>
+                        <td style="    font-size: 11px;  " id="fromdate"> ${item.fromdate ? item.fromdate:item.halfdaydate? item.halfdaydate:''} </td>
+                        <td style="    font-size: 11px;  " id="todate">${item.todate ? item.todate : item.halfdaydate? item.halfdaydate :'No records..'} </td>
+                        <td>${item.nofdays?item.nofdays:''}</td>
+                        <td>${item._id?
+                            `<a href="/users/leave-info/${item._id}" style="text-decoration: wavy;"><i class="i "> i
+                                </i></a>` :''}
 
                         </td>
                         `).join('')}
                         </tbody>
             </table> 
             `;
-              document.getElementById('table-container').innerHTML = tableHtml;
-    }
-    else{
-        const msg= `
-        <h6 style=" background-color: #f2f2f2; ">No data available<h6>`
-            document.getElementById('table-container').innerHTML = msg;
-    }
-  })
-  .catch(error => console.error(error));
+                                document.getElementById('table-container').innerHTML = tableHtml;
+                            }
+                            else {
+                                const msg = `
+        <h6 style=" background-color: #f2f2f2;     text-align: center;">Faculty not found<h6>`
+                                document.getElementById('table-container').innerHTML = msg;
+                            }
+                        })
+                        .catch(error => console.error(error));
 
                 }
                 else {

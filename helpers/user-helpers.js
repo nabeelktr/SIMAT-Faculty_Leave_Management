@@ -1,6 +1,7 @@
 var db = require('../config/connection')
 var collections = require('../config/collections')
 const bcrypt = require('bcrypt')
+const uuid = require('uuid');
 const { LIST_COLLECTION } = require('../config/collections')
 const { LEAVE_COLLECTION } = require('../config/collections')
 const { HOD } = require('../config/collections')
@@ -81,9 +82,10 @@ module.exports = {
     addLeave: (Leaves) => {
 
         return new Promise((resolve, reject) => {
+            const uuidStr = uuid.v4();
             Leaves.timestamp = new Date();
+            Leaves.serialNo = 'SPT'+uuidStr.substr(0, 8);
             Leaves.finalarrangement = Leaves.finalarrangement.split('\r\n').filter((i) => i
-
             )
             if (Leaves.leaveDuration === "fullDay") {
                 Leaves.fromdate = new Date(Leaves.fromdate);

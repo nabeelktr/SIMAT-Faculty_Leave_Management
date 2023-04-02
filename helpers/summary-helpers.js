@@ -103,7 +103,9 @@ module.exports = {
     },
     getFacLeave: (user) => {
         return new Promise((resolve, reject) => {
-
+            db.get().collection(collections.LIST_COLLECTION).findOne({ id: user}).then((fac)=>{
+                
+            if(fac){
             db.get().collection(collections.LEAVE_COLLECTION).find({ id: user, princiStatus: true }).sort({timestamp: -1}).toArray().then(async (leaves) => {
 
 
@@ -121,9 +123,15 @@ module.exports = {
                         
     
                 }
-
-                resolve(leaves)
+                console.log(leaves)
+                resolve(leaves[0]?leaves:[{name:fac.name, department:fac.department}])
             })
+        }
+        else{
+            resolve("empty")
+        }
+    
+        })
         })
 
     },

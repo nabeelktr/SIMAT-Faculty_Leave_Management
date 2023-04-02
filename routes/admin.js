@@ -548,7 +548,7 @@ router.get('/hr-leave-action/:id/:ts', (req, res) => {
 
 
   listHelper.getLeaveDetails(req.params.id).then(async (leaves) => {
-
+    
     let totalLeave = await userHelpers.getTotalLeave(req.params.ts)
     let user1 = await userHelpers.getHr().then((user) => {
       res.render('../views/admin-panel/leaveDetails', { leaves, user, totalLeave })
@@ -561,11 +561,19 @@ router.post('/hrFacSearch',async (req,res)=>{
   let list = await userHelpers.getHr().then(async (user) => {
     data = req.body.value.toUpperCase();
     
-    
+    let totalLeave = await userHelpers.getTotalLeave(data)
+    let totalDl = await userHelpers.getTotalDutyLeave(data)
     let facLeaves = await summaryHelpers.getFacLeave(data)
+    const TL =totalLeave.toString();
+    const DL =totalDl.toString();
+    console.log(facLeaves)
+    if(facLeaves != "empty" ){
+      res.status(200).json({facLeaves,TL,DL});
+    }
+    else{
+    res.status(201).json({msg:"faculty not found"})
     
-      res.json({facLeaves});
-    
+    }
     
     })
 
