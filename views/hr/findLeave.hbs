@@ -70,7 +70,7 @@
                     <form class="form-inline my-2 my-lg-0" onsubmit="return search()"
                         style="    justify-content: center;">
                         <div class="input-group" style="align-items: center; text-align-last: center;">
-                            <input class="form-control mr-sm-2" type="search" placeholder="Search by faculty code"
+                            <input class="form-control mr-sm-2" type="search" placeholder="Enter Faculty Code"
                                 id="search-input" required>
                             <a href="" style="text-decoration: none; margin-top: 12px;" id="search-icon">
                                 <i class="fa fa-search i fa-3x" style="font-size: 23px;"></i>
@@ -84,7 +84,7 @@
                     <form class="form-inline my-2 my-lg-0" onsubmit="return search2()"
                         style="    justify-content: center;">
                         <div class="input-group" style="align-items: center; text-align-last: center;">
-                            <input class="form-control mr-sm-2" type="search" placeholder="Search by SL.no:"
+                            <input class="form-control mr-sm-2" type="search" placeholder="Enter Sl.No"
                                 id="search-input2" required>
                             <a href="" style="text-decoration: none; margin-top: 12px;" id="search-icon2">
                                 <i class="fa fa-search i fa-3x" style="font-size: 23px;"></i>
@@ -96,47 +96,10 @@
             </div>
             <div id="table-container"></div>
 
-            {{#if leaves}}
-            <div class="responsive-table">
-                <table id="example" class="display">
-                    <tbody>
-                        <tr>
-                            <td><strong>Faculty Name:</strong></td>
-                            <td>{{leaves.name}}</td>
-                            <td><strong>Faculty Code:</strong></td>
-                            <td>{{leaves.id}}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Leave Type:</strong></td>
-                            <td>{{leaves.leavetype}}</td>
-                            <td><strong>Leave Dates:</strong></td>
-                            <td><strong>From :</strong> {{leaves.fromdate}}{{leaves.halfdaydate}}<br><strong>To
-                                    &emsp; :</strong> {{leaves.todate}}{{leaves.halfdaydate}}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Leave Description:</strong></td>
-                            <td colspan="3">{{leaves.description}}</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Alternate Arrangement:</strong></td>
-                            <td colspan="3">{{#each leaves.finalarrangement}}{{this}}<br>{{/each}}</td>
-                        </tr>
-                        {{#if leaves.hodComment}}
-                        <tr>
-                            <td><strong>HOD Comment:</strong></td>
-                            <td colspan="3">{{leaves.hodComment}}</td>
-                        </tr>
-                        {{/if}}
-                        {{#if leaves.princiComment}}
-                        <tr>
-                            <td><strong>Principal Comment:</strong></td>
-                            <td colspan="3">{{leaves.princiComment}}</td>
-                        </tr>
-                        {{/if}}
-                    </tbody>
-                </table>
+            
+                
             </div>
-            {{/if}}
+           
 
 
 
@@ -162,7 +125,7 @@
 
         function facLeaves() {
             value = searchInput.value;
-            console.log('Searching...');
+            
             searchInput2.value = "";
             if (value != "") {
                 if (value.length == 5) {
@@ -178,7 +141,7 @@
 
                 )
                         .then(data => {
-                            // Handle the JSON response and update the DOM accordingly
+                            
                             
                             if (data.facLeaves) {
 
@@ -198,14 +161,14 @@
                 class="display responsive-table table-sm">
                 <thead style="color: rgb(110, 110, 110);">
                     <tr>
-
+                        <th scope="col">Sl.No</th>
                         <th scope="col">Leave type</th>
                         <th scope="col">From </th>
                         <th scope="col">To </th>
                         <th scope="col">No.of days</th>
 
                         
-                        <th scope="col">Info</th>
+                        
                     </tr>
                 </thead>
                 <tbody style="font-weight:500 ;   color: rgb(110, 110, 110);">
@@ -216,16 +179,12 @@
                     </style>
                     ${data.facLeaves.map(item => `
                      <tr>
-
+                         <td>${item.serialNo?item.serialNo:''}</td>
                         <td>${item.leavetype?item.leavetype:''}</td>
                         <td style="    font-size: 11px;  " id="fromdate"> ${item.fromdate ? item.fromdate:item.halfdaydate? item.halfdaydate:''} </td>
                         <td style="    font-size: 11px;  " id="todate">${item.todate ? item.todate : item.halfdaydate? item.halfdaydate :'No records..'} </td>
                         <td>${item.nofdays?item.nofdays:''}</td>
-                        <td>${item._id?
-                            `<a href="/users/leave-info/${item._id}" style="text-decoration: wavy;"><i class="i "> i
-                                </i></a>` :''}
-
-                        </td>
+                        
                         `).join('')}
                         </tbody>
             </table> 
@@ -269,6 +228,75 @@
             // Your function code here
             console.log('Searching2...');
             searchInput.value = "";
+            const input =searchInput2.value
+            if(input.length == 11){
+                fetch('/admin/hrsingleleave', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ input })
+                    }).then(response => 
+                        
+                        response.json()
+
+                )
+                        .then(data => {
+                            
+                            
+                            if (data.singleLeave != null) {
+
+                                const tableHtml = `
+                                <div class="responsive-table" style="padding: 15px;">
+                                <table id="example" class="display" style="    outline: auto;">
+                    <tbody>
+                        <tr>
+                            <td><strong>Faculty Name:</strong></td>
+                            <td>${data.singleLeave.name}</td>
+                            <td><strong>Faculty Code:</strong></td>
+                            <td>${data.singleLeave.id}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Leave Type:</strong></td>
+                            <td>${data.singleLeave.leavetype}</td>
+                            <td><strong>Leave Dates:</strong></td>
+                            <td><strong>From :</strong> ${data.singleLeave.fromdate? data.singleLeave.fromdate:data.singleLeave.halfdaydate?data.singleLeave.halfdaydate:'' }<br><strong>To
+                                    &emsp; :</strong> ${data.singleLeave.todate? data.singleLeave.todate:data.singleLeave.halfdaydate?data.singleLeave.halfdaydate:''}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Leave Description:</strong></td>
+                            <td colspan="3">${data.singleLeave.description}}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Alternate Arrangement:</strong></td>
+                            <td colspan="3">${data.singleLeave.finalarrangement.map(item => `${item}<br></td>
+                        </tr>
+                       `).join('') }
+                        <tr>
+                            <td><strong>HOD Comment:</strong></td>
+                            <td colspan="3">${data.singleLeave.hodComment}</td>
+                        </tr>
+                        
+                        <tr>
+                            <td><strong>Principal Comment:</strong></td>
+                            <td colspan="3">${data.singleLeave.princiComment}</td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
+                </div>
+                                `;
+                                document.getElementById('table-container').innerHTML = tableHtml;
+            }else{
+                const msg =` <h6 style=" background-color: #f2f2f2;     text-align: center;"> No such leave found.<h6>`;
+                    document.getElementById('table-container').innerHTML = msg;
+            }
+                        })
+            }
+             else {
+                    searchInput2.setCustomValidity("Please enter a valid serial number.");
+                    searchInput2.reportValidity();
+                }
         }
     </script>
 </main>

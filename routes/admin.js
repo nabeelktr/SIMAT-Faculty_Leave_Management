@@ -558,7 +558,7 @@ router.get('/hr-leave-action/:id/:ts', (req, res) => {
 })
 
 router.post('/hrFacSearch',async (req,res)=>{
-  let list = await userHelpers.getHr().then(async (user) => {
+  
     data = req.body.value.toUpperCase();
     
     let totalLeave = await userHelpers.getTotalLeave(data)
@@ -566,7 +566,7 @@ router.post('/hrFacSearch',async (req,res)=>{
     let facLeaves = await summaryHelpers.getFacLeave(data)
     const TL =totalLeave.toString();
     const DL =totalDl.toString();
-    console.log(facLeaves)
+    
     if(facLeaves != "empty" ){
       res.status(200).json({facLeaves,TL,DL});
     }
@@ -577,6 +577,12 @@ router.post('/hrFacSearch',async (req,res)=>{
     
     })
 
+
+
+router.post('/hrsingleleave', async(req,res)=>{
+  const singleLeave= await summaryHelpers.getSingleLeave(req.body.input);
+  
+  res.json({singleLeave})
 })
 
 

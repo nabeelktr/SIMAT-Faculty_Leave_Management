@@ -136,4 +136,27 @@ module.exports = {
 
     },
 
+    getSingleLeave: (serialNo) => {
+        return new Promise(async (resolve, reject) => {
+            db.get().collection(collections.LEAVE_COLLECTION)
+                .findOne({ serialNo: serialNo }).then((leaves) => {
+                    if(leaves){
+                    if ( leaves.leaveDuration == "fullDay") {
+                        date1 = JSON.stringify(leaves.fromdate)
+                        date2 = JSON.stringify(leaves.todate)
+                        leaves.fromdate = date1.slice(1, 11)
+                        leaves.todate = date2.slice(1, 11)
+                    }
+                    else if ( leaves.leaveDuration == "halfDay") {
+                        date1 = JSON.stringify(leaves.halfdaydate);
+                        leaves.halfdaydate = date1.slice(1, 11)
+
+
+                    }
+                }
+
+                    resolve(leaves)
+                })
+        })
+    },
 }
