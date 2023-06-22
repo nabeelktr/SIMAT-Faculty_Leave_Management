@@ -152,27 +152,97 @@
                             <h6>Date</h6>
                             <input id="altdate" name="alterdate" type="date"> <br> <br>
                         </div>
+                           <div class="input-field col m12 s12">
+    <h6>Alternate Faculty: </h6>
+    <input type="text" id="autocomplete-input" placeholder="Alternate faculty" required>
+</div>
                         <div class="input-field col m8 s12">
                             <h6>Subject</h6>
                             <input type="text" placeholder="Subject" required><br> <br>
                         </div>
                         <div class="input-field col m4 s12">
                             <h6>Period</h6>
-                            <input type="text" placeholder="Period" required><br> <br>
+                            <input type="text" id="period-input" placeholder="Period" required><br> <br>
                         </div>
                         <div class="input-field col m4 s12">
                             <h6>Semester</h6>
-                            <input type="text" placeholder="Semester" required><br><br>
+                            <input type="text" id="sem-input" placeholder="Semester" required><br><br>
                         </div>
                         <div class="input-field col m4 s12">
                             <h6>Branch</h6>
-                            <input type="text" placeholder="Branch" required><br><br>
+                            <input type="text" id="branch-input" placeholder="Branch" required><br><br>
                         </div>
-                        <div class="input-field col m12 s12">
-                            <h6>Alternate Faculty: </h6>
-                            <input type="text" placeholder="Alternate faculty" required>
-                        </div>
+                     
                     </form>
+                    <style>
+    .awesomplete > ul {
+        z-index: 9999 !important;
+    }
+</style>
+                    <script>
+                        
+   window.addEventListener("DOMContentLoaded", function() {
+        var input = document.getElementById("autocomplete-input");
+        new Awesomplete(input, {
+            list: [
+                "Muhsina (TS001)",
+                "Sreeshma (TS002)",
+                "Krishnan (TS003)",
+                "Meera (TS004)",
+                
+                // Add more faculties as needed
+            ],
+            minChars: 1
+        });
+
+        var period = document.getElementById("period-input");
+        new Awesomplete(period, {
+            list: [
+                "1",
+                "2",
+                "3",
+                "4",
+                "5",
+                "6",
+                "7",
+                
+                // Add more faculties as needed
+            ],
+            minChars: 0
+        });
+
+        var sem = document.getElementById("sem-input");
+        new Awesomplete(sem, {
+            list: [
+               "S1",
+               "S2",
+               "S3",
+               "S4",
+               "S5",
+               "S6",
+               "S7",
+               "S8",
+                
+                // Add more faculties as needed
+            ],
+            minChars: 0
+        });
+
+        var branch = document.getElementById("branch-input");
+        new Awesomplete(branch, {
+            list: [
+                "CSE",
+                "ECE",
+                "EEE",
+                "CE",
+                "ME",
+                
+                // Add more faculties as needed
+            ],
+            minChars: 0
+        });
+    });
+</script>
 
                     <button style="margin-top: 10px;" onclick="myFunction()" type="button" class="btn btn-primary">ADD
                         FACULTY</button>
@@ -220,13 +290,13 @@
                                 let f = "" + document.getElementById("myForm").elements[5].value; +"'"
 
                                 date.push(a)
-                                sub.push(b)
-                                period.push(c)
-                                sem.push(d)
-                                branch.push(e)
-                                altf.push(f)
+                                sub.push(c)
+                                period.push(d)
+                                sem.push(e)
+                                branch.push(f)
+                                altf.push(b)
 
-                                arrangement.push("Date :" + a + "    " + "Subject :" + b + "    " + "Period :" + c + "    " + "Semester :" + d + "    " + "Branch :" + e + "    " + "Alternate Faculty :" + f + "")
+                                arrangement.push("Date :" + a + "    " + "Subject :" + c + "    " + "Period :" + d + "    " + "Semester :" + e + "    " + "Branch :" + f + "    " + "Alternate Faculty :" + b + "")
 
                                 embedElements()
                                 myFunction2()
